@@ -1,0 +1,60 @@
+name: Validate postgres-init.sql
+
+on:
+    push:
+        paths:
+            - "postgres-init.sql"
+            - ".github/workflows/check-init-postgres.yml"
+    pull_request:
+        paths:
+            - "postgres-init.sql"
+            - ".github/workflows/check-init-postgres.yml"
+
+jobs:
+    validate-sql:
+        runs-on: ubuntu-latest
+
+        services:
+            postgres:
+                image: postgres:18-bookworm
+                env:
+                    POSTGRES_USER: hackyeah2026
+                    POSTGRES_PASSWORD: hackyeah2026
+                    POSTGRES_DB: hackyeah2026
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd="pg_isready -U hackyeah2026 -d hackyeah2026"
+                    --health-interval=5s
+                    --health-timeout=5s
+                    --health-retries=10
+
+        env:
+            PGPASSWORD: hackyeah2026
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Install PostgreSQL client
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y postgresql-client
+
+            - name: Execute postgres-init.sql
+              run: |
+                  psql \
+                    -h localhost \
+                    -U hackyeah2026 \
+                    -d hackyeah2026 \
+                    -v ON_ERROR_STOP=1 \
+                    -f postgres-init.sql
+
+            - name: Verify database
+              run: |
+                  psql \
+                    -h localhost \
+                    -U hackyeah2026 \
+                    -d hackyeah2026 \
+                    -v ON_ERROR_STOP=1 \
+                    -c '\dt'
