@@ -46,9 +46,8 @@ export const Innovations: CollectionConfig = {
     },
     {
       name: 'category',
-      type: 'select',
-      defaultValue: 'Dla seniorów',
-      options: [...ROPS_CATEGORY_OPTIONS],
+      type: 'relationship',
+      relationTo: 'categories',
       label: 'Kategoria innowacji',
     },
     {

@@ -47,6 +47,18 @@ function InnovationsExplorerInner() {
   })
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [searchQuery, setSearchQuery] = useState('')
+  const [categoriesList, setCategoriesList] = useState<{ id: number; name: string }[]>([])
+
+  useEffect(() => {
+    fetch('/api/categories?limit=100')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.docs && data.docs.length > 0) {
+          setCategoriesList(data.docs.map((d: any) => ({ id: d.id, name: d.name })))
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   // Expanded card state & feedbacks cache
   const [expandedId, setExpandedId] = useState<string | number | null>(null)
@@ -68,7 +80,12 @@ function InnovationsExplorerInner() {
       try {
         let url = '/api/innovations?limit=100&sort=-createdAt'
         if (selectedCategory !== 'all') {
-          url += `&where[category][equals]=${encodeURIComponent(selectedCategory)}`
+          const matchedCat = categoriesList.find((c) => c.name === selectedCategory)
+          if (matchedCat) {
+            url += `&where[category][equals]=${matchedCat.id}`
+          } else {
+            url += `&where[category.name][equals]=${encodeURIComponent(selectedCategory)}`
+          }
         }
         if (activeTab === 'idea_exchange') {
           url += `&where[creatorType][equals]=idea_exchange`
@@ -253,7 +270,7 @@ function InnovationsExplorerInner() {
             className="rounded-xl border border-gray-300 bg-white px-3.5 py-2 text-xs sm:text-sm text-gray-900 outline-none focus:border-indigo-600"
           >
             <option value="all">Wszystkie kategorie</option>
-            {ROPS_CATEGORIES.map((cat) => (
+            {(categoriesList.length > 0 ? categoriesList.map(c => c.name) : ROPS_CATEGORIES).map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
               </option>
@@ -304,7 +321,9 @@ function InnovationsExplorerInner() {
                     {/* Top Badges */}
                     <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                       <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 border border-indigo-100/80">
-                        {item.category || 'Innowacja'}
+                        {typeof item.category === 'object' && (item.category as any)?.name
+                          ? (item.category as any).name
+                          : (item.category || 'Innowacja Społeczna')}
                       </span>
 
                       <div className="flex items-center gap-1.5">

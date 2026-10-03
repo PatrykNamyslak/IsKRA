@@ -28,9 +28,8 @@ export const UnmatchedQueries: CollectionConfig = {
     },
     {
       name: 'category',
-      type: 'select',
-      options: [...ROPS_CATEGORY_OPTIONS],
-      defaultValue: 'Dla seniorów',
+      type: 'relationship',
+      relationTo: 'categories',
       label: 'Sugerowana kategoria',
     },
     {

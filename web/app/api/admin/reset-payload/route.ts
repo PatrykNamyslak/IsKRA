@@ -41,6 +41,17 @@ export async function POST() {
       results.innovationsError = e instanceof Error ? 1 : 0;
     }
 
+    // 3b. Czyszczenie categories
+    try {
+      const cats = await payload.find({ collection: "categories", limit: 1000 });
+      for (const c of cats.docs) {
+        await payload.delete({ collection: "categories", id: c.id });
+      }
+      results.categories = cats.docs.length;
+    } catch (e: unknown) {
+      results.categoriesError = e instanceof Error ? 1 : 0;
+    }
+
     // 4. Czyszczenie organizations
     try {
       const orgs = await payload.find({ collection: "organizations", limit: 1000 });
