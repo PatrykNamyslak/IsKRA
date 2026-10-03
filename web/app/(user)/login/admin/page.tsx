@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function PageTesterLogin() {
+export default function PageAdminLogin() {
   redirect("/panel/login");
 }

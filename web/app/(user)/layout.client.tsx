@@ -37,28 +37,32 @@ export default function PageIndex() {
           </Link>
 
           <Dropdown>
-            <Button className="rounded-lg px-4 py-2 font-medium text-gray-800 transition-all hover:bg-yellow-400 hover:text-gray-950">
-              Actions
+            <Button className="rounded-lg px-4 py-2 font-medium text-gray-800 transition-all hover:bg-yellow-400 hover:text-gray-950 cursor-pointer">
+              Strefy / Logowanie ▾
             </Button>
             <Dropdown.Popover>
               <Dropdown.Menu onAction={(key) => {
-                if (key === "login-organizer") {
-                  router.push("/login/organizer");
-                }
-
-                if (key === "login-tester") {
-                  router.push("/login/tester");
-                }
+                if (key === "register-organizer") router.push("/register/organizer");
+                else if (key === "register-tester") router.push("/register/tester");
+                else if (key === "login-panel") router.push("/panel/login");
+                else router.push("/panel");
               }}>
-                <Dropdown.Item id="login-organizer" textValue="Login Organizer">
-                  <Label>Login Organizer</Label>
+                <Dropdown.Item id="login-panel" textValue="Logowanie do Panelu">
+                  <Label>🔑 Logowanie (Wszyscy) ➔ /panel/login</Label>
                 </Dropdown.Item>
-                <Dropdown.Item id="login-tester" textValue="Login Tester">
-                  <Label>Login Tester</Label>
+                <Dropdown.Item id="register-organizer" textValue="Rejestracja Organizatora">
+                  <Label>🏥 Rejestracja Organizatora ➔ /register/organizer</Label>
+                </Dropdown.Item>
+                <Dropdown.Item id="register-tester" textValue="Rejestracja Testera">
+                  <Label>🔬 Rejestracja Testera / Badacza ➔ /register/tester</Label>
+                </Dropdown.Item>
+                <Dropdown.Item id="panel-admin" textValue="Otwórz Panel">
+                  <Label>↳ Otwórz Panel CMS (/panel)</Label>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown.Popover>
           </Dropdown>
+
         </div>
       </nav>
     </>

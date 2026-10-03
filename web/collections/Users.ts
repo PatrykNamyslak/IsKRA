@@ -9,9 +9,28 @@ export const Users: CollectionConfig = {
     // Widoczne tylko dla roli admin (ukryte dla user, organization, researcher)
     hidden: ({ user }) => (user as User | null)?.role !== 'admin',
   },
+  access: {
+    read: ({ req: { user } }) => {
+      if (!user) return false
+      if ((user as User).role === 'admin') return true
+      return { id: { equals: user.id } }
+    },
+    create: () => true, // pozwala na rejestrację
+    update: ({ req: { user } }) => {
+      if (!user) return false
+      if ((user as User).role === 'admin') return true
+      return { id: { equals: user.id } }
+    },
+    delete: ({ req: { user } }) => (user as User | null)?.role === 'admin',
+  },
 
   auth: true,
   fields: [
+    {
+      name: 'name',
+      type: 'text',
+      label: 'Nazwa / Imię i nazwisko',
+    },
     {
       name: 'role',
       type: 'select',
@@ -25,4 +44,5 @@ export const Users: CollectionConfig = {
       ],
     },
   ],
+
 }

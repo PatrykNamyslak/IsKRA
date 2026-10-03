@@ -1,31 +1,124 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-export default function PageIndex() {
+interface UserSession {
+  id: string;
+  email: string;
+  role: string;
+  name?: string;
+}
+
+export default function TesterLayoutClient() {
+  const router = useRouter();
+  const [user, setUser] = useState<UserSession | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function checkAuth() {
+      try {
+        const res = await fetch("/api/auth/me");
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.user || null);
+        }
+      } catch {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    }
+    checkAuth();
+  }, []);
+
+  async function handleLogout() {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+      setUser(null);
+      router.push("/login/tester");
+      router.refresh();
+    } catch (e) {
+      console.error("Błąd wylogowania:", e);
+    }
+  }
+
   return (
-    <>
-      <nav className="flex items-center justify-between bg-green-300 px-8 py-4 shadow-md">
-        <Link
-          href="/tester"
-          className="text-xl px-5 py-3 font-bold tracking-tight text-gray-900 transition-colors hover:text-green-700 bg-green-400"
-        >
-          STRONA GŁÓWNA
-        </Link>
+    <nav className="bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-800 text-white px-6 py-3.5 shadow-md">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/tester"
+            className="flex items-center gap-2 font-bold tracking-tight text-white hover:opacity-90 transition-opacity"
+          >
+            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/20 text-white font-black text-sm">
+              🔬
+            </span>
+            <div className="leading-tight">
+              <span className="block text-base font-extrabold uppercase tracking-wide">Panel Badacza & Testera</span>
+              <span className="block text-[11px] font-normal text-emerald-200">Środowisko Testowe Innowacji ROPS</span>
+            </div>
+          </Link>
 
-        <div className="flex items-center gap-2">
+          <span className="hidden md:inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/40 text-emerald-100 border border-emerald-400/30">
+            STREFA BADAWCZA
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Link
+            href="/tester"
+            className="hidden sm:inline-flex rounded-lg px-3.5 py-2 text-sm font-semibold text-white/90 hover:bg-white/15 transition-all"
+          >
+            Pulpit Badań
+          </Link>
+
           <Link
             href="/tester/innovations"
-            className="rounded-lg px-4 py-2 font-medium text-gray-800 transition-all hover:bg-green-400 hover:text-gray-950"
+            className="rounded-lg px-3.5 py-2 text-sm font-semibold text-white/90 hover:bg-white/15 transition-all"
           >
-            PRZEGLĄDAJ INNOWACJE
+            Innowacje do Testów
           </Link>
+
           <Link
             href="/"
-            className="rounded-lg px-4 py-2 font-medium text-gray-800 transition-all hover:bg-red-400 hover:text-gray-950 bg-red-700"
+            className="hidden lg:inline-flex rounded-lg px-3 py-1.5 text-xs font-medium text-emerald-200 hover:text-white hover:bg-white/10 transition-all"
           >
-            WYLOGUJ
+            Strona Główna Serwisu
           </Link>
+
+          {!loading && (
+            user ? (
+              <div className="flex items-center gap-2.5 pl-3 border-l border-white/20">
+                <div className="hidden sm:block text-right">
+                  <span className="block text-xs font-semibold text-white leading-tight">
+                    {user.name || user.email}
+                  </span>
+                  <span className="block text-[10px] text-emerald-200 uppercase tracking-wider font-mono">
+                    {user.role}
+                  </span>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="rounded-lg px-3.5 py-1.5 text-xs font-bold text-white bg-red-600/90 hover:bg-red-600 shadow-sm transition-all cursor-pointer"
+                >
+                  WYLOGUJ
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 pl-3 border-l border-white/20">
+                <Link
+                  href="/login/tester"
+                  className="rounded-lg px-3.5 py-1.5 text-xs font-bold text-emerald-950 bg-white hover:bg-emerald-50 shadow-sm transition-all"
+                >
+                  ZALOGUJ / REJESTRACJA
+                </Link>
+              </div>
+            )
+          )}
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
 }
