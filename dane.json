@@ -1,0 +1,257 @@
+[
+  {
+    "category": "Dla seniorów",
+    "items": [
+      {
+        "title": "BaWita",
+        "description": "BaWita - tablica manipulacyjno terapeutyczna dla seniorów i osób z chorobami dementywnymi",
+        "project": "INNOWACJA WYBRANA DO UPOWSZECHNIANIA W RAMACH PROJEKTU \"INKUBATOR WŁĄCZENIA SPOŁECZNEGO\"",
+        "license": "CC BY",
+        "actions": [
+          "dowiedz się więcej",
+          "zobacz film",
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      },
+      {
+        "title": "Senior CUDER",
+        "description": "Gra karciana dla Seniorów",
+        "project": "INNOWACJA WYBRANA DO UPOWSZECHNIANIA W RAMACH PROJEKTU \"MAŁOPOLSKI INKUBATOR INNOWACJI SPOŁECZNYCH\"",
+        "license": "Copyright",
+        "actions": [
+          "dowiedz się więcej",
+          "zobacz film",
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Dla dzieci, młodzieży i rodziny",
+    "items": [
+      {
+        "title": "koMIX życiowy",
+        "description": "koMIX życiowy - gra terapeutyczna dla wychowanków placówek opiekuńczo-wychowawczych",
+        "project": "INNOWACJA WYBRANA DO UPOWSZECHNIANIA W RAMACH PROJEKTU \"INKUBATOR WŁĄCZENIA SPOŁECZNEGO\"",
+        "license": "CC BY",
+        "actions": [
+          "dowiedz się więcej",
+          "zobacz film",
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      },
+      {
+        "title": "Patryk i Kropka",
+        "description": "Patryk i Kropka - opowiadania łatwe do czytania i rozumienia dla młodzieży z niepełnosprawnością intelektualną",
+        "project": "INNOWACJA WYBRANA DO UPOWSZECHNIANIA W RAMACH PROJEKTU \"INKUBATOR WŁĄCZENIA SPOŁECZNEGO\"",
+        "license": "CC BY",
+        "actions": [
+          "dowiedz się więcej",
+          "zobacz film",
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Dla rynku pracy",
+    "items": [
+      {
+        "title": "Agencja pracy incydentalnej",
+        "description": "Model działania Agencji Pracy Incydentalnej pomagającej osobom znajdującym się w głębokim kryzysie powrócić na rynek pracy.",
+        "license": "CC BY",
+        "actions": [
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      },
+      {
+        "title": "NIEwypaleni",
+        "description": "Narzędzia przeciwdziałające wypaleniu zawodowemu osób z niepełnosprawnością intelektualną",
+        "license": "CC BY",
+        "actions": [
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Dla osób o ograniczonej mobilności",
+    "items": [
+      {
+        "title": "Uniodzież",
+        "description": "Płaszcz przeciwdeszczowy dla osób poruszających się na wózkach",
+        "project": "INNOWACJA WYBRANA DO UPOWSZECHNIANIA W RAMACH PROJEKTU \"MAŁOPOLSKI INKUBATOR INNOWACJI SPOŁECZNYCH\"",
+        "license": "Copyright",
+        "actions": [
+          "dowiedz się więcej",
+          "zobacz film",
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      },
+      {
+        "title": "Zakupy na jednym wózku z dzieckiem z niepełnosprawnością ruchową",
+        "description": "Nakładka na wózek zakupowy, umożliwiająca dokonywanie samodzielnych zakupów z dzieckiem z niepełnosprawnością (m.in. z mózgowym porażeniem dziecięcym).",
+        "project": "INNOWACJA WYBRANA DO UPOWSZECHNIANIA W RAMACH PROJEKTU \"INKUBATOR DOSTĘPNOŚCI\"",
+        "license": "CC BY",
+        "actions": [
+          "dowiedz się więcej",
+          "zobacz film",
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Dla osób z niepełnosprawnością sensoryczną",
+    "items": [
+      {
+        "title": "Strażnik",
+        "description": "Aplikacja mobilna dla osób g/Głuchych współpracująca z opaskami typu \"smart band\" i telefonami, która powiadamia użytkownika o sygnale dźwiękowym wskazującym na zagrożenie (np. pożar).",
+        "project": "INNOWACJA WYBRANA DO UPOWSZECHNIANIA W RAMACH PROJEKTU \"INKUBATOR DOSTĘPNOŚCI\"",
+        "license": "CC BY",
+        "actions": [
+          "dowiedz się więcej",
+          "zobacz film",
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      },
+      {
+        "title": "Wsparcie imprez masowych dla osób z niepełnosprawnością wzroku",
+        "description": "Modułowe, mobilne maty naprowadzające, które tworzą drogi bezpiecznego poruszania się na koncertach, festiwalach oraz wewnątrz budynków dla osób z niepełnosprawnościami.",
+        "project": "INNOWACJA WYBRANA DO UPOWSZECHNIANIA W RAMACH PROJEKTU \"INKUBATOR DOSTĘPNOŚCI\"",
+        "license": "CC BY",
+        "actions": [
+          "dowiedz się więcej",
+          "zobacz film",
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Dla cudzoziemców",
+    "items": [
+      {
+        "title": "Bajkala",
+        "description": "Lampka włączająca kulturowo dzieci czeczeńskie",
+        "license": "CC BY",
+        "actions": [
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      },
+      {
+        "title": "Dialog ponad kulturami",
+        "description": "Wystandaryzowany model mediacji transgranicznej, który ma zastosowanie w przypadku porwania lub zagrożenia porwaniem rodzicielskim wobec skonfliktowanych rodziców pochodzących z odmiennych kręgów kulturowych.",
+        "license": "CC BY",
+        "actions": [
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Dla osób z niepełnosprawnością intelektualną",
+    "items": [
+      {
+        "title": "Urzędowy ambaras",
+        "description": "Edukacyjna gra planszowa wspierająca proces samodzielnego załatwiania spraw urzędowych.",
+        "license": "CC BY",
+        "actions": [
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      },
+      {
+        "title": "Stop otyłości - innowacyjna metoda pracy z osobami niepełnosprawnymi intelektualnie",
+        "description": "Metoda pracy z osobami niepełnosprawnymi intelektualnie z problemem otyłości II i III stopnia",
+        "license": "Copyright",
+        "actions": [
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Dla osób w kryzysie bezdomności",
+    "items": [
+      {
+        "title": "Szlakiem ludzi bezdomnych",
+        "description": "Mobilny Punkt Higieniczny, zapewniający osobom w kryzysie bezdomności łatwiejszy dostęp do usług higienicznych i czystą odzież na zmianę.",
+        "license": "CC BY",
+        "actions": [
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      },
+      {
+        "title": "Wiejski program pomocy osobom w kryzysie bezdomności - Ścieżka Feniksa",
+        "description": "Program pomocy dla osób znajdujących się w kryzysie bezdomności zakładający realizację procesu wychodzenia z bezdomności poprzez powrót w rodzinne strony, zamieszkanie na obszarze wiejskim oraz pracę na rzecz ośrodka ekologicznego, który może świadczyć dla społeczności lokalnej usługi rekreacji i odpoczynku.",
+        "license": "CC BY",
+        "actions": [
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Dla zdrowia i medycyny",
+    "items": [
+      {
+        "title": "Paszport pacjenta z chorobą rzadką",
+        "description": "Paszport jest rozwiązaniem informatycznym, w ramach którego zapisane są najważniejsze informacje na temat choroby, leków, lekarzy prowadzących pacjenta z chorobą rzadką. Informacje te znajdują się na elektronicznym nośniku, który pacjent może zawsze mieć przy sobie.",
+        "project": "INNOWACJA WYBRANA DO UPOWSZECHNIANIA W RAMACH PROJEKTU \"INKUBATOR DOSTĘPNOŚCI\"",
+        "license": "CC BY",
+        "actions": [
+          "dowiedz się więcej",
+          "zobacz film",
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      },
+      {
+        "title": "Himalaje autyzmu",
+        "description": "Metoda pracy z osobami neuroatypowymi (przede wszystkim ze spektrum autyzmu), które przejawiają zachowania nieakceptowane społecznie, w tym agresywne i autoagresywne mająca na celu przygotowanie pacjenta do wizyty lekarskiej, umożliwienie diagnozy schorzenia i podjęcie leczenia.",
+        "project": "INNOWACJA WYBRANA DO UPOWSZECHNIANIA W RAMACH PROJEKTU \"INKUBATOR DOSTĘPNOŚCI\"",
+        "license": "CC BY",
+        "actions": [
+          "dowiedz się więcej",
+          "zobacz film",
+          "pobierz materiały",
+          "sprawdź zasady wykorzystania",
+          "otwórz w telefonie"
+        ]
+      }
+    ]
+  }
+]
