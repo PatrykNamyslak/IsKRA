@@ -1,0 +1,11 @@
+# User:
+A regular user should be able to search for an EXISTING innovation/ solution by providing their issue/ symptom, then when they submit the request it should be picked up and analyzed by an AI worker with a preset set of instructions and guidelines to search for existing solutions by splitting the issue into bullet points and then check if the solution already exists and display that to the user if it does while giving them personalized advice on how to get it solved, if there are no existing innovations we will display 
+
+# Organization:
+Members of an organization such as a hospital will submit reports for patients i.e nurses or administration staff, they will note down the symptoms that the patient is experiencing and then when they submit that patients report our AI worker will process and come up with a possible solution guided by user input and generate a report and structure it in the expected format for the Biblioteka dataset supplied by ROPS. Then that will show up on the ROPS CMS (Admin panel) for review.
+
+# Admin (ROPS):
+When a new innovation request/ idea gets submitted it will appear on the CMS to be reviewed and categorized by the administration team that determine if the innovation is financially feasible and if current technologies allow for this to be fulfilled. If an innovation is deemed feasible it gets posted on a listing web page where the researchers/ testers can apply to test the innovation by supplying their name, email and a writeup on how they plan to test it along with a CV/Resume. Then the admin team choose which researcher is the most appropriate to test this innovation. They then communicate with the most convenient method however all reports are stored on the platform/ CMS for them to access, share and collaborate.
+
+# Researcher (Tester):
+Researchers/ testers to actually fulfill the innovation on a small and isolated scale and in a controlled environment where they run a battery of tests and simulations to test the actual possibility of it being created and it meets the specified requirements at the scale that is purposed. Regardless whether the innovation is possible to be created or not, researchers will submit an after action report to document exactly why it works or doesn’t plus any optional improvements that the researcher can suggest.
