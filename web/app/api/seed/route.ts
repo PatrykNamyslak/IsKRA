@@ -29,11 +29,14 @@ async function handleSeed(req: NextRequest) {
           ALTER TABLE "innovations" DROP COLUMN IF EXISTS "assigned_researcher_id" CASCADE;
           ALTER TABLE "innovations" DROP COLUMN IF EXISTS "assigned_tester" CASCADE;
           ALTER TABLE "innovations" ADD COLUMN "assigned_tester" varchar;
+          UPDATE "users" SET "role" = 'tester' WHERE "role" = 'researcher';
+          ALTER TABLE "innovations" DROP COLUMN IF EXISTS "category" CASCADE;
+          ALTER TABLE "unmatched_queries" DROP COLUMN IF EXISTS "category" CASCADE;
         `)
-        console.log('[SEEDER] Pomyślnie zsynchronizowano kolumnę assigned_tester jako varchar')
+        console.log('[SEEDER] Pomyślnie zsynchronizowano strukturę bazy danych')
       }
     } catch (colErr) {
-      console.warn('[SEEDER] Ostrzeżenie przy synchronizacji assigned_tester:', colErr)
+      console.warn('[SEEDER] Ostrzeżenie przy synchronizacji struktury:', colErr)
     }
 
     // 1. Zawsze czyścimy stare rekordy testowe, chyba że jawnie podano ?clean=false
@@ -49,6 +52,9 @@ async function handleSeed(req: NextRequest) {
 
         const invs = await payload.find({ collection: 'innovations', limit: 1000, overrideAccess: true })
         for (const i of invs.docs) await payload.delete({ collection: 'innovations', id: i.id, overrideAccess: true })
+
+        const cats = await payload.find({ collection: 'categories', limit: 1000, overrideAccess: true })
+        for (const c of cats.docs) await payload.delete({ collection: 'categories', id: c.id, overrideAccess: true })
 
         const orgs = await payload.find({ collection: 'organizations', limit: 1000, overrideAccess: true })
         for (const o of orgs.docs) await payload.delete({ collection: 'organizations', id: o.id, overrideAccess: true })
@@ -85,6 +91,7 @@ async function handleSeed(req: NextRequest) {
       },
     ]
 
+    const createdUserMap: Record<string, number> = {}
     for (const orgUser of sampleOrgUsers) {
       try {
         const found = await payload.find({
@@ -93,35 +100,42 @@ async function handleSeed(req: NextRequest) {
           limit: 1,
           overrideAccess: true,
         })
-        if (found.totalDocs === 0) {
-          await payload.create({
+        if (found.totalDocs > 0) {
+          createdUserMap[orgUser.email] = found.docs[0].id
+        } else {
+          const created = await payload.create({
             collection: 'users',
             data: orgUser,
             overrideAccess: true,
           })
+          createdUserMap[orgUser.email] = created.id
         }
       } catch (userErr) {
         console.warn(`[SEEDER] Nie udało się utworzyć usera ${orgUser.email}:`, userErr)
       }
     }
 
-    // 3. Seedowanie 10 organizacji w kolekcji organizations
+    // 3. Seedowanie 10 organizacji w kolekcji organizations (w tym powiązanie z kontami użytkowników)
     const sampleOrganizationsData = [
       {
         name: 'Szpital Uniwersytecki w Krakowie',
         description: 'Wiodąca placówka kliniczna prowadząca innowacyjne terapie geriatryczne i neurologiczne.',
+        userEmail: 'szpital.krakow@example.com',
       },
       {
         name: 'Dom Pomocy Społecznej "Złoty Wiek"',
         description: 'Ośrodek opieki całodobowej dla osób starszych oraz z chorobami otępiennymi.',
+        userEmail: 'dps.wieliczka@example.com',
       },
       {
         name: 'Fundacja Aktywności i Integracji Społecznej',
         description: 'Organizacja pozarządowa wspierająca powrót na rynek pracy osób wykluczonych.',
+        userEmail: 'fundacja.aktywni@example.com',
       },
       {
         name: 'Centrum Usług Społecznych w Tarnowie',
         description: 'Miejska jednostka koordynująca pomoc środowiskową i opiekę wytchnieniową.',
+        userEmail: 'cus.tarnow@example.com',
       },
       {
         name: 'Małopolskie Stowarzyszenie Terapii i Rozwoju',
@@ -152,9 +166,14 @@ async function handleSeed(req: NextRequest) {
     const createdOrganizations: any[] = []
     for (const orgData of sampleOrganizationsData) {
       try {
+        const userId = orgData.userEmail ? createdUserMap[orgData.userEmail] : undefined
         const org = await payload.create({
           collection: 'organizations',
-          data: orgData,
+          data: {
+            name: orgData.name,
+            description: orgData.description,
+            user: userId,
+          },
           overrideAccess: true,
         })
         createdOrganizations.push(org)
@@ -164,7 +183,7 @@ async function handleSeed(req: NextRequest) {
     }
     console.log(`[SEEDER] Utworzono organizacji: ${createdOrganizations.length}`)
 
-    // 4. Odczyt innowacji z pliku dane.json z 9 oficjalnymi kategoriami ROPS
+    // 4. Odczyt innowacji i kategorii z pliku dane.json (UŻYWANY TYLKO DO SEEDOWANIA!)
     const rootPath = path.resolve(process.cwd(), '..')
     const danePathPrimary = path.join(rootPath, 'dane.json')
     const danePathFallback = path.resolve(process.cwd(), 'dane.json')
@@ -176,13 +195,45 @@ async function handleSeed(req: NextRequest) {
     }
     console.log(`[SEEDER] dane.json ścieżka: ${danePath}, grup kategorii: ${rawCategories.length}`)
 
+    // 4a. Seedowanie kolekcji categories z dane.json
+    const createdCategoryMap: Record<string, number> = {}
+    for (const group of rawCategories) {
+      const catName = group.category || 'Dla seniorów'
+      if (!createdCategoryMap[catName]) {
+        try {
+          const found = await payload.find({
+            collection: 'categories',
+            where: { name: { equals: catName } },
+            limit: 1,
+            overrideAccess: true,
+          })
+          if (found.totalDocs > 0) {
+            createdCategoryMap[catName] = found.docs[0].id
+          } else {
+            const catDoc = await payload.create({
+              collection: 'categories',
+              data: {
+                name: catName,
+                description: `Oficjalny obszar innowacji społecznych ROPS: ${catName}`,
+              },
+              overrideAccess: true,
+            })
+            createdCategoryMap[catName] = catDoc.id
+          }
+        } catch (catErr) {
+          console.warn(`[SEEDER] Błąd tworzenia kategorii ${catName}:`, catErr)
+        }
+      }
+    }
+    console.log(`[SEEDER] Zaseedowano kategorii w kolekcji categories: ${Object.keys(createdCategoryMap).length}`)
+
+    // 4b. Seedowanie innowacji z powiązaniem do ID kategorii
     const createdInnovations: any[] = []
     let orgIdx = 0
 
     for (const group of rawCategories) {
-      const categoryName: RopsCategory = ROPS_CATEGORIES.includes(group.category)
-        ? group.category
-        : 'Dla seniorów'
+      const categoryName = group.category || 'Dla seniorów'
+      const categoryId = createdCategoryMap[categoryName]
 
       for (const item of group.items) {
         const assignedOrg = createdOrganizations.length > 0
@@ -195,7 +246,7 @@ async function handleSeed(req: NextRequest) {
             overrideAccess: true,
             data: {
               title: item.title,
-              category: categoryName,
+              category: categoryId,
               creatorType: 'application',
               wantsToImplement: true,
               patientProblem: `Problem w obszarze: ${categoryName}. Zgłoszenie beneficjentów dotyczące braku adekwatnych rozwiązań wspierających samodzielność.`,
@@ -401,10 +452,17 @@ async function handleSeed(req: NextRequest) {
     let createdQueriesCount = 0
     for (const q of sampleUnmatchedQueriesData) {
       try {
+        const categoryId = createdCategoryMap[q.category] || Object.values(createdCategoryMap)[0]
         await payload.create({
           collection: 'unmatched-queries',
           overrideAccess: true,
-          data: q,
+          data: {
+            query: q.query,
+            category: categoryId,
+            aiAnalysis: q.aiAnalysis,
+            userContact: q.userContact,
+            status: q.status,
+          },
         })
         createdQueriesCount++
       } catch (qErr) {

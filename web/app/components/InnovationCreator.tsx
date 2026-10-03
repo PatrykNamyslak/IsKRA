@@ -34,6 +34,21 @@ function InnovationCreatorInner() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submittedData, setSubmittedData] = useState<any | null>(null)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [categoriesList, setCategoriesList] = useState<{ id: number; name: string }[]>([])
+
+  useEffect(() => {
+    fetch('/api/categories?limit=100')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.docs && data.docs.length > 0) {
+          setCategoriesList(data.docs.map((d: any) => ({ id: d.id, name: d.name })))
+          if (!category && data.docs[0]?.name) {
+            setCategory(data.docs[0].name)
+          }
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     if (initialProblemParam && !patientProblem) {
@@ -53,10 +68,14 @@ function InnovationCreatorInner() {
         ? `Zgłoszenie potrzeby: ${patientProblem.slice(0, 45)}...`
         : 'Innowacja Społeczna')
 
-    const payload = {
+    const matchedCategory = categoriesList.find(
+      (c) => c.name === category || String(c.id) === String(category)
+    )
+    const categoryVal = matchedCategory ? matchedCategory.id : undefined
+
+    const payload: any = {
       title: finalTitle,
       creatorType: activeTab,
-      category,
       patientProblem: patientProblem.trim(),
       proposedSolution: proposedSolution.trim(),
       targetGroup: targetGroup.trim(),
@@ -67,6 +86,10 @@ function InnovationCreatorInner() {
       contactPhone: contactPhone.trim(),
       wantsToImplement: activeTab === 'application',
       availableForTesting: activeTab === 'idea_exchange',
+    }
+
+    if (categoryVal) {
+      payload.category = categoryVal
     }
 
     try {
@@ -312,7 +335,7 @@ function InnovationCreatorInner() {
                   onChange={(e) => setCategory(e.target.value)}
                   className="w-full rounded-xl border border-gray-300 p-3.5 text-sm bg-white text-gray-900 outline-none focus:border-indigo-600"
                 >
-                  {ROPS_CATEGORIES.map((cat) => (
+                  {(categoriesList.length > 0 ? categoriesList.map(c => c.name) : ROPS_CATEGORIES).map((cat) => (
                     <option key={cat} value={cat}>
                       {cat}
                     </option>

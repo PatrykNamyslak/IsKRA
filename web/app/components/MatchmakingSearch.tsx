@@ -237,7 +237,9 @@ export default function MatchmakingSearch() {
               <div className="mt-5 space-y-4">
                 <div>
                   <span className="inline-block rounded bg-indigo-50 px-2.5 py-0.5 text-xs font-semibold text-indigo-700 mb-1">
-                    {result.innovation.category || 'Innowacja Społeczna'}
+                    {typeof result.innovation.category === 'object' && (result.innovation.category as any)?.name
+                      ? (result.innovation.category as any).name
+                      : (result.innovation.category || 'Innowacja Społeczna')}
                   </span>
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                     {result.innovation.title}
