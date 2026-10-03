@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Source_Code_Pro } from "next/font/google";
+import LayoutClient from "@/app/layout.client";
 import "./globals.css";
 
 const inter = Inter({
@@ -23,11 +24,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="pl"
       className={`${inter.variable} ${sourceCodePro.variable} h-full antialiased`}
     >
-      <head>
-        <link rel="icon" href="/favicon.ico" />
-        <title>Hackyeah 2026</title>
-      </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <LayoutClient />
+        <main>
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
