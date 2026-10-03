@@ -7,20 +7,20 @@ import { ROPS_CATEGORIES } from '@/lib/categories'
 import type { CSSProperties } from 'react'
 
 const CATEGORY_COLORS: Record<string, { border: string; shadow: string }> = {
-  'Dla seniorów': { border: 'rgba(79, 70, 229, 0.48)', shadow: 'rgba(79, 70, 229, 0.42)' },
-  'Dla dzieci, młodzieży i rodziny': { border: 'rgba(236, 72, 153, 0.48)', shadow: 'rgba(236, 72, 153, 0.42)' },
-  'Dla rynku pracy': { border: 'rgba(14, 165, 233, 0.48)', shadow: 'rgba(14, 165, 233, 0.42)' },
-  'Dla osób o ograniczonej mobilności': { border: 'rgba(249, 115, 22, 0.48)', shadow: 'rgba(249, 115, 22, 0.42)' },
-  'Dla osób z niepełnosprawnością sensoryczną': { border: 'rgba(139, 92, 246, 0.48)', shadow: 'rgba(139, 92, 246, 0.42)' },
-  'Dla cudzoziemców': { border: 'rgba(20, 184, 166, 0.48)', shadow: 'rgba(20, 184, 166, 0.42)' },
-  'Dla osób z niepełnosprawnością intelektualną': { border: 'rgba(202, 138, 4, 0.52)', shadow: 'rgba(234, 179, 8, 0.42)' },
-  'Dla osób w kryzysie bezdomności': { border: 'rgba(34, 197, 94, 0.48)', shadow: 'rgba(34, 197, 94, 0.42)' },
-  'Dla zdrowia i medycyny': { border: 'rgba(239, 68, 68, 0.48)', shadow: 'rgba(239, 68, 68, 0.42)' },
+  'dla seniorów': { border: 'linear-gradient(135deg, #f87171, #fb923c)', shadow: 'rgba(249, 115, 22, 0.2)' },
+  'dla dzieci, młodzieży i rodziny': { border: 'linear-gradient(135deg, #34d399, #06b6d4)', shadow: 'rgba(20, 184, 166, 0.2)' },
+  'dla rynku pracy': { border: 'linear-gradient(135deg, #d946ef, #e11d48)', shadow: 'rgba(225, 29, 72, 0.2)' },
+  'dla osób o ograniczonej mobilności': { border: 'linear-gradient(135deg, #c084fc, #6366f1)', shadow: 'rgba(99, 102, 241, 0.2)' },
+  'dla osób z niepełnosprawnością sensoryczną': { border: 'linear-gradient(135deg, #fbbf24, #eab308)', shadow: 'rgba(234, 179, 8, 0.2)' },
+  'dla cudzoziemców': { border: 'linear-gradient(135deg, #22c55e, #84cc16)', shadow: 'rgba(132, 204, 22, 0.2)' },
+  'dla osób z niepełnosprawnością intelektualną': { border: 'linear-gradient(135deg, #fbbf24, #fbbf24)', shadow: 'rgba(251, 191, 36, 0.2)' },
+  'dla osób w kryzysie bezdomności': { border: 'linear-gradient(135deg, #fde047, #f472b6)', shadow: 'rgba(244, 114, 182, 0.2)' },
+  'dla zdrowia i medycyny': { border: 'linear-gradient(135deg, #38bdf8, #3b82f6)', shadow: 'rgba(59, 130, 246, 0.2)' },
 }
 
 const DEFAULT_CATEGORY_COLORS = {
-  border: 'rgba(99, 102, 241, 0.45)',
-  shadow: 'rgba(99, 102, 241, 0.38)',
+  border: 'linear-gradient(135deg, #818cf8, #6366f1)',
+  shadow: 'rgba(99, 102, 241, 0.18)',
 }
 
 interface Feedback {
@@ -313,18 +313,19 @@ function InnovationsExplorerInner() {
               const feedbacks = feedbacksMap[item.id] || []
               const isFeedbacksLoading = loadingFeedbacks[item.id]
               const categoryColors =
-                CATEGORY_COLORS[item.category || ''] || DEFAULT_CATEGORY_COLORS
+                CATEGORY_COLORS[item.category?.toLowerCase() || ''] || DEFAULT_CATEGORY_COLORS
 
               return (
                 <div
                   key={item.id}
                   style={
                     {
-                      borderColor: categoryColors.border,
+                      background: `linear-gradient(#fff, #fff) padding-box, ${categoryColors.border} border-box`,
+                      borderColor: 'transparent',
                       '--category-shadow-color': categoryColors.shadow,
                     } as CSSProperties
                   }
-                  className="flex flex-col justify-between rounded-3xl border-2 bg-white p-6 shadow-[0_4px_14px_-8px_var(--category-shadow-color)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_32px_-12px_var(--category-shadow-color)]"
+                  className="flex flex-col justify-between rounded-3xl border-2 bg-white p-6 shadow-[0_3px_10px_-8px_var(--category-shadow-color)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_24px_-14px_var(--category-shadow-color)]"
                 >
                   <div>
                     {/* Top Badges */}
