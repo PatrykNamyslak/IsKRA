@@ -1,129 +1,181 @@
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig } from 'payload'
+import type { User } from '../payload-types'
+import { ROPS_CATEGORY_OPTIONS } from '../lib/categories'
 
 export const Innovations: CollectionConfig = {
-    slug: "innovations",
-    labels: {
-        singular: "Innowacja",
-        plural: "Innowacje",
+  slug: 'innovations',
+  labels: {
+    singular: 'Innowacja',
+    plural: 'Innowacje',
+  },
+  admin: {
+    useAsTitle: 'title',
+    defaultColumns: ['title', 'creatorType', 'category', 'status', 'availableForTesting', 'createdAt'],
+    group: 'Zarządzanie innowacjami',
+  },
+  access: {
+    read: () => true,
+    create: () => true,
+    update: ({ req: { user } }) => Boolean((user as User | null)),
+    delete: ({ req: { user } }) => (user as User | null)?.role === 'admin',
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+      label: 'Tytuł innowacji',
     },
-    admin: {
-        useAsTitle: "title",
-        defaultColumns: ["title", "organization", "status", "availableForTesting"],
-        group: "Zarządzanie innowacjami",
+    {
+      name: 'creatorType',
+      type: 'select',
+      required: true,
+      defaultValue: 'application',
+      options: [
+        { label: 'Wniosek o realizację', value: 'application' },
+        { label: 'Zgłoszenie nowej potrzeby', value: 'matchmaking_gap' },
+        { label: 'Giełda pomysłów', value: 'idea_exchange' },
+      ],
+      label: 'Ścieżka pochodzenia',
     },
-    fields: [
+    {
+      name: 'wantsToImplement',
+      type: 'checkbox',
+      defaultValue: true,
+      label: 'Zgłaszający deklaruje chęć samodzielnego wdrożenia',
+    },
+    {
+      name: 'category',
+      type: 'select',
+      defaultValue: 'Dla seniorów',
+      options: [...ROPS_CATEGORY_OPTIONS],
+      label: 'Kategoria innowacji',
+    },
+    {
+      name: 'patientProblem',
+      type: 'textarea',
+      required: true,
+      label: 'Zgłoszony problem',
+    },
+    {
+      name: 'proposedSolution',
+      type: 'textarea',
+      label: 'Proponowane rozwiązanie',
+    },
+    {
+      name: 'targetGroup',
+      type: 'text',
+      label: 'Grupa docelowa',
+    },
+    {
+      name: 'careRequirements',
+      type: 'textarea',
+      label: 'Wymagania opiekuńcze lub medyczne',
+    },
+    {
+      name: 'supportNeeded',
+      type: 'textarea',
+      label: 'Wymagane wsparcie',
+    },
+    {
+      name: 'contactName',
+      type: 'text',
+      label: 'Dane zgłaszającego',
+    },
+    {
+      name: 'contactEmail',
+      type: 'text',
+      label: 'E-mail kontaktowy',
+    },
+    {
+      name: 'contactPhone',
+      type: 'text',
+      label: 'Telefon kontaktowy',
+    },
+    {
+      name: 'organization',
+      type: 'relationship',
+      relationTo: 'organizations',
+      required: false,
+      label: 'Organizacja zgłaszająca',
+    },
+    {
+      name: 'ropsReport',
+      type: 'textarea',
+      label: 'Raport ROPS',
+    },
+    {
+      name: 'status',
+      type: 'select',
+      required: true,
+      defaultValue: 'submitted',
+      label: 'Status innowacji',
+      options: [
+        { label: 'Zgłoszona', value: 'submitted' },
+        { label: 'W trakcie weryfikacji', value: 'under_review' },
+        { label: 'Zatwierdzona', value: 'approved' },
+        { label: 'Odrzucona', value: 'rejected' },
+        { label: 'W trakcie testów', value: 'testing' },
+        { label: 'Zakończona', value: 'completed' },
+      ],
+    },
+    {
+      name: 'feasibility',
+      type: 'group',
+      label: 'Ocena wykonalności ROPS',
+      fields: [
         {
-            name: "title",
-            type: "text",
-            required: true,
-            label: "Tytuł innowacji",
+          name: 'technicalAssessment',
+          type: 'textarea',
+          label: 'Ocena wykonalności technologicznej',
         },
         {
-            name: "organization",
-            type: "relationship",
-            relationTo: "organizations",
-            required: true,
-            label: "Organizacja zgłaszająca",
+          name: 'financialAssessment',
+          type: 'textarea',
+          label: 'Ocena możliwości finansowych',
         },
         {
-            name: "patientProblem",
-            type: "textarea",
-            required: true,
-            label: "Problem lub potrzeba pacjenta",
+          name: 'adminNotes',
+          type: 'textarea',
+          label: 'Uwagi administratora ROPS',
         },
-        {
-            name: "careRequirements",
-            type: "textarea",
-            label: "Wymagania medyczne i opiekuńcze",
-        },
-        {
-            name: "proposedSolution",
-            type: "textarea",
-            label: "Proponowane rozwiązanie",
-        },
-        {
-            name: "ropsReport",
-            type: "textarea",
-            label: "Raport zgodny ze standardem ROPS",
-        },
-        {
-            name: "status",
-            type: "select",
-            required: true,
-            defaultValue: "submitted",
-            label: "Status",
-            options: [
-                { label: "Zgłoszona", value: "submitted" },
-                { label: "W trakcie weryfikacji", value: "under_review" },
-                { label: "Zatwierdzona", value: "approved" },
-                { label: "Odrzucona", value: "rejected" },
-                { label: "W trakcie testów", value: "testing" },
-                { label: "Zakończona", value: "completed" },
-            ],
-        },
-        {
-            name: "feasibility",
-            type: "group",
-            label: "Ocena wykonalności ROPS",
-            fields: [
-                {
-                    name: "technicalAssessment",
-                    type: "textarea",
-                    label: "Ocena wykonalności technologicznej",
-                },
-                {
-                    name: "financialAssessment",
-                    type: "textarea",
-                    label: "Ocena możliwości finansowych",
-                },
-                {
-                    name: "adminNotes",
-                    type: "textarea",
-                    label: "Uwagi administratora",
-                },
-            ],
-        },
-        {
-            name: "availableForTesting",
-            type: "checkbox",
-            defaultValue: false,
-            label: "Opublikuj na liście projektów do testowania",
-        },
-        {
-            name: "assignedResearcher",
-            type: "relationship",
-            relationTo: "users",
-            filterOptions: {
-                role: {
-                    equals: "researcher",
-                },
-            },
-            label: "Przypisany badacz",
-        },
-        {
-            name: "researchPlan",
-            type: "textarea",
-            label: "Metodyka i plan testów",
-        },
-        {
-            name: "testReport",
-            type: "textarea",
-            label: "Raport końcowy z testów",
-        },
-        {
-            name: "testOutcome",
-            type: "select",
-            label: "Wynik testów",
-            options: [
-                { label: "Sukces", value: "success" },
-                { label: "Częściowy sukces", value: "partial_success" },
-                { label: "Niepowodzenie", value: "failure" },
-            ],
-        },
-        {
-            name: "recommendations",
-            type: "textarea",
-            label: "Rekomendacje i dalsze kroki",
-        },
-    ],
-};
+      ],
+    },
+    {
+      name: 'availableForTesting',
+      type: 'checkbox',
+      defaultValue: false,
+      label: 'Opublikuj na giełdzie projektów',
+    },
+    {
+      name: 'assignedTester',
+      type: 'text',
+      label: 'Przypisany tester',
+    },
+    {
+      name: 'researchPlan',
+      type: 'textarea',
+      label: 'Metodyka i plan testów',
+    },
+    {
+      name: 'testReport',
+      type: 'textarea',
+      label: 'Raport końcowy z testów',
+    },
+    {
+      name: 'testOutcome',
+      type: 'select',
+      label: 'Wynik testów',
+      options: [
+        { label: 'Sukces', value: 'success' },
+        { label: 'Częściowy sukces', value: 'partial_success' },
+        { label: 'Niepowodzenie', value: 'failure' },
+      ],
+    },
+    {
+      name: 'recommendations',
+      type: 'textarea',
+      label: 'Rekomendacje i dalsze kroki',
+    },
+  ],
+}
