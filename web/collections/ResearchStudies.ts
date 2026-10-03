@@ -15,6 +15,21 @@ export const ResearchStudies: CollectionConfig = {
       return role !== 'admin' && role !== 'researcher'
     },
   },
+  access: {
+    read: ({ req: { user } }) => {
+      const role = (user as User | null)?.role
+      return role === 'admin' || role === 'researcher'
+    },
+    create: ({ req: { user } }) => {
+      const role = (user as User | null)?.role
+      return role === 'admin' || role === 'researcher'
+    },
+    update: ({ req: { user } }) => {
+      const role = (user as User | null)?.role
+      return role === 'admin' || role === 'researcher'
+    },
+    delete: ({ req: { user } }) => (user as User | null)?.role === 'admin',
+  },
 
   fields: [
     {
