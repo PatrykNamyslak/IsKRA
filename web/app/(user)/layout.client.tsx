@@ -33,32 +33,24 @@ export default function page_index() {
           </a>
 
           <Dropdown>
-            <Dropdown.Trigger>
-              <Button
-                className="rounded-lg px-4 py-2 font-medium text-gray-800 transition-all hover:bg-yellow-400 hover:text-gray-950"
-              >
-                LOGIN
-              </Button>
-            </Dropdown.Trigger>
-
+            <Button className="rounded-lg px-4 py-2 font-medium text-gray-800 transition-all hover:bg-yellow-400 hover:text-gray-950">
+              Actions
+            </Button>
             <Dropdown.Popover>
-              <Dropdown.Menu
-                onAction={(key) => {
-                  if (key === "organizer") {
-                    window.location.href = "/login/organizer";
-                  }
+              <Dropdown.Menu onAction={(key) => {
+                if (key === "login-organizer") {
+                  window.location.href = "/login/organizer";
+                }
 
-                  if (key === "tester") {
-                    window.location.href = "/login/tester";
-                  }
-                }}
-              >
-                <Dropdown.Item id="organizer" textValue="Login Organizer">
-                  <Label>LOGIN ORGANIZER</Label>
+                if (key === "login-tester") {
+                  window.location.href = "/login/tester";
+                }
+              }}>
+                <Dropdown.Item id="login-organizer" textValue="Login Organizer">
+                  <Label>Login Organizer</Label>
                 </Dropdown.Item>
-
-                <Dropdown.Item id="tester" textValue="Login Tester">
-                  <Label>LOGIN TESTER</Label>
+                <Dropdown.Item id="login-tester" textValue="Login Tester">
+                  <Label>Login Tester</Label>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown.Popover>
