@@ -11,7 +11,6 @@
     "generate:importmap": "payload generate:importmap",
     "generate:types": "payload generate:types"
   },
-
   "dependencies": {
     "@heroui/react": "^3.2.6",
     "@heroui/styles": "^3.2.6",
@@ -22,7 +21,6 @@
     "motion": "^13.5.0",
     "next": "16.3.8",
     "openai": "^7.27.0",
-    "payload": "^3.90.2",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "sharp": "^0.35.5"
@@ -34,6 +32,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.8",
+    "payload": "^3.90.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
