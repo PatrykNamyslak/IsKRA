@@ -1,8 +1,5 @@
-export default function page_form() {
-  return (
-    <>
-      <h1>MAKE LOGIN FORM HERE</h1>
-      <a href="/organizer" className="text-green-400">temp przejście</a>
-    </>
-  );
+import { redirect } from "next/navigation";
+
+export default function PageOrganizerLogin() {
+  redirect("/panel/login");
 }
