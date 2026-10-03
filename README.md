@@ -34,5 +34,3 @@ docker compose up -d web
 ### Run the Next.js application locally
 ```shell
 cd ./web
-npm run dev
-```
