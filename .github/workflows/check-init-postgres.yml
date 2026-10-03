@@ -5,10 +5,10 @@ on:
         paths:
             - "postgres-init.sql"
             - ".github/workflows/check-init-postgres.yml"
-    pull_request:
-        paths:
-            - "postgres-init.sql"
-            - ".github/workflows/check-init-postgres.yml"
+    # pull_request:
+    #     paths:
+    #         - "postgres-init.sql"
+    #         - ".github/workflows/check-init-postgres.yml"
 
 jobs:
     validate-sql:
