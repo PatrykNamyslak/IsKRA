@@ -1,4 +1,9 @@
 import type { CollectionConfig } from 'payload'
+import {
+  innovationActions,
+  innovationCategories,
+  innovationLicenses,
+} from '../lib/innovation-options'
 
 export const Innovations: CollectionConfig = {
   slug: 'innovations',
@@ -8,8 +13,11 @@ export const Innovations: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'organization', 'status', 'availableForTesting'],
+    defaultColumns: ['title', 'category', 'organization', 'status', 'availableForTesting'],
     group: 'Zarządzanie innowacjami',
+  },
+  access: {
+    create: () => true,
   },
   fields: [
     {
@@ -19,16 +27,62 @@ export const Innovations: CollectionConfig = {
       label: 'Tytuł innowacji',
     },
     {
+      name: 'category',
+      type: 'select',
+      required: true,
+      label: 'Kategoria',
+      options: innovationCategories.map((category) => ({
+        label: category,
+        value: category,
+      })),
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      required: true,
+      label: 'Opis innowacji',
+    },
+    {
+      name: 'project',
+      type: 'textarea',
+      label: 'Projekt',
+    },
+    {
+      name: 'license',
+      type: 'select',
+      required: true,
+      label: 'Licencja',
+      options: innovationLicenses.map((license) => ({
+        label: license,
+        value: license,
+      })),
+    },
+    {
+      name: 'actions',
+      type: 'array',
+      label: 'Dostępne akcje',
+      fields: [
+        {
+          name: 'action',
+          type: 'select',
+          required: true,
+          label: 'Akcja',
+          options: innovationActions.map((action) => ({
+            label: action,
+            value: action,
+          })),
+        },
+      ],
+    },
+    {
       name: 'organization',
       type: 'relationship',
       relationTo: 'organizations',
-      required: true,
       label: 'Organizacja zgłaszająca',
     },
     {
       name: 'patientProblem',
       type: 'textarea',
-      required: true,
       label: 'Problem lub potrzeba pacjenta',
     },
     {
