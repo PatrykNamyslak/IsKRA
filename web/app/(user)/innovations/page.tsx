@@ -1,7 +1,14 @@
-export default function page_innovations() {
+import InnovationsExplorer from '@/app/components/InnovationsExplorer'
+
+export const metadata = {
+  title: 'Katalog Innowacji & Giełda Pomysłów | ROPS',
+  description: 'Przeglądaj innowacje społeczne, giełdę pomysłów do zrealizowania oraz projekty do testowania.',
+}
+
+export default function PageInnovations() {
   return (
-      <>
-        <h1>list innovations here</h1>
-      </>
-  );
+    <div className="min-h-screen bg-gray-50/50">
+      <InnovationsExplorer />
+    </div>
+  )
 }

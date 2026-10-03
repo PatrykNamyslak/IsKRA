@@ -69,8 +69,9 @@ export interface Config {
   collections: {
     users: User;
     organizations: Organization;
-    'research-studies': ResearchStudy;
     innovations: Innovation;
+    feedbacks: Feedback;
+    'unmatched-queries': UnmatchedQuery;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,8 +81,9 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     organizations: OrganizationsSelect<false> | OrganizationsSelect<true>;
-    'research-studies': ResearchStudiesSelect<false> | ResearchStudiesSelect<true>;
     innovations: InnovationsSelect<false> | InnovationsSelect<true>;
+    feedbacks: FeedbacksSelect<false> | FeedbacksSelect<true>;
+    'unmatched-queries': UnmatchedQueriesSelect<false> | UnmatchedQueriesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -128,7 +130,7 @@ export interface UserAuthOperations {
 export interface User {
   id: number;
   name?: string | null;
-  role: 'admin' | 'organization' | 'researcher' | 'user';
+  role: 'admin' | 'organization' | 'user' | 'researcher';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -162,51 +164,35 @@ export interface Organization {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "research-studies".
- */
-export interface ResearchStudy {
-  id: number;
-  title: string;
-  description?: string | null;
-  status?: ('draft' | 'in_progress' | 'completed') | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "innovations".
  */
 export interface Innovation {
   id: number;
   title: string;
-  category:
-    | 'Dla seniorów'
-    | 'Dla dzieci, młodzieży i rodziny'
-    | 'Dla rynku pracy'
-    | 'Dla osób o ograniczonej mobilności'
-    | 'Dla osób z niepełnosprawnością sensoryczną'
-    | 'Dla cudzoziemców'
-    | 'Dla osób z niepełnosprawnością intelektualną'
-    | 'Dla osób w kryzysie bezdomności'
-    | 'Dla zdrowia i medycyny';
-  description: string;
-  project?: string | null;
-  license: 'CC BY' | 'Copyright';
-  actions?:
-    | {
-        action:
-          | 'dowiedz się więcej'
-          | 'zobacz film'
-          | 'pobierz materiały'
-          | 'sprawdź zasady wykorzystania'
-          | 'otwórz w telefonie';
-        id?: string | null;
-      }[]
+  creatorType: 'application' | 'matchmaking_gap' | 'idea_exchange';
+  wantsToImplement?: boolean | null;
+  category?:
+    | (
+        | 'Dla seniorów'
+        | 'Dla dzieci, młodzieży i rodziny'
+        | 'Dla rynku pracy'
+        | 'Dla osób o ograniczonej mobilności'
+        | 'Dla osób z niepełnosprawnością sensoryczną'
+        | 'Dla cudzoziemców'
+        | 'Dla osób z niepełnosprawnością intelektualną'
+        | 'Dla osób w kryzysie bezdomności'
+        | 'Dla zdrowia i medycyny'
+      )
     | null;
-  organization?: (number | null) | Organization;
-  patientProblem?: string | null;
-  careRequirements?: string | null;
+  patientProblem: string;
   proposedSolution?: string | null;
+  targetGroup?: string | null;
+  careRequirements?: string | null;
+  supportNeeded?: string | null;
+  contactName?: string | null;
+  contactEmail?: string | null;
+  contactPhone?: string | null;
+  organization?: (number | null) | Organization;
   ropsReport?: string | null;
   status: 'submitted' | 'under_review' | 'approved' | 'rejected' | 'testing' | 'completed';
   feasibility?: {
@@ -215,11 +201,53 @@ export interface Innovation {
     adminNotes?: string | null;
   };
   availableForTesting?: boolean | null;
-  assignedResearcher?: (number | null) | User;
+  assignedTester?: string | null;
   researchPlan?: string | null;
   testReport?: string | null;
   testOutcome?: ('success' | 'partial_success' | 'failure') | null;
   recommendations?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "feedbacks".
+ */
+export interface Feedback {
+  id: number;
+  innovation: number | Innovation;
+  rating: number;
+  comment: string;
+  authorName?: string | null;
+  authorEmail?: string | null;
+  role?: ('user' | 'tester' | 'caregiver' | 'specialist') | null;
+  status?: ('approved' | 'pending' | 'hidden') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "unmatched-queries".
+ */
+export interface UnmatchedQuery {
+  id: number;
+  query: string;
+  category?:
+    | (
+        | 'Dla seniorów'
+        | 'Dla dzieci, młodzieży i rodziny'
+        | 'Dla rynku pracy'
+        | 'Dla osób o ograniczonej mobilności'
+        | 'Dla osób z niepełnosprawnością sensoryczną'
+        | 'Dla cudzoziemców'
+        | 'Dla osób z niepełnosprawnością intelektualną'
+        | 'Dla osób w kryzysie bezdomności'
+        | 'Dla zdrowia i medycyny'
+      )
+    | null;
+  aiAnalysis?: string | null;
+  userContact?: string | null;
+  status?: ('new' | 'under_review' | 'call_opened' | 'closed') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -256,12 +284,16 @@ export interface PayloadLockedDocument {
         value: number | Organization;
       } | null)
     | ({
-        relationTo: 'research-studies';
-        value: number | ResearchStudy;
-      } | null)
-    | ({
         relationTo: 'innovations';
         value: number | Innovation;
+      } | null)
+    | ({
+        relationTo: 'feedbacks';
+        value: number | Feedback;
+      } | null)
+    | ({
+        relationTo: 'unmatched-queries';
+        value: number | UnmatchedQuery;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -342,35 +374,22 @@ export interface OrganizationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "research-studies_select".
- */
-export interface ResearchStudiesSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  status?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "innovations_select".
  */
 export interface InnovationsSelect<T extends boolean = true> {
   title?: T;
+  creatorType?: T;
+  wantsToImplement?: T;
   category?: T;
-  description?: T;
-  project?: T;
-  license?: T;
-  actions?:
-    | T
-    | {
-        action?: T;
-        id?: T;
-      };
-  organization?: T;
   patientProblem?: T;
-  careRequirements?: T;
   proposedSolution?: T;
+  targetGroup?: T;
+  careRequirements?: T;
+  supportNeeded?: T;
+  contactName?: T;
+  contactEmail?: T;
+  contactPhone?: T;
+  organization?: T;
   ropsReport?: T;
   status?: T;
   feasibility?:
@@ -381,11 +400,39 @@ export interface InnovationsSelect<T extends boolean = true> {
         adminNotes?: T;
       };
   availableForTesting?: T;
-  assignedResearcher?: T;
+  assignedTester?: T;
   researchPlan?: T;
   testReport?: T;
   testOutcome?: T;
   recommendations?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "feedbacks_select".
+ */
+export interface FeedbacksSelect<T extends boolean = true> {
+  innovation?: T;
+  rating?: T;
+  comment?: T;
+  authorName?: T;
+  authorEmail?: T;
+  role?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "unmatched-queries_select".
+ */
+export interface UnmatchedQueriesSelect<T extends boolean = true> {
+  query?: T;
+  category?: T;
+  aiAnalysis?: T;
+  userContact?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }

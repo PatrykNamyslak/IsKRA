@@ -5,8 +5,8 @@ export const Users: CollectionConfig = {
   slug: 'users',
   admin: {
     useAsTitle: 'email',
-    defaultColumns: ['email', 'role', 'createdAt'],
-    // Widoczne tylko dla roli admin (ukryte dla user, organization, researcher)
+    defaultColumns: ['email', 'role', 'name', 'createdAt'],
+    // Widoczne tylko dla roli admin w panelu
     hidden: ({ user }) => (user as User | null)?.role !== 'admin',
   },
   access: {
@@ -15,7 +15,7 @@ export const Users: CollectionConfig = {
       if ((user as User).role === 'admin') return true
       return { id: { equals: user.id } }
     },
-    create: () => true, // pozwala na rejestrację
+    create: () => true, // pozwala na rejestrację organizacji
     update: ({ req: { user } }) => {
       if (!user) return false
       if ((user as User).role === 'admin') return true
@@ -29,20 +29,20 @@ export const Users: CollectionConfig = {
     {
       name: 'name',
       type: 'text',
-      label: 'Nazwa / Imię i nazwisko',
+      label: 'Imię i nazwisko',
     },
     {
       name: 'role',
       type: 'select',
       required: true,
-      defaultValue: 'user',
+      defaultValue: 'organization',
       options: [
-        { label: 'Admin', value: 'admin' },
-        { label: 'Organization', value: 'organization' },
-        { label: 'Researcher', value: 'researcher' },
-        { label: 'User', value: 'user' },
+        { label: 'Administrator ROPS', value: 'admin' },
+        { label: 'Organizacja', value: 'organization' },
+        { label: 'Użytkownik', value: 'user' },
+        { label: 'Badacz (archiwalna)', value: 'researcher' },
       ],
+      label: 'Rola w systemie',
     },
   ],
-
 }
