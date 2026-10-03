@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Source_Code_Pro } from "next/font/google";
-import LayoutClient from "@/app/layout.client";
-import "./globals.css";
+import LayoutClient from "@/app/(user)/layout.client";
+import "../globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
