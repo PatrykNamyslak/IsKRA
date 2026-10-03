@@ -11,8 +11,8 @@
     "generate:importmap": "payload generate:importmap",
     "generate:types": "payload generate:types"
   },
-
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@heroui/react": "^3.2.6",
     "@heroui/styles": "^3.2.6",
     "@payloadcms/db-postgres": "^3.90.2",
