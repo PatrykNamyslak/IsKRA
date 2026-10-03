@@ -41,17 +41,17 @@ async function handleSeed(req: NextRequest) {
     if (!skipClean) {
       console.log('[SEEDER] Czyszczenie starych rekordów...')
       try {
-        const fbs = await payload.find({ collection: 'feedbacks', limit: 1000 })
-        for (const f of fbs.docs) await payload.delete({ collection: 'feedbacks', id: f.id })
+        const fbs = await payload.find({ collection: 'feedbacks', limit: 1000, overrideAccess: true })
+        for (const f of fbs.docs) await payload.delete({ collection: 'feedbacks', id: f.id, overrideAccess: true })
 
-        const uqs = await payload.find({ collection: 'unmatched-queries', limit: 1000 })
-        for (const q of uqs.docs) await payload.delete({ collection: 'unmatched-queries', id: q.id })
+        const uqs = await payload.find({ collection: 'unmatched-queries', limit: 1000, overrideAccess: true })
+        for (const q of uqs.docs) await payload.delete({ collection: 'unmatched-queries', id: q.id, overrideAccess: true })
 
-        const invs = await payload.find({ collection: 'innovations', limit: 1000 })
-        for (const i of invs.docs) await payload.delete({ collection: 'innovations', id: i.id })
+        const invs = await payload.find({ collection: 'innovations', limit: 1000, overrideAccess: true })
+        for (const i of invs.docs) await payload.delete({ collection: 'innovations', id: i.id, overrideAccess: true })
 
-        const orgs = await payload.find({ collection: 'organizations', limit: 1000 })
-        for (const o of orgs.docs) await payload.delete({ collection: 'organizations', id: o.id })
+        const orgs = await payload.find({ collection: 'organizations', limit: 1000, overrideAccess: true })
+        for (const o of orgs.docs) await payload.delete({ collection: 'organizations', id: o.id, overrideAccess: true })
       } catch (cleanErr) {
         console.warn('[SEEDER] Ostrzeżenie przy czyszczeniu kolekcji:', cleanErr)
       }
@@ -91,15 +91,17 @@ async function handleSeed(req: NextRequest) {
           collection: 'users',
           where: { email: { equals: orgUser.email } },
           limit: 1,
+          overrideAccess: true,
         })
         if (found.totalDocs === 0) {
           await payload.create({
             collection: 'users',
             data: orgUser,
+            overrideAccess: true,
           })
         }
       } catch (userErr) {
-        console.warn(`Nie udało się utworzyć usera ${orgUser.email}:`, userErr)
+        console.warn(`[SEEDER] Nie udało się utworzyć usera ${orgUser.email}:`, userErr)
       }
     }
 
@@ -153,12 +155,14 @@ async function handleSeed(req: NextRequest) {
         const org = await payload.create({
           collection: 'organizations',
           data: orgData,
+          overrideAccess: true,
         })
         createdOrganizations.push(org)
       } catch (orgErr) {
-        console.warn(`Błąd tworzenia organizacji ${orgData.name}:`, orgErr)
+        console.warn(`[SEEDER] Błąd tworzenia organizacji ${orgData.name}:`, orgErr)
       }
     }
+    console.log(`[SEEDER] Utworzono organizacji: ${createdOrganizations.length}`)
 
     // 4. Odczyt innowacji z pliku dane.json z 9 oficjalnymi kategoriami ROPS
     const rootPath = path.resolve(process.cwd(), '..')
@@ -170,6 +174,7 @@ async function handleSeed(req: NextRequest) {
     if (fs.existsSync(danePath)) {
       rawCategories = JSON.parse(fs.readFileSync(danePath, 'utf-8'))
     }
+    console.log(`[SEEDER] dane.json ścieżka: ${danePath}, grup kategorii: ${rawCategories.length}`)
 
     const createdInnovations: any[] = []
     let orgIdx = 0
@@ -187,6 +192,7 @@ async function handleSeed(req: NextRequest) {
         try {
           const inv = await payload.create({
             collection: 'innovations',
+            overrideAccess: true,
             data: {
               title: item.title,
               category: categoryName,
@@ -206,10 +212,11 @@ async function handleSeed(req: NextRequest) {
           createdInnovations.push(inv)
           orgIdx++
         } catch (invErr) {
-          console.warn(`Błąd tworzenia innowacji ${item.title}:`, invErr)
+          console.warn(`[SEEDER] Błąd tworzenia innowacji ${item.title}:`, invErr)
         }
       }
     }
+    console.log(`[SEEDER] Utworzono innowacji: ${createdInnovations.length}`)
 
     // 5. Seedowanie 10 wyników dla kolekcji feedbacks
     const sampleFeedbacksData = [
@@ -292,6 +299,7 @@ async function handleSeed(req: NextRequest) {
         try {
           await payload.create({
             collection: 'feedbacks',
+            overrideAccess: true,
             data: {
               innovation: targetInnovationId,
               rating: sampleFeedbacksData[i].rating,
@@ -395,11 +403,12 @@ async function handleSeed(req: NextRequest) {
       try {
         await payload.create({
           collection: 'unmatched-queries',
+          overrideAccess: true,
           data: q,
         })
         createdQueriesCount++
       } catch (qErr) {
-        console.warn('Błąd seedowania niezaspokojonej potrzeby:', qErr)
+        console.warn('[SEEDER] Błąd seedowania niezaspokojonej potrzeby:', qErr)
       }
     }
 

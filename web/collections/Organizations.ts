@@ -16,10 +16,7 @@ export const Organizations: CollectionConfig = {
     },
   },
   access: {
-    read: ({ req: { user } }) => {
-      const role = (user as User | null)?.role
-      return role === 'admin' || role === 'organization'
-    },
+    read: () => true,
     create: ({ req: { user } }) => {
       const role = (user as User | null)?.role
       return role === 'admin' || role === 'organization'
