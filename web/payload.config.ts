@@ -8,6 +8,7 @@ import sharp from 'sharp'
 import { Users } from './collections/Users'
 import { Organizations } from './collections/Organizations'
 import { ResearchStudies } from './collections/ResearchStudies'
+import { Innovations } from './collections/Innovations'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -22,7 +23,7 @@ export default buildConfig({
   routes: {
     admin: '/panel',
   },
-  collections: [Users, Organizations, ResearchStudies],
+  collections: [Users, Organizations, ResearchStudies, Innovations],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'hackyeah2026-payload-secret-key-1234567890',
   typescript: {

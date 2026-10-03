@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     organizations: Organization;
     'research-studies': ResearchStudy;
+    innovations: Innovation;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     organizations: OrganizationsSelect<false> | OrganizationsSelect<true>;
     'research-studies': ResearchStudiesSelect<false> | ResearchStudiesSelect<true>;
+    innovations: InnovationsSelect<false> | InnovationsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -171,6 +173,33 @@ export interface ResearchStudy {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "innovations".
+ */
+export interface Innovation {
+  id: number;
+  title: string;
+  organization: number | Organization;
+  patientProblem: string;
+  careRequirements?: string | null;
+  proposedSolution?: string | null;
+  ropsReport?: string | null;
+  status: 'submitted' | 'under_review' | 'approved' | 'rejected' | 'testing' | 'completed';
+  feasibility?: {
+    technicalAssessment?: string | null;
+    financialAssessment?: string | null;
+    adminNotes?: string | null;
+  };
+  availableForTesting?: boolean | null;
+  assignedResearcher?: (number | null) | User;
+  researchPlan?: string | null;
+  testReport?: string | null;
+  testOutcome?: ('success' | 'partial_success' | 'failure') | null;
+  recommendations?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -204,6 +233,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'research-studies';
         value: number | ResearchStudy;
+      } | null)
+    | ({
+        relationTo: 'innovations';
+        value: number | Innovation;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -289,6 +322,34 @@ export interface ResearchStudiesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "innovations_select".
+ */
+export interface InnovationsSelect<T extends boolean = true> {
+  title?: T;
+  organization?: T;
+  patientProblem?: T;
+  careRequirements?: T;
+  proposedSolution?: T;
+  ropsReport?: T;
+  status?: T;
+  feasibility?:
+    | T
+    | {
+        technicalAssessment?: T;
+        financialAssessment?: T;
+        adminNotes?: T;
+      };
+  availableForTesting?: T;
+  assignedResearcher?: T;
+  researchPlan?: T;
+  testReport?: T;
+  testOutcome?: T;
+  recommendations?: T;
   updatedAt?: T;
   createdAt?: T;
 }
