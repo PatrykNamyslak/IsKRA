@@ -1,5 +1,7 @@
 # hackyeah-2026
 
+DOCS : https://docs.google.com/document/d/1T0RTVTBqCisQezZUMKeWbDXXsxcWWmhiHZoFenOsMAE/edit?tab=t.0
+
 ## Build and Run — Production
 ### Requirements
 - Docker or Podman
