@@ -65,7 +65,7 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
               href="/form"
               className="hidden rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 sm:inline-flex"
             >
-              Zgłoś potrzebę
+              Dodaj innowację
             </Link>
           )}
           <Link

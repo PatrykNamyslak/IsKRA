@@ -179,8 +179,32 @@ export interface ResearchStudy {
 export interface Innovation {
   id: number;
   title: string;
-  organization: number | Organization;
-  patientProblem: string;
+  category:
+    | 'Dla seniorów'
+    | 'Dla dzieci, młodzieży i rodziny'
+    | 'Dla rynku pracy'
+    | 'Dla osób o ograniczonej mobilności'
+    | 'Dla osób z niepełnosprawnością sensoryczną'
+    | 'Dla cudzoziemców'
+    | 'Dla osób z niepełnosprawnością intelektualną'
+    | 'Dla osób w kryzysie bezdomności'
+    | 'Dla zdrowia i medycyny';
+  description: string;
+  project?: string | null;
+  license: 'CC BY' | 'Copyright';
+  actions?:
+    | {
+        action:
+          | 'dowiedz się więcej'
+          | 'zobacz film'
+          | 'pobierz materiały'
+          | 'sprawdź zasady wykorzystania'
+          | 'otwórz w telefonie';
+        id?: string | null;
+      }[]
+    | null;
+  organization?: (number | null) | Organization;
+  patientProblem?: string | null;
   careRequirements?: string | null;
   proposedSolution?: string | null;
   ropsReport?: string | null;
@@ -333,6 +357,16 @@ export interface ResearchStudiesSelect<T extends boolean = true> {
  */
 export interface InnovationsSelect<T extends boolean = true> {
   title?: T;
+  category?: T;
+  description?: T;
+  project?: T;
+  license?: T;
+  actions?:
+    | T
+    | {
+        action?: T;
+        id?: T;
+      };
   organization?: T;
   patientProblem?: T;
   careRequirements?: T;
