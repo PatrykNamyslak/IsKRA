@@ -23,15 +23,6 @@ const DEFAULT_CATEGORY_COLORS = {
   shadow: 'rgba(99, 102, 241, 0.18)',
 }
 
-interface Feedback {
-  id: string | number
-  rating: number
-  comment: string
-  authorName?: string
-  role?: string
-  createdAt?: string
-}
-
 interface Innovation {
   id: string | number
   title: string
@@ -65,19 +56,6 @@ function InnovationsExplorerInner() {
   })
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [searchQuery, setSearchQuery] = useState('')
-
-  // Expanded card state & feedbacks cache
-  const [expandedId, setExpandedId] = useState<string | number | null>(null)
-  const [feedbacksMap, setFeedbacksMap] = useState<Record<string, Feedback[]>>({})
-  const [loadingFeedbacks, setLoadingFeedbacks] = useState<Record<string, boolean>>({})
-
-  // Feedback form per expanded innovation
-  const [feedbackRating, setFeedbackRating] = useState(5)
-  const [feedbackComment, setFeedbackComment] = useState('')
-  const [feedbackAuthor, setFeedbackAuthor] = useState('')
-  const [feedbackRole, setFeedbackRole] = useState('user')
-  const [submittingFeedback, setSubmittingFeedback] = useState(false)
-  const [feedbackSuccess, setFeedbackSuccess] = useState(false)
 
   // Fetch innovations
   useEffect(() => {
@@ -116,70 +94,6 @@ function InnovationsExplorerInner() {
 
     return () => clearTimeout(timer)
   }, [activeTab, selectedCategory, searchQuery])
-
-  // Load feedbacks for an innovation
-  const toggleExpand = async (id: string | number) => {
-    if (expandedId === id) {
-      setExpandedId(null)
-      return
-    }
-
-    setExpandedId(id)
-    setFeedbackSuccess(false)
-    setFeedbackComment('')
-
-    if (!feedbacksMap[id]) {
-      setLoadingFeedbacks((prev) => ({ ...prev, [id]: true }))
-      try {
-        const res = await fetch(`/api/feedbacks?where[innovation][equals]=${id}&sort=-createdAt`)
-        if (res.ok) {
-          const data = await res.json()
-          setFeedbacksMap((prev) => ({ ...prev, [id]: data.docs || [] }))
-        }
-      } catch (err) {
-        console.warn('Błąd pobierania feedbacków:', err)
-      } finally {
-        setLoadingFeedbacks((prev) => ({ ...prev, [id]: false }))
-      }
-    }
-  }
-
-  const handleAddFeedback = async (e: React.FormEvent, innovationId: string | number) => {
-    e.preventDefault()
-    if (!feedbackComment.trim()) return
-
-    setSubmittingFeedback(true)
-    try {
-      const res = await fetch('/api/feedbacks', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          innovation: innovationId,
-          rating: feedbackRating,
-          comment: feedbackComment.trim(),
-          authorName: feedbackAuthor.trim() || 'Użytkownik',
-          role: feedbackRole,
-        }),
-      })
-
-      if (!res.ok) throw new Error('Nie udało się zapisać opinii.')
-      const resJson = await res.json()
-
-      setFeedbackSuccess(true)
-      setFeedbackComment('')
-      const createdItem = resJson.doc || resJson.data
-      if (createdItem) {
-        setFeedbacksMap((prev) => ({
-          ...prev,
-          [innovationId]: [createdItem, ...(prev[innovationId] || [])],
-        }))
-      }
-    } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : 'Błąd')
-    } finally {
-      setSubmittingFeedback(false)
-    }
-  }
 
   return (
     <div className="mx-auto w-full max-w-7xl py-8 px-4 sm:px-6 lg:px-8">
@@ -309,9 +223,6 @@ function InnovationsExplorerInner() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {innovations.map((item) => {
-              const isExpanded = expandedId === item.id
-              const feedbacks = feedbacksMap[item.id] || []
-              const isFeedbacksLoading = loadingFeedbacks[item.id]
               const categoryColors =
                 CATEGORY_COLORS[item.category?.toLowerCase() || ''] || DEFAULT_CATEGORY_COLORS
 
@@ -397,16 +308,15 @@ function InnovationsExplorerInner() {
                     )}
                   </div>
 
-                  {/* Actions & Expand Footer */}
+                  {/* Actions */}
                   <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between gap-2">
-                    <button
-                      type="button"
-                      onClick={() => toggleExpand(item.id)}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800"
+                    <Link
+                      href={`/innovations/${encodeURIComponent(String(item.id))}`}
+                      className="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2.5 text-sm font-bold text-indigo-700 transition hover:border-indigo-300 hover:bg-indigo-100"
                     >
-                      <span>{isExpanded ? 'Zwiń szczegóły' : 'Opinie & Feedback'}</span>
-                      <span className="transition-transform">{isExpanded ? '▲' : '▼'}</span>
-                    </button>
+                      Opinie i szczegóły
+                      <span aria-hidden="true">→</span>
+                    </Link>
 
                     {item.availableForTesting && (
                       <Link
@@ -419,114 +329,6 @@ function InnovationsExplorerInner() {
                       </Link>
                     )}
                   </div>
-
-                  {/* Expanded Content: Feedbacks & Feedback Form */}
-                  {isExpanded && (
-                    <div className="mt-4 pt-4 border-t border-gray-200 animate-fadeIn">
-                      <h4 className="text-sm font-bold text-gray-900 mb-3">
-                        Opinie społeczności i testerów:
-                      </h4>
-
-                      {isFeedbacksLoading ? (
-                        <p className="text-xs text-gray-400">Wczytywanie opinii...</p>
-                      ) : feedbacks.length > 0 ? (
-                        <div className="space-y-2 mb-4">
-                          {feedbacks.map((fb, idx) => (
-                            <div
-                              key={fb.id || idx}
-                              className="rounded-xl border border-gray-100 bg-gray-50 p-3 text-xs"
-                            >
-                              <div className="flex items-center justify-between mb-1">
-                                <span className="font-semibold text-gray-800">
-                                  {fb.authorName || 'Anonim'} (
-                                  {fb.role === 'tester' ? '🔬 Tester' : 'Użytkownik'})
-                                </span>
-                                <span className="text-amber-500">
-                                  {'★'.repeat(fb.rating)}
-                                  {'☆'.repeat(5 - fb.rating)}
-                                </span>
-                              </div>
-                              <p className="text-gray-600">{fb.comment}</p>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <p className="text-xs text-gray-500 italic mb-4">
-                          Brak opinii dla tej innowacji. Dodaj pierwszą ocenę poniżej.
-                        </p>
-                      )}
-
-                      {/* Add Feedback Mini-Form */}
-                      <form
-                        onSubmit={(e) => handleAddFeedback(e, item.id)}
-                        className="rounded-xl border border-gray-200 bg-white p-4 shadow-2xs"
-                      >
-                        <h5 className="text-xs font-bold text-gray-900 mb-2">
-                          Dodaj swoją opinię:
-                        </h5>
-
-                        <div className="grid grid-cols-2 gap-2 mb-2">
-                          <select
-                            value={feedbackRating}
-                            onChange={(e) => setFeedbackRating(Number(e.target.value))}
-                            className="rounded-lg border border-gray-300 p-1.5 text-xs bg-white"
-                          >
-                            <option value={5}>⭐⭐⭐⭐⭐ (5 na 5)</option>
-                            <option value={4}>⭐⭐⭐⭐ (4 na 5)</option>
-                            <option value={3}>⭐⭐⭐ (3 na 5)</option>
-                            <option value={2}>⭐⭐ (2 na 5)</option>
-                            <option value={1}>⭐ (1 na 5)</option>
-                          </select>
-
-                          <select
-                            value={feedbackRole}
-                            onChange={(e) => setFeedbackRole(e.target.value)}
-                            className="rounded-lg border border-gray-300 p-1.5 text-xs bg-white"
-                          >
-                            <option value="user">Użytkownik</option>
-                            <option value="tester">Tester</option>
-                            <option value="caregiver">Opiekun</option>
-                          </select>
-                        </div>
-
-                        <div className="mb-2">
-                          <input
-                            type="text"
-                            value={feedbackAuthor}
-                            onChange={(e) => setFeedbackAuthor(e.target.value)}
-                            placeholder="Twoje imię"
-                            className="w-full rounded-lg border border-gray-300 p-1.5 text-xs"
-                          />
-                        </div>
-
-                        <div className="mb-2">
-                          <textarea
-                            rows={2}
-                            required
-                            value={feedbackComment}
-                            onChange={(e) => setFeedbackComment(e.target.value)}
-                            placeholder="Twoje uwagi, wynik testu lub feedback..."
-                            className="w-full rounded-lg border border-gray-300 p-2 text-xs"
-                          />
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          {feedbackSuccess && (
-                            <span className="text-[11px] font-semibold text-emerald-600">
-                              ✓ Opinia dodana!
-                            </span>
-                          )}
-                          <button
-                            type="submit"
-                            disabled={submittingFeedback || !feedbackComment.trim()}
-                            className="ml-auto rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-indigo-500 disabled:opacity-50"
-                          >
-                            {submittingFeedback ? 'Zapisuję...' : 'Wyślij opinię'}
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  )}
                 </div>
               )
             })}
