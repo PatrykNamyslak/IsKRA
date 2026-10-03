@@ -14,11 +14,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Rejestracja jest dozwolona wyłącznie dla testerów (researcher) oraz organizatorów (organization)
-    // Admin rejestruje się wyłącznie przez pierwsze logowanie Payload CMS (/panel/create-first-user)
-    if (!["organization", "researcher"].includes(role)) {
+    // Rejestracja jest dozwolona dla organizacji
+    if (role !== "organization") {
       return NextResponse.json(
-        { error: "Rejestracja jest dostępna wyłącznie dla ról: tester (researcher) oraz organizator (organization)." },
+        { error: "Rejestracja jest dostępna dla organizacji partnerskich. Testerzy korzystają z systemu publicznie jako goście." },
         { status: 400 }
       );
     }

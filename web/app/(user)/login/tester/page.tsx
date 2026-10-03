@@ -1,5 +1,0 @@
-import { redirect } from "next/navigation";
-
-export default function PageTesterLogin() {
-  redirect("/panel/login");
-}

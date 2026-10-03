@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import PayloadLogo from "./PayloadLogo";
 
 interface PayloadRegisterFormProps {
-  role: "researcher" | "organization";
+  role: "organization";
   nameLabel: string;
   namePlaceholder: string;
   buttonLabel?: string;
