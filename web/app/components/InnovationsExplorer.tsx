@@ -4,6 +4,24 @@ import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { ROPS_CATEGORIES } from '@/lib/categories'
+import type { CSSProperties } from 'react'
+
+const CATEGORY_COLORS: Record<string, { border: string; shadow: string }> = {
+  'Dla seniorów': { border: 'rgba(79, 70, 229, 0.48)', shadow: 'rgba(79, 70, 229, 0.42)' },
+  'Dla dzieci, młodzieży i rodziny': { border: 'rgba(236, 72, 153, 0.48)', shadow: 'rgba(236, 72, 153, 0.42)' },
+  'Dla rynku pracy': { border: 'rgba(14, 165, 233, 0.48)', shadow: 'rgba(14, 165, 233, 0.42)' },
+  'Dla osób o ograniczonej mobilności': { border: 'rgba(249, 115, 22, 0.48)', shadow: 'rgba(249, 115, 22, 0.42)' },
+  'Dla osób z niepełnosprawnością sensoryczną': { border: 'rgba(139, 92, 246, 0.48)', shadow: 'rgba(139, 92, 246, 0.42)' },
+  'Dla cudzoziemców': { border: 'rgba(20, 184, 166, 0.48)', shadow: 'rgba(20, 184, 166, 0.42)' },
+  'Dla osób z niepełnosprawnością intelektualną': { border: 'rgba(202, 138, 4, 0.52)', shadow: 'rgba(234, 179, 8, 0.42)' },
+  'Dla osób w kryzysie bezdomności': { border: 'rgba(34, 197, 94, 0.48)', shadow: 'rgba(34, 197, 94, 0.42)' },
+  'Dla zdrowia i medycyny': { border: 'rgba(239, 68, 68, 0.48)', shadow: 'rgba(239, 68, 68, 0.42)' },
+}
+
+const DEFAULT_CATEGORY_COLORS = {
+  border: 'rgba(99, 102, 241, 0.45)',
+  shadow: 'rgba(99, 102, 241, 0.38)',
+}
 
 interface Feedback {
   id: string | number
@@ -294,11 +312,19 @@ function InnovationsExplorerInner() {
               const isExpanded = expandedId === item.id
               const feedbacks = feedbacksMap[item.id] || []
               const isFeedbacksLoading = loadingFeedbacks[item.id]
+              const categoryColors =
+                CATEGORY_COLORS[item.category || ''] || DEFAULT_CATEGORY_COLORS
 
               return (
                 <div
                   key={item.id}
-                  className="flex flex-col justify-between rounded-3xl border border-gray-200/90 bg-white p-6 shadow-sm hover:shadow-md transition-all"
+                  style={
+                    {
+                      borderColor: categoryColors.border,
+                      '--category-shadow-color': categoryColors.shadow,
+                    } as CSSProperties
+                  }
+                  className="flex flex-col justify-between rounded-3xl border-2 bg-white p-6 shadow-[0_4px_14px_-8px_var(--category-shadow-color)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_32px_-12px_var(--category-shadow-color)]"
                 >
                   <div>
                     {/* Top Badges */}
