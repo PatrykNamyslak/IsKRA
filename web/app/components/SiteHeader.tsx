@@ -17,11 +17,8 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
 
     return (
         <header className="sticky top-3 sm:top-4 z-50 w-full px-4 sm:px-6 pointer-events-none">
-            <motion.div
-                layout
-                transition={{ type: "spring", bounce: 0.1, duration: 0.4 }}
-                className="mx-auto w-full max-w-4xl sm:max-w-5xl rounded-3xl md:rounded-full bg-white/60 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] px-5 sm:px-6 py-2.5 sm:py-3 pointer-events-auto">
-                <div className="flex items-center justify-between">
+            <div className="mx-auto w-full max-w-4xl sm:max-w-5xl relative pointer-events-auto">
+                <div className="w-full rounded-full bg-white/60 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] px-5 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between">
                     {/* Brand Logo */}
                     <NextLink href="/" className="flex items-center gap-2.5 group shrink-0">
                         <Image
@@ -176,37 +173,35 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                     </div>
                 </div>
 
-                {/* Mobile Expandable Drawer Menu */}
-                <AnimatePresence initial={false}>
+                {/* Mobile Expandable Drawer Menu - Floating Absolute below pill */}
+                <AnimatePresence>
                     {isMobileMenuOpen && (
                         <motion.div
                             key="mobile-nav"
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ type: "spring", bounce: 0, duration: 0.3 }}
-                            className="overflow-hidden md:hidden">
-                            <div className="pt-3 pb-2 flex flex-col gap-1 border-t border-black/[0.06] mt-2.5">
-                                <Link
-                                    href="/innovations"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    className="w-full px-3 py-2.5 rounded-xl hover:bg-black/[0.04] text-xs font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center justify-between">
-                                    Baza pomysłów
-                                    <Link.Icon />
-                                </Link>
+                            initial={{ opacity: 0, y: -10, scale: 0.97 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -10, scale: 0.97 }}
+                            transition={{ type: "spring", bounce: 0.12, duration: 0.3 }}
+                            className="absolute top-[calc(100%+8px)] left-0 right-0 rounded-3xl bg-white/85 backdrop-blur-2xl border border-white/80 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.14)] p-3 md:hidden flex flex-col gap-1 z-50">
+                            <Link
+                                href="/innovations"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="w-full px-4 py-2.5 rounded-2xl hover:bg-black/[0.04] text-xs font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center justify-between">
+                                Baza pomysłów
+                                <Link.Icon />
+                            </Link>
 
-                                <Link
-                                    href="/form"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    className="w-full px-3 py-2.5 rounded-xl hover:bg-black/[0.04] text-xs font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center justify-between">
-                                    Zgłoś pomysł
-                                    <Link.Icon />
-                                </Link>
-                            </div>
+                            <Link
+                                href="/form"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="w-full px-4 py-2.5 rounded-2xl hover:bg-black/[0.04] text-xs font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center justify-between">
+                                Zgłoś pomysł
+                                <Link.Icon />
+                            </Link>
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </motion.div>
+            </div>
         </header>
     );
 }
