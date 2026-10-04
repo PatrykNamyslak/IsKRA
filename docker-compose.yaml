@@ -16,7 +16,13 @@ services:
         container_name: web
         ports:
             - "3000:3000"
-
+        env_file:
+            - ./web/.env.local
+        environment:
+            - OPENROUTER_API_KEY
+            - OPENROUTER_DEFAULT_MODEL
+            - DATABASE_URL=${DATABASE_URL:-postgresql://hackyeah2026:[REDACTED]@postgres:5432/hackyeah2026}
+            - PAYLOAD_SECRET=${PAYLOAD_SECRET:-hackyeah2026-payload-super-secret-key}
 
 volumes:
     postgres_data:

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Source_Code_Pro } from "next/font/google";
-import "./globals.css";
+import LayoutClient from "@/app/organizer/layout.client";
+import "../globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -13,8 +14,11 @@ const sourceCodePro = Source_Code_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "Hackyeah 2026",
-  description: "",
+  title: {
+    default: "IsKra Małopolska",
+    template: "%s | IsKra Małopolska",
+  },
+  description: "Panel organizatora IsKra Małopolska.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -23,11 +27,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="pl"
       className={`${inter.variable} ${sourceCodePro.variable} h-full antialiased`}
     >
-      <head>
-        <link rel="icon" href="/favicon.ico" />
-        <title>Hackyeah 2026</title>
-      </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <LayoutClient />
+        <main>
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
