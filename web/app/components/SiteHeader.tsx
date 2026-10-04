@@ -24,9 +24,9 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                         <Image
                             src="/iskra-full.svg"
                             alt="IsKRA"
-                            width={92}
-                            height={28}
-                            className="h-6.5 w-auto transition-transform group-hover:scale-105"
+                            width={120}
+                            height={10}
+                            className="md:h-6 h-5 lg:h-7 transition-transform group-hover:scale-105"
                             priority
                         />
                     </NextLink>
