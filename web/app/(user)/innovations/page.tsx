@@ -1,7 +1,7 @@
 import InnovationsExplorer from '@/app/components/InnovationsExplorer'
 
 export const metadata = {
-  title: 'Baza Pomysłów & Katalog Innowacji | IsKRA ROPS',
+  title: 'Baza pomysłów i innowacji',
   description: 'Przeglądaj innowacje społeczne, giełdę pomysłów do zrealizowania oraz projekty do testowania.',
 }
 

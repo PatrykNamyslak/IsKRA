@@ -74,7 +74,7 @@ export default function PayloadRegisterForm({
   return (
     <section className="template-minimal template-minimal--width-normal">
       <div className="template-minimal__wrap">
-        {/* Logo — same as Payload's login__brand */}
+        {/* Use the same IsKra brand mark as the rest of the site. */}
         <div className="login__brand">
           <Link href="/panel/login">
             <PayloadLogo />

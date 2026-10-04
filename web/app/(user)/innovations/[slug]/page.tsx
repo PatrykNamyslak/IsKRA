@@ -4,10 +4,9 @@ interface PageProps {
   params: Promise<{ slug: string }>
 }
 
-export async function generateMetadata({ params }: PageProps) {
-  const { slug } = await params
+export async function generateMetadata() {
   return {
-    title: `Szczegóły innowacji | ROPS`,
+    title: 'Szczegóły innowacji',
     description: 'Szczegóły innowacji, oceny i komentarze społeczności.',
   }
 }

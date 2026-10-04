@@ -58,6 +58,8 @@ body.payload {
 
 .iskra-admin-brand img {
   flex: 0 0 auto;
+  width: 8rem;
+  height: auto;
 }
 
 .iskra-admin-brand__wordmark {
@@ -74,7 +76,7 @@ body.payload {
 
 .iskra-admin-brand__wordmark > span {
   color: #81796e;
-  font-size: 0.58rem;
+  font-size: 0.54rem;
   font-weight: 700;
   letter-spacing: 0.13em;
 }

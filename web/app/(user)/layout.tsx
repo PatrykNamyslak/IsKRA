@@ -15,14 +15,17 @@ const sourceCodePro = Source_Code_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "IsKRA | ROPS",
+  title: {
+    default: "IsKra Małopolska",
+    template: "%s | IsKra Małopolska",
+  },
   description: "Wsparcie i baza pomysłów dla projektów społecznych.",
   manifest: "/manifest.json",
-  applicationName: "IsKRA",
+  applicationName: "IsKra Małopolska",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "IsKRA",
+    title: "IsKra",
   },
   icons: {
     icon: [

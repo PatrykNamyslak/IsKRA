@@ -23,7 +23,7 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                     <NextLink href="/" className="flex items-center gap-2.5 group shrink-0">
                         <Image
                             src="/iskra-full.svg"
-                            alt="IsKRA"
+                            alt="IsKra Małopolska"
                             width={120}
                             height={10}
                             className="md:h-6 h-5 lg:h-7 hidden xsm:block transition-transform group-hover:scale-105"
@@ -31,12 +31,15 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                         />
                         <Image
                             src="/iskra.svg"
-                            alt="IsKRA"
+                            alt="IsKra Małopolska"
                             width={10}
                             height={10}
                             className="md:h-6 w-6 h-5 lg:h-7 block xsm:hidden transition-transform group-hover:scale-105"
                             priority
                         />
+                        <span className="text-[9px] font-bold tracking-[0.08em] text-gray-500 sm:text-[10px]">
+                            MAŁOPOLSKA
+                        </span>
                     </NextLink>
 
                     {/* Desktop Navigation Menu */}

@@ -1,7 +1,7 @@
 import WantToTestForm from "@/app/components/WantToTestForm";
 
 export const metadata = {
-    title: 'Chcę zostać testerem | IsKRA ROPS',
+    title: 'Chcę zostać testerem',
     description: 'Chciałbyś zostać testerem innowacji? Zapisz się!',
 }
 

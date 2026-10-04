@@ -22,6 +22,10 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     theme: 'light',
+    meta: {
+      titleSuffix: ' | IsKra Małopolska',
+      favicon: '/iskra.svg',
+    },
     components: {
       beforeDashboard: ['/app/components/AdminWelcome'],
       afterNavLinks: ['/app/components/AdminInnovationNavLink'],
