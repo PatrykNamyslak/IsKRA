@@ -1,123 +1,212 @@
-import Link from "next/link";
+"use client";
+
+import { useState } from "react";
+import NextLink from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Avatar, Dropdown, Link } from "@heroui/react";
+import { motion, AnimatePresence } from "motion/react";
 
 type SiteHeaderProps = {
-  audience?: "user" | "organizer" | "research";
+    audience?: "user" | "organizer" | "research";
 };
 
 export default function SiteHeader({ audience }: SiteHeaderProps) {
-  const isOrganizer = audience === "organizer";
+    const router = useRouter();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 shadow-xs backdrop-blur-md">
-      <nav
-        aria-label="Nawigacja główna"
-        className="mx-auto flex min-h-20 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-8"
-      >
-        <Link
-          href="/"
-          aria-label="Przejdź do strony głównej"
-          className="flex h-12 w-32 shrink-0 items-center sm:w-40"
-        >
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 160 48"
-            className="h-12 w-32 sm:w-40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect x="2" y="4" width="40" height="40" rx="14" fill="#312E81" />
-            <path
-              d="M13 27.5 21.5 18l8.5 9.5M21.5 18v16M13 34h17"
-              stroke="#A5F3FC"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <circle cx="34" cy="13" r="4" fill="#FBBF24" />
-            <text
-              x="50"
-              y="23"
-              fill="#1F2937"
-              fontFamily="Arial, sans-serif"
-              fontSize="15"
-              fontWeight="700"
-              letterSpacing="1"
-            >
-              INNO
-            </text>
-            <text
-              x="50"
-              y="37"
-              fill="#6B7280"
-              fontFamily="Arial, sans-serif"
-              fontSize="8"
-              fontWeight="600"
-              letterSpacing="1.4"
-            >
-              MOST
-            </text>
-          </svg>
-        </Link>
+    return (
+        <header className="sticky top-3 sm:top-4 z-50 w-full px-4 sm:px-6 pointer-events-none mb-3 sm:mb-1">
+            <div className="mx-auto w-full max-w-4xl sm:max-w-5xl relative pointer-events-auto">
+                <div className="w-full rounded-full bg-white/60 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] px-5 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between">
+                    {/* Brand Logo */}
+                    <NextLink href="/" className="flex items-center gap-2.5 group shrink-0">
+                        <Image
+                            src="/iskra-full.svg"
+                            alt="IsKRA"
+                            width={120}
+                            height={10}
+                            className="md:h-6 h-5 lg:h-7 hidden xsm:block transition-transform group-hover:scale-105"
+                            priority
+                        />
+                        <Image
+                            src="/iskra.svg"
+                            alt="IsKRA"
+                            width={10}
+                            height={10}
+                            className="md:h-6 w-6 h-5 lg:h-7 block xsm:hidden transition-transform group-hover:scale-105"
+                            priority
+                        />
+                    </NextLink>
 
-        <div className="flex items-center justify-end gap-2 sm:gap-3">
-          <Link
-            href="/"
-            className="rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
-          >
-            Matchmaking
-          </Link>
+                    {/* Desktop Navigation Menu */}
+                    <div className="hidden md:flex items-center gap-5 lg:gap-6">
+                        <Link
+                            href="/innovations"
+                            className="text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+                            Baza pomysłów
+                            <Link.Icon />
+                        </Link>
 
-          <Link
-            href="/form"
-            className="rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
-          >
-            Zgłoś innowację
-          </Link>
+                        <Link
+                            href="/form"
+                            className="text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+                            Zgłoś pomysł
+                            <Link.Icon />
+                        </Link>
 
-          <Link
-            href="/innovations"
-            className="rounded-lg px-3 py-2 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-100 sm:px-4"
-          >
-            Katalog innowacji
-          </Link>
+                        {/* User Profile Avatar with HeroUI Dropdown */}
+                        <Dropdown>
+                            <Dropdown.Trigger className="rounded-full focus:outline-none cursor-pointer transition-transform flex items-center justify-center p-0.5">
+                                <Avatar
+                                    size="sm"
+                                    className="transition-transform ring-2 ring-brand ring-offset-2 ring-offset-white cursor-pointer hover:scale-105 active:scale-95 shadow-sm">
+                                    <Avatar.Image
+                                        src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"
+                                        alt="Avatar użytkownika"
+                                    />
+                                    <Avatar.Fallback className="bg-amber-100 text-amber-900 font-semibold text-xs flex items-center justify-center">
+                                        RO
+                                    </Avatar.Fallback>
+                                </Avatar>
+                            </Dropdown.Trigger>
 
-          <Link
-            href="/panel"
-            className="rounded-lg border border-indigo-200 bg-white px-3 py-1.5 text-xs sm:text-sm font-bold text-indigo-700 transition hover:bg-indigo-50"
-          >
-            Panel ROPS
-          </Link>
+                            <Dropdown.Popover
+                                placement="bottom end"
+                                offset={18}
+                                className="min-w-56 rounded-2xl border border-gray-100 bg-white/95 backdrop-blur-xl shadow-xl p-1 z-[100] text-xs">
+                                <Dropdown.Menu
+                                    aria-label="Profile Actions"
+                                    onAction={(key) => {
+                                        if (key === "panel") router.push("/panel");
+                                        if (key === "organizer") router.push("/login/organizer");
+                                    }}>
+                                    <Dropdown.Section>
+                                        <Dropdown.Item
+                                            id="profile"
+                                            className="h-auto py-2.5 px-3 flex flex-col items-start justify-center cursor-default pointer-events-none opacity-100 select-none border-b border-gray-100/80 mb-1">
+                                            <p className="text-[11px] font-normal text-gray-500 leading-none">
+                                                Zalogowano jako
+                                            </p>
+                                            <p className="text-xs font-semibold text-gray-900 leading-normal truncate w-full mt-1">
+                                                admin@rops.pl
+                                            </p>
+                                        </Dropdown.Item>
+                                    </Dropdown.Section>
 
-          {isOrganizer ? (
-            <Link
-              href="/"
-              className="rounded-lg bg-gray-900 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-gray-700 sm:px-4"
-            >
-              Wyloguj
-            </Link>
-          ) : (
-            <details className="group relative">
-              <summary className="cursor-pointer list-none rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 transition-colors hover:bg-gray-100 sm:px-4">
-                Zaloguj się
-              </summary>
-              <div className="absolute right-0 top-full mt-2 flex min-w-48 flex-col rounded-xl border border-gray-200 bg-white p-1 shadow-lg z-50">
-                <Link
-                  href="/login/organizer"
-                  className="rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  🏢 Jako organizacja
-                </Link>
-                <Link
-                  href="/panel"
-                  className="rounded-md px-3 py-2 text-sm font-semibold text-indigo-600 hover:bg-indigo-50"
-                >
-                  🛡️ Administrator ROPS
-                </Link>
-              </div>
-            </details>
-          )}
-        </div>
-      </nav>
-    </header>
-  );
+                                    <Dropdown.Section>
+                                        <Dropdown.Item
+                                            id="panel"
+                                            className="rounded-xl px-3 py-2 text-xs font-medium text-gray-800 hover:bg-gray-100/80 focus:bg-gray-100 cursor-pointer transition-colors outline-none">
+                                            Panel ROPS
+                                        </Dropdown.Item>
+
+                                        <Dropdown.Item
+                                            id="organizer"
+                                            className="rounded-xl px-3 py-2 text-xs text-gray-700 hover:bg-gray-100/80 focus:bg-gray-100 cursor-pointer transition-colors outline-none">
+                                            Logowanie organizacji
+                                        </Dropdown.Item>
+                                    </Dropdown.Section>
+                                </Dropdown.Menu>
+                            </Dropdown.Popover>
+                        </Dropdown>
+                    </div>
+
+                    {/* Mobile Hamburger & Actions */}
+                    <div className="flex md:hidden items-center gap-2">
+                        <Dropdown>
+                            <Dropdown.Trigger className="rounded-full focus:outline-none cursor-pointer p-0.5">
+                                <Avatar
+                                    size="sm"
+                                    className="ring-2 ring-brand ring-offset-2 ring-offset-white shadow-xs">
+                                    <Avatar.Image
+                                        src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"
+                                        alt="Avatar użytkownika"
+                                    />
+                                    <Avatar.Fallback className="bg-amber-100 text-amber-900 font-semibold text-xs flex items-center justify-center">
+                                        RO
+                                    </Avatar.Fallback>
+                                </Avatar>
+                            </Dropdown.Trigger>
+                            <Dropdown.Popover
+                                placement="bottom end"
+                                offset={18}
+                                className="min-w-52 rounded-2xl border border-gray-100 bg-white/95 backdrop-blur-xl shadow-xl p-1 z-[100] text-xs">
+                                <Dropdown.Menu
+                                    aria-label="Profile Actions Mobile"
+                                    onAction={(key) => {
+                                        if (key === "panel") router.push("/panel");
+                                        if (key === "organizer") router.push("/login/organizer");
+                                    }}>
+                                    <Dropdown.Item id="profile" className="px-3 py-2 pointer-events-none opacity-100">
+                                        <p className="text-[10px] text-gray-500">Zalogowano jako</p>
+                                        <p className="text-xs font-semibold text-gray-900">admin@rops.pl</p>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item id="panel" className="rounded-xl px-3 py-2 text-xs">
+                                        Panel ROPS
+                                    </Dropdown.Item>
+                                    <Dropdown.Item id="organizer" className="rounded-xl px-3 py-2 text-xs">
+                                        Logowanie organizacji
+                                    </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown.Popover>
+                        </Dropdown>
+
+                        <button
+                            type="button"
+                            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+                            className="w-9 h-9 flex items-center justify-center rounded-full bg-black/[0.04] hover:bg-black/[0.08] active:scale-90 transition-all focus:outline-none cursor-pointer"
+                            aria-label="Menu nawigacji">
+                            <div className="w-4 h-3 flex flex-col justify-between items-center">
+                                <motion.span
+                                    animate={isMobileMenuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="w-full h-0.5 bg-gray-800 rounded-full origin-center"
+                                />
+                                <motion.span
+                                    animate={isMobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+                                    transition={{ duration: 0.15 }}
+                                    className="w-full h-0.5 bg-gray-800 rounded-full"
+                                />
+                                <motion.span
+                                    animate={isMobileMenuOpen ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="w-full h-0.5 bg-gray-800 rounded-full origin-center"
+                                />
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Mobile Expandable Drawer Menu - Floating Absolute below pill */}
+                <AnimatePresence>
+                    {isMobileMenuOpen && (
+                        <motion.div
+                            key="mobile-nav"
+                            initial={{ opacity: 0, y: -10, scale: 0.97 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -10, scale: 0.97 }}
+                            transition={{ type: "spring", bounce: 0.12, duration: 0.3 }}
+                            className="absolute top-[calc(100%+8px)] left-0 right-0 rounded-3xl bg-white/85 backdrop-blur-2xl border border-white/80 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.14)] p-3 md:hidden flex flex-col gap-1 z-50">
+                            <Link
+                                href="/innovations"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="w-full px-4 py-2.5 rounded-2xl hover:bg-black/[0.04] text-xs font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center justify-between">
+                                Baza pomysłów
+                                <Link.Icon />
+                            </Link>
+
+                            <Link
+                                href="/form"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="w-full px-4 py-2.5 rounded-2xl hover:bg-black/[0.04] text-xs font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center justify-between">
+                                Zgłoś pomysł
+                                <Link.Icon />
+                            </Link>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+        </header>
+    );
 }

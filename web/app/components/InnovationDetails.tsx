@@ -3,12 +3,18 @@
 import Link from 'next/link'
 import { useEffect, useState, type FormEvent } from 'react'
 
+interface Category {
+  id?: string | number
+  name?: string
+  description?: string
+}
+
 interface Innovation {
   id: string | number
   title: string
   slug?: string
   creatorType?: 'application' | 'matchmaking_gap' | 'idea_exchange'
-  category?: string
+  category?: string | Category
   patientProblem?: string
   proposedSolution?: string
   targetGroup?: string
@@ -37,6 +43,13 @@ const CREATOR_LABELS: Record<NonNullable<Innovation['creatorType']>, string> = {
   application: 'Wniosek o wdrożenie',
   matchmaking_gap: 'Niezaspokojona potrzeba',
   idea_exchange: 'Giełda pomysłów',
+}
+
+function getCategoryName(category?: string | Category) {
+  if (!category) return null
+  if (typeof category === 'object' && category.name) return category.name
+  if (typeof category === 'string') return category
+  return null
 }
 
 function getAverageRating(feedbacks: Feedback[]) {
@@ -195,9 +208,9 @@ export default function InnovationDetails({ slug }: Props) {
           <main className="space-y-6">
             <section className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm sm:p-9">
               <div className="flex flex-wrap gap-2">
-                {innovation.category && (
+                {getCategoryName(innovation.category) && (
                   <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold text-indigo-800">
-                    {innovation.category}
+                    {getCategoryName(innovation.category)}
                   </span>
                 )}
                 {innovation.creatorType && (
