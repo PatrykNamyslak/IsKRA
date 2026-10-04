@@ -150,13 +150,7 @@ export default function HomePageView() {
   }
 
   return (
-    <div className="bg-[#f5f5f7] text-gray-900 font-sans antialiased h-full flex flex-col justify-between relative selection:bg-[#e58500] selection:text-white overflow-hidden">
-      {/* Atmospheric Mesh Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none flex justify-center items-center">
-        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-slate-300/40 rounded-full blur-[100px] mix-blend-multiply" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-[#e58500]/10 rounded-full blur-[120px] mix-blend-multiply" />
-      </div>
-
+    <div className="bg-transparent text-gray-900 font-sans antialiased h-full flex flex-col justify-between relative selection:bg-[#e58500] selection:text-white overflow-hidden">
       {/* Main Content: Optically Centered Command Center */}
       <main className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4 py-4 relative z-10">
         <h1 className="text-2xl sm:text-3xl font-medium tracking-tight text-gray-800 mb-4 sm:mb-6 text-center">
