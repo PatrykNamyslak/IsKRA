@@ -47,3 +47,10 @@ body::-webkit-scrollbar,
   height: 0;
 }
 
+#landing-2-form:has(#ai-prompt:valid) #landing-submit:not(:disabled) {
+  background-color: #e58500;
+}
+
+#landing-2-form:has(#ai-prompt:valid) #landing-submit:not(:disabled):hover {
+  background-color: #cc7700;
+}
