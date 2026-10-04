@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import fs from 'fs'
-import path from 'path'
-import { ROPS_CATEGORIES, RopsCategory } from '@/lib/categories'
+import type { RopsCategory } from '@/lib/categories'
 import { slugify } from '@/lib/slugify'
+import { scrapeRopsInnovations } from '@/lib/rops-scraper'
 
 export async function GET(req: NextRequest) {
   return handleSeed(req)
@@ -18,6 +17,11 @@ async function handleSeed(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url)
     console.log('[SEEDER] Rozpoczęcie seedowania bazy danych...')
+
+    // Scrape first so source failures cannot leave the database partially cleaned.
+    const rawCategories = await scrapeRopsInnovations()
+    const scrapedCount = rawCategories.reduce((count, group) => count + group.items.length, 0)
+    console.log(`[SEEDER] Pobrano ${scrapedCount} innowacji z ${rawCategories.length} kategorii ROPS`)
 
     const payload = await getPayload({ config })
 
@@ -184,19 +188,7 @@ async function handleSeed(req: NextRequest) {
     }
     console.log(`[SEEDER] Utworzono organizacji: ${createdOrganizations.length}`)
 
-    // 4. Odczyt innowacji i kategorii z pliku dane.json (UŻYWANY TYLKO DO SEEDOWANIA!)
-    const rootPath = path.resolve(process.cwd(), '..')
-    const danePathPrimary = path.join(rootPath, 'dane.json')
-    const danePathFallback = path.resolve(process.cwd(), 'dane.json')
-    const danePath = fs.existsSync(danePathPrimary) ? danePathPrimary : danePathFallback
-
-    let rawCategories: any[] = []
-    if (fs.existsSync(danePath)) {
-      rawCategories = JSON.parse(fs.readFileSync(danePath, 'utf-8'))
-    }
-    console.log(`[SEEDER] dane.json ścieżka: ${danePath}, grup kategorii: ${rawCategories.length}`)
-
-    // 4a. Seedowanie kolekcji categories z dane.json
+    // 4a. Seedowanie kolekcji categories z danych pobranych z ROPS
     const createdCategoryMap: Record<string, number> = {}
     for (const group of rawCategories) {
       const catName = group.category || 'Dla seniorów'
@@ -253,9 +245,13 @@ async function handleSeed(req: NextRequest) {
               wantsToImplement: true,
               patientProblem: `Problem w obszarze: ${categoryName}. Zgłoszenie beneficjentów dotyczące braku adekwatnych rozwiązań wspierających samodzielność.`,
               proposedSolution: item.description,
-              ropsReport: item.project
-                ? `Program: ${item.project}. Licencja: ${item.license || 'CC BY'}`
-                : undefined,
+              ropsReport: [
+                item.project ? `Program: ${item.project}` : undefined,
+                item.license ? `Licencja: ${item.license}` : undefined,
+                `Źródło: ${item.sourceUrl}`,
+              ]
+                .filter(Boolean)
+                .join('\n'),
               organization: assignedOrg,
               status: 'approved',
               availableForTesting: true,
@@ -474,7 +470,7 @@ async function handleSeed(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'Pomyślnie zaseedowano bazę danych: 10 organizacji, innowacje z dane.json, 10 opinii, 10 niezaspokojonych potrzeb oraz konta organizacji.',
+      message: `Pomyślnie zaseedowano bazę danych: ${createdOrganizations.length} organizacji, ${createdInnovations.length} innowacji z ROPS, ${createdFeedbacksCount} opinii, ${createdQueriesCount} niezaspokojonych potrzeb oraz konta organizacji.`,
       stats: {
         organizationsCreated: createdOrganizations.length,
         innovationsCreated: createdInnovations.length,
