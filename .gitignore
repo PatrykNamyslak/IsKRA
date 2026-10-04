@@ -1,5 +1,6 @@
 /.idea/
 /web/.idea/
 /cloudflare-worker/.idea/
-.env*
+*.env*
 !.env.example
+**/node_modules/**
