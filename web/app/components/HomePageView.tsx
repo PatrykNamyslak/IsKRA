@@ -151,7 +151,7 @@ export default function HomePageView() {
   }
 
   return (
-    <div className="bg-transparent text-gray-900 font-sans antialiased h-full flex flex-col justify-between relative selection:bg-brand selection:text-white overflow-hidden">
+    <div className="bg-transparent text-gray-900 font-sans antialiased min-h-[calc(100svh-5rem)] flex flex-col justify-between relative selection:bg-brand selection:text-white overflow-hidden">
       {/* Main Content: Optically Centered Command Center */}
       <main className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4 pt-6 pb-4 sm:py-6 relative z-10">
         <h1 className="text-xl sm:text-3xl font-medium tracking-tight text-gray-800 mb-5 sm:mb-6 text-center">
