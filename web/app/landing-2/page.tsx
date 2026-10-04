@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Sparkles, User, ArrowUp } from 'lucide-react';
+import Link from 'next/link';
 
 type Mode = 'szukam-wsparcia' | 'zglaszam-pomysl';
 
@@ -38,7 +39,8 @@ export default function IsKRA() {
       </div>
 
       {/* Perimeter Top: Flowing Nav */}
-      <header className="w-full px-6 py-6 md:px-10 md:py-8 flex justify-between items-center relative z-50">
+      <header className="w-full px-4 py-4 sm:px-6 sm:py-6 md:px-10 md:py-8 relative z-50">
+        <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-b from-gray-800 to-gray-900 shadow-sm border border-gray-700/50 flex items-center justify-center text-white">
             <Sparkles className="w-4 h-4 text-[#e58500]" />
@@ -49,24 +51,54 @@ export default function IsKRA() {
           </div>
         </div>
 
-        <div className="hidden sm:flex items-center gap-6">
-          <a href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">O systemie</a>
-          <a href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Baza pomysłów</a>
-          <button className="w-8 h-8 rounded-full bg-white/60 border border-white flex items-center justify-center hover:bg-white transition-colors shadow-sm text-gray-500">
+        <div className="hidden sm:flex items-center gap-4 md:gap-6">
+          <Link href="/" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">O systemie</Link>
+          <Link href="/innovations" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Baza pomysłów</Link>
+          <Link href="/login/organizer" aria-label="Zaloguj się" className="w-10 h-10 rounded-full bg-white/60 border border-white flex items-center justify-center hover:bg-white transition-colors shadow-sm text-gray-500">
             <User className="w-4 h-4" />
-          </button>
+          </Link>
+        </div>
+
+        <details className="group relative sm:hidden">
+          <summary
+            aria-label="Menu nawigacyjne"
+            className="flex h-11 w-11 touch-manipulation cursor-pointer list-none items-center justify-center rounded-xl border border-white/80 bg-white/70 text-gray-700 shadow-sm [&::-webkit-details-marker]:hidden"
+          >
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 group-open:hidden" fill="none" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="hidden h-5 w-5 group-open:block" fill="none" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" d="m6 6 12 12M18 6 6 18" />
+            </svg>
+          </summary>
+          <nav
+            aria-label="Nawigacja mobilna"
+            className="absolute right-0 top-full z-50 mt-2 w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-white/80 bg-white p-2 shadow-xl"
+          >
+            <Link href="/" className="flex min-h-11 touch-manipulation items-center rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100">
+              O systemie
+            </Link>
+            <Link href="/innovations" className="flex min-h-11 touch-manipulation items-center rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100">
+              Baza pomysłów
+            </Link>
+            <Link href="/login/organizer" className="flex min-h-11 touch-manipulation items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100">
+              <User className="h-4 w-4" />
+              Zaloguj się
+            </Link>
+          </nav>
+        </details>
         </div>
       </header>
 
       {/* Main Content: Optically Centered Command Center */}
-      <main className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4 relative z-10">
-        <h1 className="text-2xl sm:text-3xl font-medium tracking-tight text-gray-800 mb-6 text-center">
+      <section aria-labelledby="landing-title" className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4 py-8 sm:px-6 relative z-10">
+        <h1 id="landing-title" className="text-2xl sm:text-3xl font-medium tracking-tight text-gray-800 mb-6 text-center leading-tight">
           Czego potrzebuje Twój projekt?
         </h1>
 
         {/* Liquid Glass Unified Panel */}
         <div 
-          className="w-full bg-white/40 border border-white/60 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.1)] rounded-[2.5rem] p-3 flex flex-col transition-all"
+          className="w-full bg-white/40 border border-white/60 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.1)] rounded-[1.75rem] sm:rounded-[2.5rem] p-2.5 sm:p-3 flex flex-col transition-all"
           style={{ backdropFilter: 'blur(40px) saturate(150%)', WebkitBackdropFilter: 'blur(40px) saturate(150%)' }}
         >
           {/* Segmented Control */}
@@ -74,7 +106,7 @@ export default function IsKRA() {
             <button 
               type="button"
               onClick={() => setActiveMode('szukam-wsparcia')}
-              className={`flex-1 py-2 text-sm font-medium rounded-full transition-all focus:outline-none ${
+              className={`min-h-11 flex-1 px-2 py-2 text-xs sm:text-sm font-medium rounded-full transition-all focus:outline-none ${
                 activeMode === 'szukam-wsparcia' 
                   ? 'bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.05)]' 
                   : 'text-gray-500 hover:text-gray-700'
@@ -88,7 +120,7 @@ export default function IsKRA() {
             <button 
               type="button"
               onClick={() => setActiveMode('zglaszam-pomysl')}
-              className={`flex-1 py-2 text-sm font-medium rounded-full transition-all focus:outline-none ${
+              className={`min-h-11 flex-1 px-2 py-2 text-xs sm:text-sm font-medium rounded-full transition-all focus:outline-none ${
                 activeMode === 'zglaszam-pomysl' 
                   ? 'bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.05)]' 
                   : 'text-gray-500 hover:text-gray-700'
@@ -102,7 +134,7 @@ export default function IsKRA() {
 
           {/* Input Area */}
           <div className="relative w-full">
-            <form onSubmit={handleSubmit} className="relative group flex flex-col">
+            <form id="landing-2-form" onSubmit={handleSubmit} className="relative group flex flex-col">
               <label htmlFor="ai-prompt" className="sr-only">Opisz swój pomysł</label>
               <textarea 
                 id="ai-prompt"
@@ -110,7 +142,8 @@ export default function IsKRA() {
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 disabled={isSubmitting}
-                className="w-full bg-white/40 border border-white/50 focus:bg-white/70 focus:border-white rounded-[2rem] p-6 pr-20 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 resize-none min-h-[160px] text-[1.05rem] leading-relaxed shadow-inner transition-all duration-300 disabled:opacity-50"
+                required
+                className="w-full bg-white/40 border border-white/50 focus:bg-white/70 focus:border-white rounded-[1.5rem] sm:rounded-[2rem] p-4 sm:p-6 pr-16 sm:pr-20 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 resize-y min-h-[160px] text-base sm:text-[1.05rem] leading-relaxed shadow-inner transition-all duration-300 disabled:opacity-50"
                 placeholder={
                   activeMode === 'szukam-wsparcia' 
                     ? "Opisz innowację. System skataloguje ją i znajdzie odpowiednią ścieżkę realizacji..."
@@ -120,9 +153,10 @@ export default function IsKRA() {
               
               <div className="absolute bottom-3 right-3 flex items-center gap-3">
                 <button 
+                  id="landing-submit"
                   type="submit"
-                  disabled={isSubmitting || !prompt.trim()}
-                  className="bg-[#e58500] hover:bg-[#cc7700] disabled:bg-gray-400 text-white p-3.5 rounded-2xl shadow-md transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#e58500] focus:ring-offset-transparent flex items-center justify-center"
+                  disabled={isSubmitting}
+                  className="min-h-11 min-w-11 touch-manipulation bg-gray-400 text-white p-3.5 rounded-2xl shadow-md transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#e58500] focus:ring-offset-transparent flex items-center justify-center disabled:cursor-wait"
                   aria-label="Przetwórz pomysł"
                 >
                   {isSubmitting ? (
@@ -138,16 +172,16 @@ export default function IsKRA() {
             </form>
           </div>
         </div>
-      </main>
+      </section>
 
       {/* Perimeter Bottom: Balanced Footer Typography */}
-      <footer className="w-full px-6 py-6 md:px-10 md:py-8 flex flex-col md:flex-row justify-between items-center relative z-50 gap-4 mt-auto">
+      <footer className="w-full px-4 py-6 sm:px-6 md:px-10 md:py-8 flex flex-col sm:flex-row justify-between items-center relative z-50 gap-4 mt-auto">
         <div className="flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
           <span className="text-xs font-medium text-gray-400">System operacyjny gotowy</span>
         </div>
 
-        <div className="flex items-center gap-5 text-xs font-medium text-gray-400">
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-medium text-gray-400">
           <a href="#" className="hover:text-gray-800 transition-colors">Prywatność</a>
           <a href="#" className="hover:text-gray-800 transition-colors">Regulamin</a>
           <span className="text-gray-300 h-3 w-[1px] bg-gray-300 rounded-full"></span>

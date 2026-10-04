@@ -20,3 +20,11 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
+
+#landing-2-form:has(#ai-prompt:valid) #landing-submit:not(:disabled) {
+  background-color: #e58500;
+}
+
+#landing-2-form:has(#ai-prompt:valid) #landing-submit:not(:disabled):hover {
+  background-color: #cc7700;
+}
