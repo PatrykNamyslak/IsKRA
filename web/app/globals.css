@@ -87,3 +87,51 @@ html[data-high-contrast="true"] body :is(button, a, input, textarea, select, sum
   outline: 3px solid #ffeb3b !important;
   outline-offset: 3px;
 }
+
+.loader {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  z-index: 9999;
+}
+
+.loader span {
+  width: 8px;
+  height: 8px;
+  background: #111;
+  border-radius: 50%;
+
+  animation: bounce 0.7s ease-in-out infinite alternate;
+}
+
+.loader span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.loader span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.loader span:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.loader span:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+/* React wyrenderował coś wewnątrz #root */
+#app:has(#root > *) .loader {
+  display: none;
+}

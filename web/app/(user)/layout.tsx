@@ -46,38 +46,46 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="pl"
       className={`${inter.variable} ${sourceCodePro.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col relative bg-transparent">
-        <div className="fixed inset-0 pointer-events-none -z-10 w-full h-full overflow-hidden">
-          <Grainient
-            color1="#d9d9d9"
-            color2="#c6bda9"
-            color3="#e7e7e7"
-            timeSpeed={0}
-            colorBalance={0.04}
-            warpStrength={1}
-            warpFrequency={10.3}
-            warpSpeed={2.5}
-            warpAmplitude={16}
-            blendAngle={0}
-            blendSoftness={0.05}
-            rotationAmount={320}
-            noiseScale={2}
-            grainAmount={0.1}
-            grainScale={0.2}
-            grainAnimated={false}
-            contrast={1.15}
-            gamma={1.2}
-            saturation={2.05}
-            centerX={0}
-            centerY={0}
-            zoom={1.45}
-          />
-        </div>
-        <LayoutClient />
-        <main className="flex-1 flex flex-col relative z-0">
-          {children}
-        </main>
-      </body>
+    <body id="app" className="min-h-full flex flex-col relative bg-transparent">
+    <div className="fixed inset-0 pointer-events-none -z-10 w-full h-full overflow-hidden">
+      <Grainient
+          color1="#d9d9d9"
+          color2="#c6bda9"
+          color3="#e7e7e7"
+          timeSpeed={0}
+          colorBalance={0.04}
+          warpStrength={1}
+          warpFrequency={10.3}
+          warpSpeed={2.5}
+          warpAmplitude={16}
+          blendAngle={0}
+          blendSoftness={0.05}
+          rotationAmount={320}
+          noiseScale={2}
+          grainAmount={0.1}
+          grainScale={0.2}
+          grainAnimated={false}
+          contrast={1.15}
+          gamma={1.2}
+          saturation={2.05}
+          centerX={0}
+          centerY={0}
+          zoom={1.45}
+      />
+    </div>
+    <LayoutClient/>
+    <main id="root" className="flex-1 flex flex-col relative z-0">
+      {children}
+    </main>
+    <noscript className="text-3xl font-bold chat:text-red-700">That site require javascript, please turn it on!</noscript>
+    <div className="loader">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    </body>
     </html>
   );
 }
