@@ -1,7 +1,23 @@
-import {CollectionConfig} from "payload";
+import { APIError, type CollectionConfig } from "payload";
+import { chatsAccess, getID, isAdmin } from '@/lib/chat-access'
 
 export const TesterChats: CollectionConfig = {
     slug: 'tester_chats',
+    timestamps: true,
+    access: {
+        read: chatsAccess,
+        create: ({ req }) => isAdmin(req.user),
+        update: () => false,
+        delete: () => false,
+    },
+    hooks: {
+        beforeValidate: [({ data, operation }) => {
+            if (operation === 'create' && data && getID(data.user) === getID(data.organization)) {
+                throw new APIError('Rozmowa wymaga dwóch różnych uczestników.', 400)
+            }
+            return data
+        }],
+    },
     labels: {
         singular: 'Chat Testerów',
         plural: 'Chaty Testerów'
@@ -25,6 +41,7 @@ export const TesterChats: CollectionConfig = {
             relationTo: 'users',
             required: true,
             hasMany: false,
+            index: true,
             filterOptions: {
                 role: {
                     equals: 'user',
@@ -38,6 +55,7 @@ export const TesterChats: CollectionConfig = {
             relationTo: 'users',
             required: true,
             hasMany: false,
+            index: true,
             filterOptions: {
                 role: {
                     equals: 'organization',

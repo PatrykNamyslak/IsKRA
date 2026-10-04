@@ -11,8 +11,8 @@ import { Categories } from './collections/Categories'
 import { Innovations } from './collections/Innovations'
 import { Feedbacks } from './collections/Feedbacks'
 import { UnmatchedQueries } from './collections/UnmatchedQueries'
-import {ChatMessages} from "@/collections/ChatMessages";
-import {TesterChats} from "@/collections/TesterChat";
+import { ChatMessages } from "@/collections/ChatMessages";
+import { TesterChats } from "@/collections/TesterChat";
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -29,7 +29,8 @@ export default buildConfig({
   },
   collections: [Users, Organizations, Categories, Innovations, Feedbacks, UnmatchedQueries, ChatMessages, TesterChats],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || 'hackyeah2026-payload-secret-key-1234567890',
+  // Payload must not sign session tokens with a publicly known fallback key.
+  secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
