@@ -232,7 +232,7 @@ function InnovationsExplorerInner() {
                         selectedKey={activeTab}
                         onSelectionChange={(key) => setActiveTab(String(key))}
                         className="w-full min-w-max">
-                        <Tabs.ListContainer className="w-full p-0.5">
+                        <Tabs.ListContainer className="w-full border-0 bg-transparent p-0 shadow-none">
                             <Tabs.List
                                 aria-label="Wybór kategorii innowacji"
                                 className="w-full flex bg-black/[0.04] p-1.5 rounded-full border border-white/60 backdrop-blur-md relative gap-1">
@@ -240,44 +240,40 @@ function InnovationsExplorerInner() {
                                     id="all"
                                     className={`flex-1 py-2 sm:py-2.5 px-4 text-xs sm:text-sm font-medium rounded-full transition-all focus:outline-none cursor-pointer text-center relative z-10 whitespace-nowrap ${
                                         activeTab === "all"
-                                            ? "bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.05)]"
+                                            ? "bg-white text-gray-900"
                                             : "text-gray-500 hover:text-gray-700"
                                     }`}>
                                     Wszystkie innowacje
-                                    <Tabs.Indicator className="rounded-full" />
                                 </Tabs.Tab>
 
                                 <Tabs.Tab
                                     id="idea_exchange"
                                     className={`flex-1 py-2 sm:py-2.5 px-4 text-xs sm:text-sm font-medium rounded-full transition-all focus:outline-none cursor-pointer text-center relative z-10 whitespace-nowrap ${
                                         activeTab === "idea_exchange"
-                                            ? "bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.05)]"
+                                            ? "bg-white text-gray-900"
                                             : "text-gray-500 hover:text-gray-700"
                                     }`}>
                                     Giełda pomysłów
-                                    <Tabs.Indicator className="rounded-full" />
                                 </Tabs.Tab>
 
                                 <Tabs.Tab
                                     id="testing"
                                     className={`flex-1 py-2 sm:py-2.5 px-4 text-xs sm:text-sm font-medium rounded-full transition-all focus:outline-none cursor-pointer text-center relative z-10 whitespace-nowrap ${
                                         activeTab === "testing"
-                                            ? "bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.05)]"
+                                            ? "bg-white text-gray-900"
                                             : "text-gray-500 hover:text-gray-700"
                                     }`}>
                                     Do testowania
-                                    <Tabs.Indicator className="rounded-full" />
                                 </Tabs.Tab>
 
                                 <Tabs.Tab
                                     id="application"
                                     className={`flex-1 py-2 sm:py-2.5 px-4 text-xs sm:text-sm font-medium rounded-full transition-all focus:outline-none cursor-pointer text-center relative z-10 whitespace-nowrap ${
                                         activeTab === "application"
-                                            ? "bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.05)]"
+                                            ? "bg-white text-gray-900"
                                             : "text-gray-500 hover:text-gray-700"
                                     }`}>
                                     Wnioski o wdrożenie
-                                    <Tabs.Indicator className="rounded-full" />
                                 </Tabs.Tab>
                             </Tabs.List>
                         </Tabs.ListContainer>

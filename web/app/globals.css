@@ -6,6 +6,11 @@
   color-scheme: light;
   --background: #ffffff;
   --foreground: #171717;
+  --accessibility-text-scale: 1;
+}
+
+html {
+  font-size: calc(100% * var(--accessibility-text-scale, 1));
 }
 
 @theme inline {
@@ -53,4 +58,32 @@ body::-webkit-scrollbar,
 
 #landing-2-form:has(#ai-prompt:valid) #landing-submit:not(:disabled):hover {
   background-color: #cc7700;
+}
+
+html[data-high-contrast="true"] body {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+html[data-high-contrast="true"] body * {
+  border-color: #fff !important;
+  background-color: #000 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #fff !important;
+  text-shadow: none !important;
+}
+
+html[data-high-contrast="true"] body a {
+  color: #ffeb3b !important;
+  text-decoration: underline;
+}
+
+html[data-high-contrast="true"] body :is(input, textarea, select) {
+  caret-color: #ffeb3b !important;
+}
+
+html[data-high-contrast="true"] body :is(button, a, input, textarea, select, summary):focus-visible {
+  outline: 3px solid #ffeb3b !important;
+  outline-offset: 3px;
 }
