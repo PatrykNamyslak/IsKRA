@@ -40,6 +40,7 @@ export const Users: CollectionConfig = {
         { label: 'Administrator ROPS', value: 'admin' },
         { label: 'Organizacja', value: 'organization' },
         { label: 'Użytkownik', value: 'user' },
+        { label: 'Tester (badacz / użytkownik)', value: 'tester' },
         { label: 'Badacz (archiwalna)', value: 'researcher' },
       ],
       label: 'Rola w systemie',

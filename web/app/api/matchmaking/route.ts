@@ -6,8 +6,6 @@ import {
   isOpenRouterConfigured,
   DEFAULT_OPENROUTER_MODEL,
 } from '@/lib/openrouter'
-import fs from 'fs'
-import path from 'path'
 
 interface InnovationItem {
   id: string | number
@@ -95,54 +93,17 @@ export async function POST(req: NextRequest) {
 
     const payload = await getPayload({ config })
 
-    // 1. Pobierz innowacje z bazy
-    let innovationsDoc = await payload.find({
+    // 1. Pobierz innowacje z bazy (z powiązaną kategorią)
+    const innovationsDoc = await payload.find({
       collection: 'innovations',
       limit: 100,
+      depth: 1,
     })
-
-    // Jeśli baza jest jeszcze pusta, wykonaj bezpieczny auto-seed z dane.json
-    if (innovationsDoc.totalDocs === 0) {
-      try {
-        const rootPath = path.resolve(process.cwd(), '..')
-        const danePath = fs.existsSync(path.join(rootPath, 'dane.json'))
-          ? path.join(rootPath, 'dane.json')
-          : path.resolve(process.cwd(), 'dane.json')
-
-        if (fs.existsSync(danePath)) {
-          const rawData = fs.readFileSync(danePath, 'utf-8')
-          const categories = JSON.parse(rawData)
-          for (const group of categories) {
-            for (const item of group.items) {
-              await payload.create({
-                collection: 'innovations',
-                data: {
-                  title: item.title,
-                  category: group.category as any,
-                  patientProblem: `Problem w obszarze: ${group.category}`,
-                  proposedSolution: item.description,
-                  creatorType: 'application',
-                  wantsToImplement: true,
-                  status: 'approved',
-                  availableForTesting: true,
-                },
-              })
-            }
-          }
-          innovationsDoc = await payload.find({
-            collection: 'innovations',
-            limit: 100,
-          })
-        }
-      } catch (seedErr) {
-        console.warn('Auto-seed ostrzeżenie:', seedErr)
-      }
-    }
 
     const innovationsList: InnovationItem[] = innovationsDoc.docs.map((doc: any) => ({
       id: doc.id,
       title: doc.title,
-      category: doc.category,
+      category: typeof doc.category === 'object' && doc.category ? doc.category.name : (doc.category || 'Ogólna'),
       patientProblem: doc.patientProblem,
       proposedSolution: doc.proposedSolution,
       ropsReport: doc.ropsReport,

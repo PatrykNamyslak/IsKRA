@@ -9,6 +9,7 @@ export const Organizations: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
+    defaultColumns: ['name', 'user', 'createdAt'],
     // Widoczne tylko dla roli organization oraz admin
     hidden: ({ user }) => {
       const role = (user as User | null)?.role
@@ -16,17 +17,19 @@ export const Organizations: CollectionConfig = {
     },
   },
   access: {
-    read: ({ req: { user } }) => {
-      const role = (user as User | null)?.role
-      return role === 'admin' || role === 'organization'
-    },
+    read: () => true,
     create: ({ req: { user } }) => {
       const role = (user as User | null)?.role
       return role === 'admin' || role === 'organization'
     },
     update: ({ req: { user } }) => {
-      const role = (user as User | null)?.role
-      return role === 'admin' || role === 'organization'
+      if (!user) return false
+      if ((user as User).role === 'admin') return true
+      return {
+        user: {
+          equals: user.id,
+        },
+      }
     },
     delete: ({ req: { user } }) => (user as User | null)?.role === 'admin',
   },
@@ -37,6 +40,17 @@ export const Organizations: CollectionConfig = {
       type: 'text',
       required: true,
       label: 'Nazwa organizacji',
+    },
+    {
+      name: 'user',
+      type: 'relationship',
+      relationTo: 'users',
+      filterOptions: {
+        role: {
+          equals: 'organization',
+        },
+      },
+      label: 'Konto organizatora',
     },
     {
       name: 'description',
