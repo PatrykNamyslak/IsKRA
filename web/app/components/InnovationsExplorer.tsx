@@ -1,23 +1,11 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Tabs, Card, Form, Input, TextArea, Button } from "@heroui/react";
 import PeekRating from "@/app/components/PeekRating";
-import {
-    Sparkles,
-    Search,
-    ArrowRight,
-    Plus,
-    MessageSquare,
-    ChevronDown,
-    ChevronUp,
-    FlaskConical,
-    Lightbulb,
-    FileText,
-    AlertCircle,
-} from "lucide-react";
+import { Search, ArrowRight, Plus, FlaskConical } from "lucide-react";
 import { ROPS_CATEGORIES } from "@/lib/categories";
 
 interface Feedback {
@@ -48,6 +36,7 @@ interface Innovation {
 }
 
 function InnovationsExplorerInner() {
+    const router = useRouter();
     const searchParams = useSearchParams();
     const initialTab = searchParams.get("tab");
 
@@ -359,27 +348,27 @@ function InnovationsExplorerInner() {
                                     <div>
                                         {/* Top Badges */}
                                         <div className="flex flex-wrap items-center justify-between gap-2 mb-3.5">
-                                            <span className="rounded-full bg-black/[0.04] px-3 py-1 text-xs font-medium text-gray-600">
+                                            <span className="rounded-full bg-black/[0.04] border border-black/[0.08] px-2.5 py-0.5 text-xs font-semibold text-gray-700">
                                                 {getCategoryName(item.category)}
                                             </span>
 
                                             <div className="flex items-center gap-1.5">
                                                 {item.creatorType === "idea_exchange" ? (
-                                                    <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">
+                                                    <span className="rounded-full bg-emerald-500/10 border border-emerald-500/25 px-2.5 py-0.5 text-xs font-semibold text-emerald-600">
                                                         Giełda pomysłów
                                                     </span>
                                                 ) : item.creatorType === "matchmaking_gap" ? (
-                                                    <span className="rounded-full bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 text-xs font-semibold text-amber-800">
+                                                    <span className="rounded-full bg-amber-500/10 border border-amber-500/25 px-2.5 py-0.5 text-xs font-semibold text-amber-600">
                                                         Niezaspokojona potrzeba
                                                     </span>
                                                 ) : (
-                                                    <span className="rounded-full bg-purple-500/10 border border-purple-500/20 px-2.5 py-0.5 text-xs font-semibold text-purple-800">
+                                                    <span className="rounded-full bg-brand/10 border border-brand/25 px-2.5 py-0.5 text-xs font-semibold text-brand">
                                                         Wniosek o wdrożenie
                                                     </span>
                                                 )}
 
                                                 {item.availableForTesting && (
-                                                    <span className="rounded-full bg-[#e58500]/10 border border-[#e58500]/25 px-2.5 py-0.5 text-xs font-semibold text-[#e58500]">
+                                                    <span className="rounded-full bg-brand/10 border border-brand/25 px-2.5 py-0.5 text-xs font-semibold text-brand">
                                                         Do testów
                                                     </span>
                                                 )}
@@ -387,7 +376,7 @@ function InnovationsExplorerInner() {
                                         </div>
 
                                         {/* Title */}
-                                        <h3 className="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-[#e58500] transition-colors leading-snug">
+                                        <h3 className="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-brand transition-colors leading-snug">
                                             <Link href={`/innovations/${encodeURIComponent(slugOrId)}`}>
                                                 {item.title}
                                             </Link>
@@ -429,38 +418,30 @@ function InnovationsExplorerInner() {
                                     </div>
 
                                     {/* Actions & Expand Footer */}
-                                    <div className="mt-6 pt-4 border-t border-black/[0.05] flex items-center justify-between gap-2">
-                                        <button
-                                            type="button"
-                                            onClick={() => toggleExpand(item.id)}
-                                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-gray-900 transition-colors cursor-pointer">
-                                            <MessageSquare className="w-3.5 h-3.5 text-[#e58500]" />
-                                            <span>{isExpanded ? "Zwiń opinie" : "Opinie & Feedback"}</span>
-                                            {isExpanded ? (
-                                                <ChevronUp className="w-3.5 h-3.5" />
-                                            ) : (
-                                                <ChevronDown className="w-3.5 h-3.5" />
-                                            )}
-                                        </button>
+                                    <div className="mt-6 pt-4 border-t border-black/[0.05] flex items-center justify-end gap-2">
+                                        <Button
+                                            size="sm"
+                                            onPress={() => router.push(`/innovations/${encodeURIComponent(slugOrId)}`)}
+                                            className="rounded-full bg-gray-900 hover:bg-gray-800 text-white px-3.5 py-1.5 text-xs font-semibold shadow-2xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer h-auto min-h-0">
+                                            <span>Szczegóły</span>
+                                            <ArrowRight className="w-3.5 h-3.5" />
+                                        </Button>
 
-                                        <div className="flex items-center gap-2">
-                                            <Link
-                                                href={`/innovations/${encodeURIComponent(slugOrId)}`}
-                                                className="inline-flex items-center gap-1 rounded-full bg-gray-900 hover:bg-gray-800 text-white px-3.5 py-1.5 text-xs font-semibold shadow-2xs transition-all active:scale-95">
-                                                <span>Szczegóły</span>
-                                                <ArrowRight className="w-3.5 h-3.5" />
-                                            </Link>
-
-                                            {item.availableForTesting && (
-                                                <Link
-                                                    href={`/form?tab=idea&problem=${encodeURIComponent(
-                                                        `Zgłoszenie do testowania innowacji: ${item.title}`
-                                                    )}`}
-                                                    className="rounded-full bg-[#e58500] hover:bg-[#cc7700] px-3.5 py-1.5 text-xs font-semibold text-white shadow-2xs transition-all active:scale-95">
-                                                    Aplikuj do testów
-                                                </Link>
-                                            )}
-                                        </div>
+                                        {item.availableForTesting && (
+                                            <Button
+                                                size="sm"
+                                                onPress={() =>
+                                                    router.push(
+                                                        `/form?tab=idea&problem=${encodeURIComponent(
+                                                            `Zgłoszenie do testowania innowacji: ${item.title}`
+                                                        )}`
+                                                    )
+                                                }
+                                                className="rounded-full bg-brand hover:bg-brand-hover px-3.5 py-1.5 text-xs font-semibold text-white shadow-2xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer h-auto min-h-0">
+                                                <FlaskConical className="w-3.5 h-3.5" />
+                                                <span>Aplikuj do testów</span>
+                                            </Button>
+                                        )}
                                     </div>
 
                                     {/* Expanded Content: Feedbacks & Feedback Form */}
