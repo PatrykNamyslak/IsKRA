@@ -265,6 +265,8 @@ export interface ChatMessage {
   conversation: number | TesterChat;
   sender: number | User;
   content: string;
+  readByUser?: boolean | null;
+  readByOrganization?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -520,6 +522,8 @@ export interface ChatMessagesSelect<T extends boolean = true> {
   conversation?: T;
   sender?: T;
   content?: T;
+  readByUser?: T;
+  readByOrganization?: T;
   updatedAt?: T;
   createdAt?: T;
 }

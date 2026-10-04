@@ -44,6 +44,11 @@ export const Users: CollectionConfig = {
         { label: 'Badacz (archiwalna)', value: 'researcher' },
       ],
       label: 'Rola w systemie',
+      access: {
+        // Public registration retains the default organization role.
+        create: ({ req: { user } }) => user?.role === 'admin',
+        update: ({ req: { user } }) => user?.role === 'admin',
+      },
     },
   ],
 }
