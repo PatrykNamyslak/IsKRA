@@ -6,6 +6,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 interface Innovation {
   id: string | number
   title: string
+  slug?: string
   creatorType?: 'application' | 'matchmaking_gap' | 'idea_exchange'
   category?: string
   patientProblem?: string
@@ -25,14 +26,11 @@ interface Feedback {
   authorName?: string
   role?: string
   createdAt?: string
-}
-
-interface GuestComment extends Feedback {
-  isLocal: true
+  isLocal?: boolean
 }
 
 interface Props {
-  innovationId: string
+  slug: string
 }
 
 const CREATOR_LABELS: Record<NonNullable<Innovation['creatorType']>, string> = {
@@ -46,35 +44,55 @@ function getAverageRating(feedbacks: Feedback[]) {
   return feedbacks.reduce((sum, feedback) => sum + feedback.rating, 0) / feedbacks.length
 }
 
-export default function InnovationDetails({ innovationId }: Props) {
+export default function InnovationDetails({ slug }: Props) {
   const [innovation, setInnovation] = useState<Innovation | null>(null)
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([])
-  const [guestComments, setGuestComments] = useState<GuestComment[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [guestName, setGuestName] = useState('')
   const [comment, setComment] = useState('')
   const [rating, setRating] = useState(0)
+  const [role, setRole] = useState('user')
   const [notice, setNotice] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     const loadDetails = async () => {
       setIsLoading(true)
       setError(null)
       try {
-        const [innovationsResponse, feedbackResponse] = await Promise.all([
-          fetch(`/api/innovations?where[id][equals]=${encodeURIComponent(innovationId)}&limit=1`),
-          fetch(`/api/feedbacks?where[innovation][equals]=${encodeURIComponent(innovationId)}&sort=-createdAt&limit=100`),
-        ])
+        let foundInnovation: Innovation | undefined
 
-        if (!innovationsResponse.ok) throw new Error('Nie udało się wczytać szczegółów innowacji.')
-        const innovationsData = await innovationsResponse.json()
-        const foundInnovation = (innovationsData.docs || []).find(
-          (item: Innovation) => String(item.id) === innovationId,
-        ) as Innovation | undefined
+        // Najpierw szukamy po polu slug
+        const innovationsResponse = await fetch(
+          `/api/innovations?where[slug][equals]=${encodeURIComponent(slug)}&limit=1`
+        )
+        if (innovationsResponse.ok) {
+          const innovationsData = await innovationsResponse.json()
+          if (innovationsData.docs && innovationsData.docs.length > 0) {
+            foundInnovation = innovationsData.docs[0]
+          }
+        }
+
+        // Fallback: jeśli nie znaleziono i parametr jest liczbą, sprawdzamy po id
+        if (!foundInnovation && !isNaN(Number(slug))) {
+          const fallbackRes = await fetch(
+            `/api/innovations?where[id][equals]=${encodeURIComponent(slug)}&limit=1`
+          )
+          if (fallbackRes.ok) {
+            const fallbackData = await fallbackRes.json()
+            if (fallbackData.docs && fallbackData.docs.length > 0) {
+              foundInnovation = fallbackData.docs[0]
+            }
+          }
+        }
+
         if (!foundInnovation) throw new Error('Nie znaleziono tej innowacji.')
         setInnovation(foundInnovation)
 
+        const feedbackResponse = await fetch(
+          `/api/feedbacks?where[innovation][equals]=${encodeURIComponent(foundInnovation.id)}&sort=-createdAt&limit=100`
+        )
         if (!feedbackResponse.ok) throw new Error('Nie udało się wczytać ocen i opinii.')
         const feedbackData = await feedbackResponse.json()
         setFeedbacks(feedbackData.docs || [])
@@ -86,32 +104,63 @@ export default function InnovationDetails({ innovationId }: Props) {
     }
 
     void loadDetails()
-  }, [innovationId])
+  }, [slug])
 
-  const allComments = [...guestComments, ...feedbacks]
-  const allRatings = [...guestComments, ...feedbacks]
-  const average = getAverageRating(allRatings)
+  const average = getAverageRating(feedbacks)
 
-  const handleSubmitComment = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmitComment = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!comment.trim() || rating === 0) return
+    if (!comment.trim() || rating === 0 || !innovation) return
 
-    setGuestComments((current) => [
-      {
-        id: `guest-${Date.now()}`,
-        rating,
-        comment: comment.trim(),
-        authorName: guestName.trim() || 'Gość',
-        role: 'guest',
-        createdAt: new Date().toISOString(),
-        isLocal: true,
-      },
-      ...current,
-    ])
-    setGuestName('')
-    setComment('')
-    setRating(0)
-    setNotice('Opinia została dodana do podglądu. Nie została zapisana na stałe.')
+    setIsSubmitting(true)
+    setNotice('')
+
+    try {
+      const res = await fetch('/api/feedbacks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          innovation: innovation.id,
+          rating,
+          comment: comment.trim(),
+          authorName: guestName.trim() || 'Gość',
+          role,
+        }),
+      })
+
+      if (!res.ok) throw new Error('Nie udało się zapisać opinii.')
+
+      const resJson = await res.json()
+      const created: Feedback | undefined = resJson.doc || resJson.data
+
+      if (created) {
+        setFeedbacks((prev) => [created, ...prev])
+      } else {
+        // fallback jeśli API nie zwróciło doc
+        setFeedbacks((prev) => [
+          {
+            id: `local-${Date.now()}`,
+            rating,
+            comment: comment.trim(),
+            authorName: guestName.trim() || 'Gość',
+            role,
+            createdAt: new Date().toISOString(),
+            isLocal: true,
+          },
+          ...prev,
+        ])
+      }
+
+      setGuestName('')
+      setComment('')
+      setRating(0)
+      setRole('user')
+      setNotice('✓ Opinia została zapisana!')
+    } catch (err: unknown) {
+      setNotice(err instanceof Error ? err.message : 'Błąd zapisu opinii.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (isLoading) {
@@ -197,10 +246,8 @@ export default function InnovationDetails({ innovationId }: Props) {
 
             <section id="opinie" className="scroll-mt-6 rounded-3xl border border-gray-200 bg-white p-6 shadow-sm sm:p-9">
               <div className="border-b border-gray-100 pb-6">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-indigo-600">Głos społeczności</p>
-                  <h2 className="mt-1 text-2xl font-extrabold text-gray-950">Oceny i komentarze</h2>
-                </div>
+                <p className="text-xs font-bold uppercase tracking-wider text-indigo-600">Głos społeczności</p>
+                <h2 className="mt-1 text-2xl font-extrabold text-gray-950">Oceny i komentarze</h2>
               </div>
 
               <div className="mt-6 rounded-2xl border border-amber-100 bg-amber-50/70 p-5 sm:p-6">
@@ -215,13 +262,13 @@ export default function InnovationDetails({ innovationId }: Props) {
                       {'★'.repeat(Math.round(average))}{'☆'.repeat(5 - Math.round(average))}
                     </div>
                     <p className="mt-1 text-sm text-gray-600">
-                      {allRatings.length ? `Na podstawie ${allRatings.length} ocen` : 'Brak ocen społeczności'}
+                      {feedbacks.length ? `Na podstawie ${feedbacks.length} ocen` : 'Brak ocen społeczności'}
                     </p>
                   </div>
                   <div className="w-full space-y-2 sm:max-w-md">
                     {[5, 4, 3, 2, 1].map((stars) => {
-                      const count = allRatings.filter((item) => item.rating === stars).length
-                      const percent = allRatings.length ? (count / allRatings.length) * 100 : 0
+                      const count = feedbacks.filter((item) => item.rating === stars).length
+                      const percent = feedbacks.length ? (count / feedbacks.length) * 100 : 0
                       return (
                         <div key={stars} className="flex items-center gap-2 text-xs text-gray-600">
                           <span className="w-7">{stars} ★</span>
@@ -239,9 +286,9 @@ export default function InnovationDetails({ innovationId }: Props) {
               <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(280px,0.8fr)]">
                 <div className="min-w-0">
                   <h3 className="text-sm font-bold text-gray-900">Komentarze</h3>
-                  {allComments.length > 0 ? (
+                  {feedbacks.length > 0 ? (
                     <div className="mt-4 max-h-[680px] space-y-4 overflow-y-auto pr-2">
-                      {allComments.map((entry) => (
+                      {feedbacks.map((entry) => (
                         <article key={entry.id} className="rounded-2xl border border-gray-100 bg-gray-50 p-5">
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <p className="text-sm font-bold text-gray-900">{entry.authorName || 'Gość'}</p>
@@ -252,7 +299,7 @@ export default function InnovationDetails({ innovationId }: Props) {
                           {entry.createdAt && (
                             <p className="mt-0.5 text-xs text-gray-400">
                               {new Date(entry.createdAt).toLocaleDateString('pl-PL')}
-                              {'isLocal' in entry && entry.isLocal ? ' · podgląd lokalny' : ''}
+                              {entry.isLocal ? ' · oczekuje na zatwierdzenie' : ''}
                             </p>
                           )}
                           <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-gray-700">{entry.comment}</p>
@@ -270,7 +317,7 @@ export default function InnovationDetails({ innovationId }: Props) {
                 <form onSubmit={handleSubmitComment} className="h-fit rounded-2xl border border-indigo-100 bg-indigo-50/50 p-5">
                   <h3 className="font-bold text-gray-900">Dodaj swoją opinię</h3>
                   <p className="mt-1 text-xs leading-5 text-gray-500">
-                    Możesz komentować jako gość. Ta wersja jest demonstracyjna — wpisy nie są zapisywane w bazie.
+                    Opinia zostanie zapisana w bazie danych ROPS.
                   </p>
 
                   <fieldset className="mt-5">
@@ -303,6 +350,21 @@ export default function InnovationDetails({ innovationId }: Props) {
                     className="mt-1.5 w-full rounded-xl border border-gray-300 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                   />
 
+                  <label className="mt-4 block text-sm font-semibold text-gray-800" htmlFor="guest-role">
+                    Rola
+                  </label>
+                  <select
+                    id="guest-role"
+                    value={role}
+                    onChange={(event) => setRole(event.target.value)}
+                    className="mt-1.5 w-full rounded-xl border border-gray-300 bg-white px-3.5 py-2.5 text-sm outline-none focus:border-indigo-500"
+                  >
+                    <option value="user">Użytkownik</option>
+                    <option value="tester">Tester</option>
+                    <option value="caregiver">Opiekun</option>
+                    <option value="specialist">Specjalista</option>
+                  </select>
+
                   <label className="mt-4 block text-sm font-semibold text-gray-800" htmlFor="guest-comment">
                     Komentarz
                   </label>
@@ -318,13 +380,17 @@ export default function InnovationDetails({ innovationId }: Props) {
                   />
                   <p className="mt-1 text-right text-xs text-gray-400">{comment.length}/1000</p>
 
-                  {notice && <p role="status" className="mt-3 text-xs font-semibold text-emerald-700">{notice}</p>}
+                  {notice && (
+                    <p role="status" className={`mt-3 text-xs font-semibold ${notice.startsWith('✓') ? 'text-emerald-700' : 'text-rose-600'}`}>
+                      {notice}
+                    </p>
+                  )}
                   <button
                     type="submit"
-                    disabled={!comment.trim() || rating === 0}
+                    disabled={isSubmitting || !comment.trim() || rating === 0}
                     className="mt-4 w-full rounded-xl bg-indigo-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    Dodaj komentarz
+                    {isSubmitting ? 'Zapisuję...' : 'Dodaj komentarz'}
                   </button>
                 </form>
               </div>
