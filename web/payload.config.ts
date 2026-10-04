@@ -24,8 +24,15 @@ export default buildConfig({
     theme: 'light',
     components: {
       beforeDashboard: ['/app/components/AdminWelcome'],
+      afterNavLinks: ['/app/components/AdminInnovationNavLink'],
       graphics: {
         Logo: '/app/components/AdminBrand',
+      },
+      views: {
+        innovationManagement: {
+          path: '/innovation-management',
+          Component: '/app/components/InnovationManagement',
+        },
       },
     },
     importMap: {

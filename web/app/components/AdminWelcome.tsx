@@ -10,10 +10,10 @@ export default function AdminWelcome() {
           Zarządzaj pomysłami, wspieraj ich wdrażanie i łącz ludzi zmieniających
           lokalne społeczności.
         </p>
+        <Link className="iskra-admin-welcome__manage" href="/panel/innovation-management">
+          Otwórz szybkie zarządzanie <span aria-hidden="true">→</span>
+        </Link>
       </div>
-      <Link className="iskra-admin-welcome__link" href="/">
-        Zobacz stronę główną <span aria-hidden="true">↗</span>
-      </Link>
       <span className="iskra-admin-welcome__spark" aria-hidden="true">
         ✳
       </span>
