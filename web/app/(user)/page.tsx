@@ -1,7 +1,7 @@
 import HomePageView from '@/app/components/HomePageView'
 
 export const metadata = {
-  title: 'IsKRA / INNO-MOST | System Matchmakingu i Kreator Innowacji ROPS',
+  title: 'Innowacje społeczne i wsparcie pomysłów',
   description: 'Zgłaszaj potrzeby, weryfikuj istniejące rozwiązania z pomocą AI i twórz innowacje społeczne.',
 }
 

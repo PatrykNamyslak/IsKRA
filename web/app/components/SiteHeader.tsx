@@ -22,21 +22,16 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                     {/* Brand Logo */}
                     <NextLink href="/" className="flex items-center gap-2.5 group shrink-0">
                         <Image
-                            src="/iskra-full.svg"
-                            alt="IsKRA"
-                            width={120}
-                            height={10}
-                            className="md:h-6 h-5 lg:h-7 hidden xsm:block transition-transform group-hover:scale-105"
+                            src="/iskra-icon.svg"
+                            alt=""
+                            width={44}
+                            height={49}
+                            className="h-6 w-auto transition-transform group-hover:scale-105"
                             priority
                         />
-                        <Image
-                            src="/iskra.svg"
-                            alt="IsKRA"
-                            width={10}
-                            height={10}
-                            className="md:h-6 w-6 h-5 lg:h-7 block xsm:hidden transition-transform group-hover:scale-105"
-                            priority
-                        />
+                        <span className="text-sm font-bold tracking-tight text-gray-800 sm:text-base">
+                            IsKra <span className="font-medium text-gray-500">Małopolska</span>
+                        </span>
                     </NextLink>
 
                     {/* Desktop Navigation Menu */}

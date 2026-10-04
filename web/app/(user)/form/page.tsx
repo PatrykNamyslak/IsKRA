@@ -1,7 +1,7 @@
 import InnovationCreator from '@/app/components/InnovationCreator'
 
 export const metadata = {
-  title: 'Kreator Innowacji | IsKRA ROPS',
+  title: 'Kreator innowacji',
   description: 'Zgłoś potrzebę, zaoferuj innowację lub opublikuj pomysł na giełdzie projektów.',
 }
 
