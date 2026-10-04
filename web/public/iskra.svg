@@ -1,18 +1,17 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<!-- Created using Krita: https://krita.org -->
-<svg xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:krita="http://krita.org/namespaces/svg/krita"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    width="120.96pt"
-    height="133.92pt"
-    viewBox="0 0 120.96 133.92">
-<defs>
-  <linearGradient id="gradient0" gradientUnits="objectBoundingBox" x1="0.913308590132904" y1="-0.0161287894590365" x2="0.354146203073112" y2="1.19533756122675" spreadMethod="pad">
-   <stop stop-color="#ffa100" offset="0" stop-opacity="1"/>
-   <stop stop-color="#d02323" offset="1" stop-opacity="1"/>
-  </linearGradient>
- </defs>
-<path id="shape01" transform="matrix(-1 0 0 1 121.051 -0.000991999999996551)" fill="url(#gradient0)" stroke-opacity="0" stroke="#000000" stroke-width="0" stroke-linecap="square" stroke-linejoin="bevel" d="M60.571 0C70.3304 31.5237 78.251 63.9571 121.142 75.242C91.5758 84.3703 80.9112 108.8 71.102 133.922C73.7159 109.911 76.6722 85.9301 60.571 59.58C44.4698 85.9301 47.4261 109.907 50.04 133.918C40.2308 108.796 29.5662 84.3663 0 75.238C42.891 63.9531 50.8116 31.5237 60.571 0Z" sodipodi:nodetypes="ccccccc"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 443 134" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:affinity="https://www.affinity.studio/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="Artboard1" transform="matrix(3.655584,0,0,1,0,0)">
+        <g>
+            <g id="shape01" transform="matrix(-0.273554,0,0,1,33.138901,0)">
+                <path d="M60.571,0C70.33,31.524 78.251,63.957 121.142,75.242C91.576,84.37 80.911,108.8 71.102,133.922C73.716,109.911 76.672,85.93 60.571,59.58C44.47,85.93 47.426,109.907 50.04,133.918C40.231,108.796 29.566,84.366 0,75.238C42.891,63.953 50.812,31.524 60.571,0Z" style="fill:url(#_Linear1);fill-rule:nonzero;"/>
+            </g>
+            <g transform="matrix(0.273554,0,0,1,32.813096,106.144586)">
+                <text x="0px" y="0px" style="font-family:'Gadugi-Bold', 'Gadugi', sans-serif;font-weight:700;font-size:112px;">IsKRA</text>
+            </g>
+        </g>
+    </g>
+    <defs>
+        <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-67.73805,162.241997,-162.241997,-67.73805,110.640029,-2.16)"><stop offset="0" style="stop-color:rgb(255,161,0);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(208,35,35);stop-opacity:1"/></linearGradient>
+    </defs>
 </svg>
