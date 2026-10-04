@@ -20,6 +20,13 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     user: Users.slug,
+    theme: 'light',
+    components: {
+      beforeDashboard: ['/app/components/AdminWelcome'],
+      graphics: {
+        Logo: '/app/components/AdminBrand',
+      },
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
