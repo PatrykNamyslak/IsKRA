@@ -6,6 +6,17 @@ export const WantToTest: CollectionConfig = {
         singular: 'Kandydat na testera',
         plural: 'Kandydaci na testerów'
     },
+    admin: {
+        useAsTitle: 'email',
+        defaultColumns: ['email', 'name', 'surname', 'about', 'why'],
+        group: 'Zarządzanie kandydatami na testerów.',
+    },
+    access: {
+        create: () => true,
+        read: ({ req: { user } }) => Boolean(user),
+        update: ({ req: { user } }) => Boolean(user),
+        delete: ({ req: { user } }) => Boolean(user),
+    },
     fields: [
         {
             name: 'name',

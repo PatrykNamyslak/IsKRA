@@ -55,6 +55,13 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                             <Link.Icon />
                         </Link>
 
+                        <Link
+                            href="/tester"
+                            className="text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+                            Chcę zostać testerem
+                            <Link.Icon />
+                        </Link>
+
                         {/* User Profile Avatar with HeroUI Dropdown */}
                         <Dropdown>
                             <Dropdown.Trigger className="rounded-full focus:outline-none cursor-pointer transition-transform flex items-center justify-center p-0.5">
@@ -201,6 +208,14 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 className="w-full px-4 py-2.5 rounded-2xl hover:bg-black/[0.04] text-xs font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center justify-between">
                                 Zgłoś pomysł
+                                <Link.Icon />
+                            </Link>
+
+                            <Link
+                                href="/tester"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="w-full px-4 py-2.5 rounded-2xl hover:bg-black/[0.04] text-xs font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center justify-between">
+                                Chcę zostać testerem
                                 <Link.Icon />
                             </Link>
                         </motion.div>
