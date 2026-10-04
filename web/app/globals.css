@@ -13,6 +13,16 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-source-code-pro);
+  --color-brand: #e58500;
+  --color-brand-hover: #cc7700;
+  --color-brand-orange: #e58500;
+  --color-brand-orange-hover: #cc7700;
+  --color-iskra: #e58500;
+  --color-iskra-hover: #cc7700;
+  --color-grain-1: #d9d9d9;
+  --color-grain-2: #c6bda9;
+  --color-grain-3: #e7e7e7;
+  --color-grain-bg: #f5f5f7;
 }
 
 body {

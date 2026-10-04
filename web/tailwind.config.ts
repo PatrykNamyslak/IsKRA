@@ -18,7 +18,37 @@ const config = {
     },
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        brand: {
+          DEFAULT: '#e58500',
+          hover: '#cc7700',
+          orange: '#e58500',
+          'orange-hover': '#cc7700',
+        },
+        iskra: {
+          DEFAULT: '#e58500',
+          hover: '#cc7700',
+          orange: '#e58500',
+          50: '#fffaf0',
+          100: '#fef3dc',
+          200: '#fde4b4',
+          300: '#fccd82',
+          400: '#faab47',
+          500: '#e58500',
+          600: '#cc7700',
+          700: '#9f5600',
+          800: '#753e05',
+          900: '#4a2603',
+        },
+        grain: {
+          1: '#d9d9d9',
+          2: '#c6bda9',
+          3: '#e7e7e7',
+          bg: '#f5f5f7',
+        },
+      },
+    },
   },
   plugins: [],
 }

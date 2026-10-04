@@ -151,7 +151,7 @@ export default function HomePageView() {
   }
 
   return (
-    <div className="bg-transparent text-gray-900 font-sans antialiased h-full flex flex-col justify-between relative selection:bg-[#e58500] selection:text-white overflow-hidden">
+    <div className="bg-transparent text-gray-900 font-sans antialiased h-full flex flex-col justify-between relative selection:bg-brand selection:text-white overflow-hidden">
       {/* Main Content: Optically Centered Command Center */}
       <main className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4 py-4 relative z-10">
         <h1 className="text-2xl sm:text-3xl font-medium tracking-tight text-gray-800 mb-4 sm:mb-6 text-center">
@@ -231,7 +231,7 @@ export default function HomePageView() {
                   type="submit"
                   isIconOnly
                   isDisabled={isLoading || !prompt.trim()}
-                  className="bg-[#e58500] hover:bg-[#cc7700] text-white p-3.5 rounded-2xl shadow-md transition-transform active:scale-95 disabled:bg-gray-400 disabled:opacity-50 flex items-center justify-center cursor-pointer min-w-12 h-12"
+                  className="bg-brand hover:bg-brand-hover text-white p-3.5 rounded-2xl shadow-md transition-transform active:scale-95 disabled:bg-gray-400 disabled:opacity-50 flex items-center justify-center cursor-pointer min-w-12 h-12"
                   aria-label="Przetwórz pomysł"
                 >
                   {isLoading ? (
@@ -300,7 +300,7 @@ export default function HomePageView() {
                       <h3 className="text-lg sm:text-xl font-bold text-gray-900">
                         <Link
                           href={`/innovations/${encodeURIComponent(getInnovationSlugOrId(result.innovation))}`}
-                          className="hover:text-[#e58500] transition-colors"
+                          className="hover:text-brand transition-colors"
                         >
                           {result.innovation.title}
                         </Link>
@@ -310,7 +310,7 @@ export default function HomePageView() {
                     {result.aiExplanation && (
                       <div className="rounded-2xl bg-white/80 border border-black/[0.04] p-3.5 text-xs text-gray-800">
                         <p className="font-semibold text-gray-900 mb-1 flex items-center gap-1.5">
-                          <Sparkles className="w-3.5 h-3.5 text-[#e58500]" />
+                          <Sparkles className="w-3.5 h-3.5 text-brand" />
                           Analiza Middlemana AI:
                         </p>
                         <p className="leading-relaxed text-gray-600">{result.aiExplanation}</p>
@@ -327,7 +327,7 @@ export default function HomePageView() {
                     <div>
                       <Link
                         href={`/innovations/${encodeURIComponent(getInnovationSlugOrId(result.innovation))}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-900 hover:text-[#e58500] transition-colors pt-1"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-900 hover:text-brand transition-colors pt-1"
                       >
                         <span>Przejdź do pełnej karty innowacji</span>
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -445,7 +445,7 @@ export default function HomePageView() {
                 <div className="rounded-3xl bg-white/60 border border-white/80 backdrop-blur-xl p-5 sm:p-6 text-left shadow-2xs">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-black/[0.05] pb-3">
                     <div className="inline-flex items-center gap-2 text-amber-900 font-semibold text-sm sm:text-base">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#e58500] text-white text-xs">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand text-white text-xs">
                         !
                       </span>
                       Brak gotowego rozwiązania w bazie innowacji
@@ -472,7 +472,7 @@ export default function HomePageView() {
                     <div className="pt-2">
                       <Link
                         href={`/form?tab=gap&problem=${encodeURIComponent(result.query || prompt)}`}
-                        className="inline-flex items-center gap-2 rounded-2xl bg-[#e58500] hover:bg-[#cc7700] px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition-all active:scale-95 cursor-pointer"
+                        className="inline-flex items-center gap-2 rounded-2xl bg-brand hover:bg-brand-hover px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition-all active:scale-95 cursor-pointer"
                       >
                         <span>Przejdź do formularza, aby zgłosić tę potrzebę</span>
                         <ArrowRight className="w-3.5 h-3.5" />
