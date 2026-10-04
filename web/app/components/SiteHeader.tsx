@@ -9,9 +9,9 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
   const isOrganizer = audience === "organizer";
 
   return (
-    <header className="sticky top-0 z-50 w-full px-6 py-4 md:px-10 flex justify-between items-center bg-[#f5f5f7]/80 backdrop-blur-md border-b border-black/[0.04] transition-all">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
-        {/* Brand Logo from landing-2 */}
+    <header className="sticky top-3 sm:top-4 z-50 w-full px-4 sm:px-6 pointer-events-none transition-all">
+      <div className="mx-auto flex w-full max-w-4xl sm:max-w-5xl items-center justify-between rounded-full bg-white/50 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] px-5 sm:px-6 py-2.5 pointer-events-auto transition-all">
+        {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3 group">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-b from-gray-800 to-gray-900 shadow-sm border border-gray-700/50 flex items-center justify-center text-white transition-transform group-hover:scale-105">
             <Sparkles className="w-4 h-4 text-[#e58500]" />
@@ -26,25 +26,25 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
           </div>
         </Link>
 
-        {/* Navigation Menu from landing-2 */}
+        {/* Navigation Menu */}
         <div className="flex items-center gap-5 sm:gap-6">
           <Link
             href="/innovations"
-            className="text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+            className="text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
           >
             Baza pomysłów
           </Link>
 
           <Link
             href="/form"
-            className="text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+            className="text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
           >
             Zgłoś pomysł
           </Link>
 
           {/* User Profile / Panel dropdown / button */}
           <details className="group relative">
-            <summary className="cursor-pointer list-none flex items-center justify-center w-8 h-8 rounded-full bg-white/70 border border-white hover:bg-white transition-all shadow-2xs text-gray-600 hover:text-gray-900 focus:outline-none">
+            <summary className="cursor-pointer list-none flex items-center justify-center w-8 h-8 rounded-full bg-white/80 border border-white hover:bg-white transition-all shadow-2xs text-gray-600 hover:text-gray-900 focus:outline-none">
               <User className="w-4 h-4" />
             </summary>
             <div className="absolute right-0 top-full mt-2 flex min-w-44 flex-col rounded-2xl border border-white/80 bg-white/95 p-1.5 shadow-xl backdrop-blur-xl z-50 text-xs">
