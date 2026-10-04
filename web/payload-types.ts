@@ -73,12 +73,18 @@ export interface Config {
     innovations: Innovation;
     feedbacks: Feedback;
     'unmatched-queries': UnmatchedQuery;
+    chat_messages: ChatMessage;
+    tester_chats: TesterChat;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    tester_chats: {
+      messages: 'chat_messages';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     organizations: OrganizationsSelect<false> | OrganizationsSelect<true>;
@@ -86,6 +92,8 @@ export interface Config {
     innovations: InnovationsSelect<false> | InnovationsSelect<true>;
     feedbacks: FeedbacksSelect<false> | FeedbacksSelect<true>;
     'unmatched-queries': UnmatchedQueriesSelect<false> | UnmatchedQueriesSelect<true>;
+    chat_messages: ChatMessagesSelect<false> | ChatMessagesSelect<true>;
+    tester_chats: TesterChatsSelect<false> | TesterChatsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -243,6 +251,34 @@ export interface UnmatchedQuery {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chat_messages".
+ */
+export interface ChatMessage {
+  id: number;
+  conversation: number | TesterChat;
+  sender: number | User;
+  content: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tester_chats".
+ */
+export interface TesterChat {
+  id: number;
+  user: number | User;
+  organization: number | User;
+  messages?: {
+    docs?: (number | ChatMessage)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -288,6 +324,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'unmatched-queries';
         value: number | UnmatchedQuery;
+      } | null)
+    | ({
+        relationTo: 'chat_messages';
+        value: number | ChatMessage;
+      } | null)
+    | ({
+        relationTo: 'tester_chats';
+        value: number | TesterChat;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -438,6 +482,28 @@ export interface UnmatchedQueriesSelect<T extends boolean = true> {
   aiAnalysis?: T;
   userContact?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chat_messages_select".
+ */
+export interface ChatMessagesSelect<T extends boolean = true> {
+  conversation?: T;
+  sender?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tester_chats_select".
+ */
+export interface TesterChatsSelect<T extends boolean = true> {
+  user?: T;
+  organization?: T;
+  messages?: T;
   updatedAt?: T;
   createdAt?: T;
 }
