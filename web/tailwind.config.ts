@@ -19,6 +19,9 @@ const config = {
   ],
   theme: {
     extend: {
+      screens: {
+        xsm: '420px',
+      },
       colors: {
         brand: {
           DEFAULT: '#e58500',

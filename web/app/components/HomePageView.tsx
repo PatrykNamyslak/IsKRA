@@ -151,7 +151,7 @@ export default function HomePageView() {
   }
 
   return (
-    <div className="bg-transparent text-gray-900 font-sans antialiased h-full flex flex-col justify-between relative selection:bg-brand selection:text-white overflow-hidden">
+    <div className="bg-transparent text-gray-900 font-sans antialiased min-h-[calc(100svh-5rem)] flex flex-col justify-between relative selection:bg-brand selection:text-white overflow-hidden">
       {/* Main Content: Optically Centered Command Center */}
       <main className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4 pt-6 pb-4 sm:py-6 relative z-10">
         <h1 className="text-xl sm:text-3xl font-medium tracking-tight text-gray-800 mb-5 sm:mb-6 text-center">
@@ -218,7 +218,7 @@ export default function HomePageView() {
                   }
                 }}
                 disabled={isLoading}
-                className="w-full bg-white/40 border border-white/50 focus:bg-white/70 focus:border-white rounded-[2rem] p-5 sm:p-6 pr-18 sm:pr-20 text-gray-900 placeholder:text-xs sm:placeholder:text-sm placeholder:text-gray-500/80 focus:outline-none focus:ring-0 resize-none min-h-[140px] sm:min-h-[160px] text-sm sm:text-base leading-relaxed shadow-inner transition-all duration-300 disabled:opacity-50"
+                className="w-full bg-white/40 border border-white/50 focus:bg-white/70 focus:border-white rounded-[1.8rem] sm:rounded-[2rem] p-4 sm:p-6 sm:pr-20 text-gray-900 placeholder:text-xs sm:placeholder:text-sm placeholder:text-gray-500/80 focus:outline-none focus:ring-0 resize-none min-h-[120px] sm:min-h-[160px] text-sm sm:text-base leading-relaxed shadow-inner transition-all duration-300 disabled:opacity-50"
                 placeholder={
                   activeMode === 'szukam-wsparcia'
                     ? 'Opisz innowację. System skataloguje ją i znajdzie odpowiednią ścieżkę realizacji...'
@@ -226,11 +226,11 @@ export default function HomePageView() {
                 }
               />
 
-              <div className="mt-2.5 flex justify-end sm:mt-0 sm:absolute sm:bottom-3 sm:right-3">
+              <div className="mt-3 sm:mt-0 sm:absolute sm:bottom-3 sm:right-3 flex justify-end">
                 <Button
                   type="submit"
                   isDisabled={isLoading || !prompt.trim()}
-                  className="w-full sm:w-auto bg-brand hover:bg-brand-hover text-white py-3 px-5 sm:p-3.5 rounded-full shadow-md transition-transform active:scale-95 disabled:bg-gray-400 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer sm:min-w-12 h-11 sm:h-12 text-xs sm:text-sm font-semibold"
+                  className="w-full sm:w-auto bg-brand hover:bg-brand-hover text-white py-3 px-6 sm:p-3.5 rounded-full shadow-md transition-transform active:scale-95 disabled:bg-gray-400 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer sm:min-w-12 h-11 sm:h-12 text-xs sm:text-sm font-semibold"
                   aria-label="Przetwórz pomysł"
                 >
                   {isLoading ? (

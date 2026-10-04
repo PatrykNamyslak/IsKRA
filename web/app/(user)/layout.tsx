@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Source_Code_Pro } from "next/font/google";
 import LayoutClient from "@/app/(user)/layout.client";
 import Grainient from "@/app/components/Grainient";
@@ -15,8 +15,29 @@ const sourceCodePro = Source_Code_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "Hackyeah 2026",
-  description: "",
+  title: "IsKRA | ROPS",
+  description: "Wsparcie i baza pomysłów dla projektów społecznych.",
+  manifest: "/manifest.json",
+  applicationName: "IsKRA",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "IsKRA",
+  },
+  icons: {
+    icon: [
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/iskra.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#f5f5f7",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

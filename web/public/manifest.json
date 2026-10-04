@@ -1,10 +1,10 @@
 {
-  "id": "/landing-2",
+  "id": "/",
   "name": "IsKRA | ROPS",
   "short_name": "IsKRA",
   "description": "Wsparcie i baza pomysłów dla projektów społecznych.",
   "lang": "pl",
-  "start_url": "/landing-2",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",

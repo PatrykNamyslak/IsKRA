@@ -11,6 +11,8 @@ import { Categories } from './collections/Categories'
 import { Innovations } from './collections/Innovations'
 import { Feedbacks } from './collections/Feedbacks'
 import { UnmatchedQueries } from './collections/UnmatchedQueries'
+import {ChatMessages} from "@/collections/ChatMessages";
+import {TesterChats} from "@/collections/TesterChat";
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
