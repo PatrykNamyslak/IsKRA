@@ -27,7 +27,7 @@ export default buildConfig({
   routes: {
     admin: '/panel',
   },
-  collections: [Users, Organizations, Categories, Innovations, Feedbacks, UnmatchedQueries, ChatMessages, TesterChats, UnmatchedQueries],
+  collections: [Users, Organizations, Categories, Innovations, Feedbacks, UnmatchedQueries, ChatMessages, TesterChats],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'hackyeah2026-payload-secret-key-1234567890',
   typescript: {

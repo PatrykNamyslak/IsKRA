@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 
 interface FeedbackItem {
@@ -15,7 +15,7 @@ interface FeedbackItem {
 interface MatchedInnovation {
   id: string | number
   title: string
-  category?: string
+  category?: string | { name?: string } | null
   patientProblem?: string
   proposedSolution?: string
   status?: string
@@ -41,6 +41,11 @@ const SAMPLE_PROMPTS = [
 ]
 
 export default function MatchmakingSearch() {
+  const isHydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  )
   const [problem, setProblem] = useState('')
   const [contactEmail, setContactEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -165,7 +170,7 @@ export default function MatchmakingSearch() {
           <button
             type="button"
             onClick={() => handleSearch()}
-            disabled={isLoading || !problem.trim()}
+            disabled={isHydrated && (isLoading || !problem.trim())}
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 font-semibold text-white shadow-md shadow-indigo-600/20 transition-all hover:bg-indigo-500 hover:shadow-lg disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none active:scale-[0.98]"
           >
             {isLoading ? (
@@ -237,9 +242,9 @@ export default function MatchmakingSearch() {
               <div className="mt-5 space-y-4">
                 <div>
                   <span className="inline-block rounded bg-indigo-50 px-2.5 py-0.5 text-xs font-semibold text-indigo-700 mb-1">
-                    {typeof result.innovation.category === 'object' && (result.innovation.category as any)?.name
-                      ? (result.innovation.category as any).name
-                      : (result.innovation.category || 'Innowacja Społeczna')}
+                    {typeof result.innovation.category === 'object' && result.innovation.category !== null
+                      ? result.innovation.category.name || 'Innowacja Społeczna'
+                      : result.innovation.category || 'Innowacja Społeczna'}
                   </span>
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                     {result.innovation.title}
