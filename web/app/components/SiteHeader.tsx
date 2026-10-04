@@ -71,7 +71,8 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
 
             <Dropdown.Popover
               placement="bottom end"
-              className="min-w-56 rounded-2xl border border-gray-100 bg-white/95 backdrop-blur-xl shadow-xl p-1 z-50 text-xs"
+              offset={18}
+              className="min-w-56 rounded-2xl border border-gray-100 bg-white/95 backdrop-blur-xl shadow-xl p-1 z-[100] text-xs"
             >
               <Dropdown.Menu
                 aria-label="Profile Actions"
@@ -83,12 +84,12 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                 <Dropdown.Section>
                   <Dropdown.Item
                     id="profile"
-                    className="h-12 px-3 py-2 flex flex-col items-start justify-center cursor-default pointer-events-none opacity-100 select-none border-b border-gray-100 mb-1"
+                    className="h-auto py-2.5 px-3 flex flex-col items-start justify-center cursor-default pointer-events-none opacity-100 select-none border-b border-gray-100/80 mb-1"
                   >
-                    <p className="text-[11px] font-normal text-gray-500 leading-tight">
+                    <p className="text-[11px] font-normal text-gray-500 leading-none">
                       Zalogowano jako
                     </p>
-                    <p className="text-xs font-semibold text-gray-900 leading-tight truncate w-full">
+                    <p className="text-xs font-semibold text-gray-900 leading-normal truncate w-full mt-1">
                       admin@rops.pl
                     </p>
                   </Dropdown.Item>
