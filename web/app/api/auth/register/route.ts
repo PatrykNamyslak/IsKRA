@@ -35,6 +35,22 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Automatyczne powiązanie profilu organizacji z zarejestrowanym kontem
+    if (role === "organization") {
+      try {
+        await payload.create({
+          collection: "organizations",
+          data: {
+            name: name || email,
+            user: user.id,
+          },
+          overrideAccess: true,
+        });
+      } catch (orgErr) {
+        console.warn("Nie udało się powiązać profilu organizacji:", orgErr);
+      }
+    }
+
     // Zalogowanie nowo utworzonego użytkownika
     const loginResult = await payload.login({
       collection: "users",

@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     organizations: Organization;
+    categories: Category;
     innovations: Innovation;
     feedbacks: Feedback;
     'unmatched-queries': UnmatchedQuery;
@@ -87,6 +88,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     organizations: OrganizationsSelect<false> | OrganizationsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
     innovations: InnovationsSelect<false> | InnovationsSelect<true>;
     feedbacks: FeedbacksSelect<false> | FeedbacksSelect<true>;
     'unmatched-queries': UnmatchedQueriesSelect<false> | UnmatchedQueriesSelect<true>;
@@ -138,7 +140,7 @@ export interface UserAuthOperations {
 export interface User {
   id: number;
   name?: string | null;
-  role: 'admin' | 'organization' | 'user' | 'researcher';
+  role: 'admin' | 'organization' | 'user' | 'tester' | 'researcher';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -166,6 +168,18 @@ export interface User {
 export interface Organization {
   id: number;
   name: string;
+  user?: (number | null) | User;
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  name: string;
   description?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -179,19 +193,7 @@ export interface Innovation {
   title: string;
   creatorType: 'application' | 'matchmaking_gap' | 'idea_exchange';
   wantsToImplement?: boolean | null;
-  category?:
-    | (
-        | 'Dla seniorów'
-        | 'Dla dzieci, młodzieży i rodziny'
-        | 'Dla rynku pracy'
-        | 'Dla osób o ograniczonej mobilności'
-        | 'Dla osób z niepełnosprawnością sensoryczną'
-        | 'Dla cudzoziemców'
-        | 'Dla osób z niepełnosprawnością intelektualną'
-        | 'Dla osób w kryzysie bezdomności'
-        | 'Dla zdrowia i medycyny'
-      )
-    | null;
+  category?: (number | null) | Category;
   patientProblem: string;
   proposedSolution?: string | null;
   targetGroup?: string | null;
@@ -240,19 +242,7 @@ export interface Feedback {
 export interface UnmatchedQuery {
   id: number;
   query: string;
-  category?:
-    | (
-        | 'Dla seniorów'
-        | 'Dla dzieci, młodzieży i rodziny'
-        | 'Dla rynku pracy'
-        | 'Dla osób o ograniczonej mobilności'
-        | 'Dla osób z niepełnosprawnością sensoryczną'
-        | 'Dla cudzoziemców'
-        | 'Dla osób z niepełnosprawnością intelektualną'
-        | 'Dla osób w kryzysie bezdomności'
-        | 'Dla zdrowia i medycyny'
-      )
-    | null;
+  category?: (number | null) | Category;
   aiAnalysis?: string | null;
   userContact?: string | null;
   status?: ('new' | 'under_review' | 'call_opened' | 'closed') | null;
@@ -318,6 +308,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'organizations';
         value: number | Organization;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: number | Category;
       } | null)
     | ({
         relationTo: 'innovations';
@@ -411,6 +405,17 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "organizations_select".
  */
 export interface OrganizationsSelect<T extends boolean = true> {
+  name?: T;
+  user?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
   name?: T;
   description?: T;
   updatedAt?: T;

@@ -7,6 +7,7 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Organizations } from './collections/Organizations'
+import { Categories } from './collections/Categories'
 import { Innovations } from './collections/Innovations'
 import { Feedbacks } from './collections/Feedbacks'
 import { UnmatchedQueries } from './collections/UnmatchedQueries'
@@ -26,7 +27,7 @@ export default buildConfig({
   routes: {
     admin: '/panel',
   },
-  collections: [Users, Organizations, Innovations, Feedbacks, UnmatchedQueries, ChatMessages, TesterChats],
+  collections: [Users, Organizations, Categories, Innovations, Feedbacks, UnmatchedQueries, ChatMessages, TesterChats, UnmatchedQueries],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'hackyeah2026-payload-secret-key-1234567890',
   typescript: {
