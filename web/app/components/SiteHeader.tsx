@@ -1,17 +1,22 @@
+'use client'
+
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { User } from "lucide-react";
+import { Avatar, Dropdown } from "@heroui/react";
 
 type SiteHeaderProps = {
   audience?: "user" | "organizer" | "research";
 };
 
 export default function SiteHeader({ audience }: SiteHeaderProps) {
+  const router = useRouter();
   const isOrganizer = audience === "organizer";
 
   return (
     <header className="sticky top-3 sm:top-4 z-50 w-full px-4 sm:px-6 pointer-events-none transition-all">
-      <div className="mx-auto flex w-full max-w-4xl sm:max-w-5xl items-center justify-between rounded-full bg-white/50 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] px-5 sm:px-6 py-2 pointer-events-auto transition-all">
+      <div className="mx-auto flex w-full max-w-4xl sm:max-w-5xl items-center justify-between rounded-full bg-white/50 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] px-5 sm:px-6 py-3 sm:py-3.5 pointer-events-auto transition-all">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <Image
@@ -48,26 +53,47 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
             Zgłoś pomysł
           </Link>
 
-          {/* User Profile / Panel dropdown / button */}
-          <details className="group relative">
-            <summary className="cursor-pointer list-none flex items-center justify-center w-8 h-8 rounded-full bg-white/80 border border-white hover:bg-white transition-all shadow-2xs text-gray-600 hover:text-gray-900 focus:outline-none">
-              <User className="w-4 h-4" />
-            </summary>
-            <div className="absolute right-0 top-full mt-2 flex min-w-44 flex-col rounded-2xl border border-white/80 bg-white/95 p-1.5 shadow-xl backdrop-blur-xl z-50 text-xs">
-              <Link
-                href="/panel"
-                className="rounded-xl px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 flex items-center gap-2 transition-colors"
+          {/* User Profile Avatar with HeroUI Dropdown */}
+          <Dropdown>
+            <Dropdown.Trigger>
+              <button
+                type="button"
+                className="cursor-pointer focus:outline-none rounded-full transition-transform active:scale-95 flex items-center justify-center"
+                aria-label="Menu profilu użytkownika"
               >
-                🛡️ Panel ROPS
-              </Link>
-              <Link
-                href="/login/organizer"
-                className="rounded-xl px-3 py-2 text-gray-600 hover:bg-gray-100 flex items-center gap-2 transition-colors"
+                <Avatar
+                  className="w-8 h-8 rounded-full border border-white/90 shadow-2xs bg-gradient-to-br from-amber-50 to-orange-100 text-gray-700 flex items-center justify-center cursor-pointer hover:border-[#e58500]/50 transition-all"
+                >
+                  <Avatar.Fallback className="flex items-center justify-center w-full h-full">
+                    <User className="w-4 h-4 text-gray-700" />
+                  </Avatar.Fallback>
+                </Avatar>
+              </button>
+            </Dropdown.Trigger>
+
+            <Dropdown.Popover className="rounded-2xl border border-white/80 bg-white/95 shadow-xl backdrop-blur-xl p-1.5 min-w-44 z-50 text-xs">
+              <Dropdown.Menu
+                aria-label="Opcje konta"
+                onAction={(key) => {
+                  if (key === 'panel') router.push('/panel');
+                  if (key === 'organizer') router.push('/login/organizer');
+                }}
               >
-                🏢 Logowanie organizacji
-              </Link>
-            </div>
-          </details>
+                <Dropdown.Item
+                  id="panel"
+                  className="rounded-xl px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 flex items-center gap-2 cursor-pointer transition-colors"
+                >
+                  🛡️ Panel ROPS
+                </Dropdown.Item>
+                <Dropdown.Item
+                  id="organizer"
+                  className="rounded-xl px-3 py-2 text-gray-600 hover:bg-gray-100 flex items-center gap-2 cursor-pointer transition-colors"
+                >
+                  🏢 Logowanie organizacji
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown.Popover>
+          </Dropdown>
         </div>
       </div>
     </header>
