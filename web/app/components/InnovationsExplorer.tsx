@@ -392,31 +392,34 @@ function InnovationsExplorerInner() {
 
                   {/* Actions & Expand Footer */}
                   <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between gap-2">
-<<<<<<< Updated upstream
                     <button
                       type="button"
                       onClick={() => toggleExpand(item.id)}
                       className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800"
-=======
-                    <Link
-                      href={`/innovations/${encodeURIComponent(item.slug || String(item.id))}`}
-                      className="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2.5 text-sm font-bold text-indigo-700 transition hover:border-indigo-300 hover:bg-indigo-100"
->>>>>>> Stashed changes
                     >
-                      <span>{isExpanded ? 'Zwiń szczegóły' : 'Opinie & Feedback'}</span>
+                      <span>{isExpanded ? 'Zwiń opinie' : 'Opinie & Feedback'}</span>
                       <span className="transition-transform">{isExpanded ? '▲' : '▼'}</span>
                     </button>
 
-                    {item.availableForTesting && (
+                    <div className="flex items-center gap-2">
                       <Link
-                        href={`/form?tab=idea&problem=${encodeURIComponent(
-                          `Zgłoszenie do testowania innowacji: ${item.title}`
-                        )}`}
-                        className="rounded-lg bg-gray-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-gray-800 transition"
+                        href={`/innovations/${encodeURIComponent(item.slug || String(item.id))}`}
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-xs font-bold text-indigo-700 transition hover:border-indigo-300 hover:bg-indigo-100"
                       >
-                        Aplikuj do testów
+                        Szczegóły <span aria-hidden="true">→</span>
                       </Link>
-                    )}
+
+                      {item.availableForTesting && (
+                        <Link
+                          href={`/form?tab=idea&problem=${encodeURIComponent(
+                            `Zgłoszenie do testowania innowacji: ${item.title}`
+                          )}`}
+                          className="rounded-lg bg-gray-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-gray-800 transition"
+                        >
+                          Aplikuj do testów
+                        </Link>
+                      )}
+                    </div>
                   </div>
 
                   {/* Expanded Content: Feedbacks & Feedback Form */}
