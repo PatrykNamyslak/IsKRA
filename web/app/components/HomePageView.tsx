@@ -264,18 +264,6 @@ export default function HomePageView() {
             </form>
           </div>
 
-          {/* Optional notification email (subtle) */}
-          {activeMode === 'szukam-wsparcia' && (
-            <div className="mt-3 px-2 flex items-center justify-between">
-              <input
-                type="email"
-                value={contactEmail}
-                onChange={(e) => setContactEmail(e.target.value)}
-                placeholder="Twój e-mail (opcjonalny do powiadomień ROPS)"
-                className="w-full sm:w-72 rounded-full bg-white/50 border border-white/70 px-3.5 py-1 text-xs text-gray-700 placeholder-gray-400 outline-none focus:bg-white focus:border-[#e58500]/50 transition-all"
-              />
-            </div>
-          )}
 
           {/* Error Message */}
           {error && (
