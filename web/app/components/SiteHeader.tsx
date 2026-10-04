@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { User } from "lucide-react";
 import { Avatar, Dropdown } from "@heroui/react";
 
 type SiteHeaderProps = {
@@ -55,42 +54,63 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
 
           {/* User Profile Avatar with HeroUI Dropdown */}
           <Dropdown>
-            <Dropdown.Trigger>
-              <button
-                type="button"
-                className="cursor-pointer focus:outline-none rounded-full transition-transform active:scale-95 flex items-center justify-center"
-                aria-label="Menu profilu użytkownika"
+            <Dropdown.Trigger className="rounded-full focus:outline-none cursor-pointer transition-transform flex items-center justify-center p-0.5">
+              <Avatar
+                size="sm"
+                className="transition-transform ring-2 ring-[#e58500] ring-offset-2 ring-offset-white cursor-pointer hover:scale-105 active:scale-95 shadow-sm"
               >
-                <Avatar
-                  className="w-8 h-8 rounded-full border border-white/90 shadow-2xs bg-gradient-to-br from-amber-50 to-orange-100 text-gray-700 flex items-center justify-center cursor-pointer hover:border-[#e58500]/50 transition-all"
-                >
-                  <Avatar.Fallback className="flex items-center justify-center w-full h-full">
-                    <User className="w-4 h-4 text-gray-700" />
-                  </Avatar.Fallback>
-                </Avatar>
-              </button>
+                <Avatar.Image
+                  src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                  alt="Avatar użytkownika"
+                />
+                <Avatar.Fallback className="bg-amber-100 text-amber-900 font-semibold text-xs flex items-center justify-center">
+                  RO
+                </Avatar.Fallback>
+              </Avatar>
             </Dropdown.Trigger>
 
-            <Dropdown.Popover className="rounded-2xl border border-white/80 bg-white/95 shadow-xl backdrop-blur-xl p-1.5 min-w-44 z-50 text-xs">
+            <Dropdown.Popover
+              placement="bottom end"
+              className="min-w-56 rounded-2xl border border-gray-100 bg-white/95 backdrop-blur-xl shadow-xl p-1 z-50 text-xs"
+            >
               <Dropdown.Menu
-                aria-label="Opcje konta"
+                aria-label="Profile Actions"
                 onAction={(key) => {
-                  if (key === 'panel') router.push('/panel');
-                  if (key === 'organizer') router.push('/login/organizer');
+                  if (key === "panel") router.push("/panel");
+                  if (key === "organizer") router.push("/login/organizer");
                 }}
               >
-                <Dropdown.Item
-                  id="panel"
-                  className="rounded-xl px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 flex items-center gap-2 cursor-pointer transition-colors"
-                >
-                  🛡️ Panel ROPS
-                </Dropdown.Item>
-                <Dropdown.Item
-                  id="organizer"
-                  className="rounded-xl px-3 py-2 text-gray-600 hover:bg-gray-100 flex items-center gap-2 cursor-pointer transition-colors"
-                >
-                  🏢 Logowanie organizacji
-                </Dropdown.Item>
+                <Dropdown.Section>
+                  <Dropdown.Item
+                    id="profile"
+                    className="h-12 px-3 py-2 flex flex-col items-start justify-center cursor-default pointer-events-none opacity-100 select-none border-b border-gray-100 mb-1"
+                  >
+                    <p className="text-[11px] font-normal text-gray-500 leading-tight">
+                      Zalogowano jako
+                    </p>
+                    <p className="text-xs font-semibold text-gray-900 leading-tight truncate w-full">
+                      admin@rops.pl
+                    </p>
+                  </Dropdown.Item>
+                </Dropdown.Section>
+
+                <Dropdown.Section>
+                  <Dropdown.Item
+                    id="panel"
+                    className="rounded-xl px-3 py-2 text-xs font-medium text-gray-800 hover:bg-gray-100/80 focus:bg-gray-100 flex items-center gap-2 cursor-pointer transition-colors outline-none"
+                  >
+                    <span className="text-sm">🛡️</span>
+                    <span>Panel ROPS</span>
+                  </Dropdown.Item>
+
+                  <Dropdown.Item
+                    id="organizer"
+                    className="rounded-xl px-3 py-2 text-xs text-gray-700 hover:bg-gray-100/80 focus:bg-gray-100 flex items-center gap-2 cursor-pointer transition-colors outline-none"
+                  >
+                    <span className="text-sm">🏢</span>
+                    <span>Logowanie organizacji</span>
+                  </Dropdown.Item>
+                </Dropdown.Section>
               </Dropdown.Menu>
             </Dropdown.Popover>
           </Dropdown>
