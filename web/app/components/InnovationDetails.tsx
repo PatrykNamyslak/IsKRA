@@ -19,6 +19,7 @@ interface Innovation {
   proposedSolution?: string
   targetGroup?: string
   status?: string
+  organizerNote?: string
   availableForTesting?: boolean
   wantsToImplement?: boolean
   supportNeeded?: string
@@ -43,6 +44,16 @@ const CREATOR_LABELS: Record<NonNullable<Innovation['creatorType']>, string> = {
   application: 'Wniosek o wdrożenie',
   matchmaking_gap: 'Niezaspokojona potrzeba',
   idea_exchange: 'Giełda pomysłów',
+}
+
+const STATUS_LABELS: Record<string, string> = {
+  submitted: 'Zgłoszona',
+  under_review: 'W trakcie weryfikacji',
+  approved: 'Zatwierdzona',
+  in_progress: 'W trakcie realizacji',
+  rejected: 'Odrzucona',
+  testing: 'W trakcie testów',
+  completed: 'Zakończona',
 }
 
 function getCategoryName(category?: string | Category) {
@@ -228,12 +239,29 @@ export default function InnovationDetails({ slug }: Props) {
               <h1 className="mt-5 text-3xl font-extrabold tracking-tight text-gray-950 sm:text-4xl">
                 {innovation.title}
               </h1>
-              <p className="mt-3 text-sm leading-6 text-gray-500">
-                {innovation.status ? `Status: ${innovation.status}` : 'Szczegóły innowacji'}
-                {innovation.createdAt && ` · Dodano ${new Date(innovation.createdAt).toLocaleDateString('pl-PL')}`}
-              </p>
+              <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-gray-500">
+                {innovation.status && (
+                  <span className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 font-semibold text-amber-900">
+                    <span className="size-2 rounded-full bg-amber-500" aria-hidden="true" />
+                    Status: {STATUS_LABELS[innovation.status] ?? innovation.status}
+                  </span>
+                )}
+                {innovation.createdAt && (
+                  <span>Dodano {new Date(innovation.createdAt).toLocaleDateString('pl-PL')}</span>
+                )}
+              </div>
 
               <div className="mt-8 grid gap-5">
+                {innovation.organizerNote?.trim() && (
+                  <aside className="rounded-2xl border border-[#e58500]/25 bg-[#fff8ed] p-5 sm:p-6">
+                    <p className="text-xs font-bold uppercase tracking-wider text-[#a65d00]">
+                      Aktualizacja organizatora
+                    </p>
+                    <p className="mt-2 whitespace-pre-wrap text-sm leading-7 text-gray-800">
+                      {innovation.organizerNote}
+                    </p>
+                  </aside>
+                )}
                 {innovation.patientProblem && (
                   <DetailSection title="Problem, na który odpowiada">
                     {innovation.patientProblem}

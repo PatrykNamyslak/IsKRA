@@ -209,7 +209,14 @@ export interface Innovation {
   contactPhone?: string | null;
   organization?: (number | null) | Organization;
   ropsReport?: string | null;
-  status: 'submitted' | 'under_review' | 'approved' | 'rejected' | 'testing' | 'completed';
+  /**
+   * Krótka informacja o postępach i trudnościach. Jest widoczna na publicznej stronie innowacji.
+   */
+  organizerNote?: string | null;
+  /**
+   * Status widoczny publicznie na stronie szczegółów innowacji.
+   */
+  status: 'submitted' | 'under_review' | 'approved' | 'in_progress' | 'rejected' | 'testing' | 'completed';
   feasibility?: {
     technicalAssessment?: string | null;
     financialAssessment?: string | null;
@@ -447,6 +454,7 @@ export interface InnovationsSelect<T extends boolean = true> {
   contactPhone?: T;
   organization?: T;
   ropsReport?: T;
+  organizerNote?: T;
   status?: T;
   feasibility?:
     | T
