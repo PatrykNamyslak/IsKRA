@@ -1,0 +1,100 @@
+.peek-rating {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+  padding-top: var(--pr-room);
+}
+
+.peek-rating__row {
+  display: flex;
+  align-items: center;
+  gap: var(--pr-gap);
+  position: relative;
+  touch-action: none;
+}
+
+.peek-rating__tip {
+  position: absolute;
+  top: calc(-1 * var(--pr-room));
+  left: 0;
+  pointer-events: none;
+  background: var(--pr-tip);
+  color: var(--pr-tip-text);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, 0);
+  transition: opacity 150ms ease, transform 150ms cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.peek-rating__tip[data-show="true"] {
+  opacity: 1;
+}
+
+.peek-rating__tip[data-show="false"] {
+  opacity: 0;
+}
+
+.peek-rating__star {
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  line-height: 1;
+}
+
+.peek-rating__star:focus-visible {
+  outline: none;
+}
+
+.peek-rating__lift {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center bottom;
+  will-change: transform;
+  transition: transform var(--pr-rise) cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.peek-rating[data-instant="true"] .peek-rating__lift {
+  transition: none !important;
+}
+
+.peek-rating__glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pr-idle);
+  transition: color 150ms ease;
+  transform-origin: center;
+}
+
+.peek-rating__star-fill {
+  display: none;
+}
+
+.peek-rating__star-outline {
+  display: inline-flex;
+  color: var(--pr-idle);
+}
+
+.peek-rating__glyph[data-lit="true"] .peek-rating__star-fill {
+  display: inline-flex;
+  color: var(--pr-active);
+}
+
+.peek-rating__glyph[data-lit="true"] .peek-rating__star-outline {
+  display: none;
+}
