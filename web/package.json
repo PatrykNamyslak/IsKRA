@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "generate:importmap": "payload generate:importmap",
-    "generate:types": "payload generate:types"
+    "generate:types": "payload generate:types",
+    "test:chats": "node scripts/test-chats.mjs"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
