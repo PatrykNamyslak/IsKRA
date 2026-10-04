@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import NextLink from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Avatar, Dropdown } from "@heroui/react";
+import { Avatar, Dropdown, Link } from "@heroui/react";
 
 type SiteHeaderProps = {
     audience?: "user" | "organizer" | "research";
@@ -17,7 +17,7 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
         <header className="sticky top-3 sm:top-4 z-50 w-full px-4 sm:px-6 pointer-events-none transition-all">
             <div className="mx-auto flex w-full max-w-4xl sm:max-w-5xl items-center justify-between rounded-full bg-white/50 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] px-5 sm:px-6 py-3 sm:py-3.5 pointer-events-auto transition-all">
                 {/* Brand Logo */}
-                <Link href="/" className="flex items-center gap-2.5 group">
+                <NextLink href="/" className="flex items-center gap-2.5 group">
                     <Image
                         src="/iskra.svg"
                         alt="IsKRA"
@@ -32,7 +32,7 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                             ROPS
                         </span>
                     </div>
-                </Link>
+                </NextLink>
 
                 {/* Navigation Menu */}
                 <div className="flex items-center gap-5 sm:gap-6">
@@ -40,12 +40,14 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                         href="/innovations"
                         className="text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
                         Baza pomysłów
+                        <Link.Icon />
                     </Link>
 
                     <Link
                         href="/form"
                         className="text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
                         Zgłoś pomysł
+                        <Link.Icon />
                     </Link>
 
                     {/* User Profile Avatar with HeroUI Dropdown */}
