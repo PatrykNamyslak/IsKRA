@@ -10,6 +10,8 @@ import { Organizations } from './collections/Organizations'
 import { Innovations } from './collections/Innovations'
 import { Feedbacks } from './collections/Feedbacks'
 import { UnmatchedQueries } from './collections/UnmatchedQueries'
+import {ChatMessages} from "@/collections/ChatMessages";
+import {TesterChats} from "@/collections/TesterChat";
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,7 +26,7 @@ export default buildConfig({
   routes: {
     admin: '/panel',
   },
-  collections: [Users, Organizations, Innovations, Feedbacks, UnmatchedQueries],
+  collections: [Users, Organizations, Innovations, Feedbacks, UnmatchedQueries, ChatMessages, TesterChats],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'hackyeah2026-payload-secret-key-1234567890',
   typescript: {
