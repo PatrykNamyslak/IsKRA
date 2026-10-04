@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { Tabs, Button } from '@heroui/react'
 import {
   ArrowUp,
   ArrowRight,
@@ -162,40 +163,43 @@ export default function HomePageView() {
           className="w-full bg-white/40 border border-white/60 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.1)] rounded-[2.5rem] p-3 flex flex-col transition-all"
           style={{ backdropFilter: 'blur(40px) saturate(150%)', WebkitBackdropFilter: 'blur(40px) saturate(150%)' }}
         >
-          {/* Segmented Control */}
-          <div className="flex bg-black/[0.04] p-1 rounded-full mb-3" role="tablist">
-            <button
-              type="button"
-              onClick={() => {
-                setActiveMode('szukam-wsparcia')
-              }}
-              className={`flex-1 py-2 text-sm font-medium rounded-full transition-all focus:outline-none cursor-pointer ${
-                activeMode === 'szukam-wsparcia'
-                  ? 'bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.05)]'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-              role="tab"
-              aria-selected={activeMode === 'szukam-wsparcia'}
-            >
-              Szukam wsparcia
-            </button>
+          {/* Segmented Control with HeroUI Tabs */}
+          <Tabs
+            selectedKey={activeMode}
+            onSelectionChange={(key) => setActiveMode(key as Mode)}
+            className="w-full mb-3"
+          >
+            <Tabs.ListContainer className="w-full">
+              <Tabs.List
+                aria-label="Wybór trybu projektu"
+                className="w-full flex bg-black/[0.04] p-1 rounded-full border border-white/60 backdrop-blur-md relative"
+              >
+                <Tabs.Tab
+                  id="szukam-wsparcia"
+                  className={`flex-1 py-2 text-sm font-medium rounded-full transition-all focus:outline-none cursor-pointer text-center relative z-10 ${
+                    activeMode === 'szukam-wsparcia'
+                      ? 'bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.05)]'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  Szukam wsparcia
+                  <Tabs.Indicator className="rounded-full" />
+                </Tabs.Tab>
 
-            <button
-              type="button"
-              onClick={() => {
-                setActiveMode('zglaszam-pomysl')
-              }}
-              className={`flex-1 py-2 text-sm font-medium rounded-full transition-all focus:outline-none cursor-pointer ${
-                activeMode === 'zglaszam-pomysl'
-                  ? 'bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.05)]'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-              role="tab"
-              aria-selected={activeMode === 'zglaszam-pomysl'}
-            >
-              Zgłaszam pomysł dla ROPS
-            </button>
-          </div>
+                <Tabs.Tab
+                  id="zglaszam-pomysl"
+                  className={`flex-1 py-2 text-sm font-medium rounded-full transition-all focus:outline-none cursor-pointer text-center relative z-10 ${
+                    activeMode === 'zglaszam-pomysl'
+                      ? 'bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.05)]'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  Zgłaszam pomysł dla ROPS
+                  <Tabs.Indicator className="rounded-full" />
+                </Tabs.Tab>
+              </Tabs.List>
+            </Tabs.ListContainer>
+          </Tabs>
 
           {/* Input Area */}
           <div className="relative w-full">
@@ -223,10 +227,11 @@ export default function HomePageView() {
               />
 
               <div className="absolute bottom-3 right-3 flex items-center gap-3">
-                <button
+                <Button
                   type="submit"
-                  disabled={isLoading || !prompt.trim()}
-                  className="bg-[#e58500] hover:bg-[#cc7700] disabled:bg-gray-400 text-white p-3.5 rounded-2xl shadow-md transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#e58500] focus:ring-offset-transparent flex items-center justify-center cursor-pointer disabled:cursor-not-allowed"
+                  isIconOnly
+                  isDisabled={isLoading || !prompt.trim()}
+                  className="bg-[#e58500] hover:bg-[#cc7700] text-white p-3.5 rounded-2xl shadow-md transition-transform active:scale-95 disabled:bg-gray-400 disabled:opacity-50 flex items-center justify-center cursor-pointer min-w-12 h-12"
                   aria-label="Przetwórz pomysł"
                 >
                   {isLoading ? (
@@ -253,7 +258,7 @@ export default function HomePageView() {
                   ) : (
                     <ArrowUp className="w-5 h-5 stroke-[2.5px]" />
                   )}
-                </button>
+                </Button>
               </div>
             </form>
           </div>
