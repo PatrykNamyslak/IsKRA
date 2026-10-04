@@ -24,7 +24,9 @@ export default buildConfig({
     theme: 'light',
     meta: {
       titleSuffix: ' | IsKra Małopolska',
-      favicon: '/iskra.svg',
+      icons: {
+        icon: '/favicon.ico',
+      },
     },
     components: {
       beforeDashboard: ['/app/components/AdminWelcome'],
