@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Sparkles, User } from "lucide-react";
+import Image from "next/image";
+import { User } from "lucide-react";
 
 type SiteHeaderProps = {
   audience?: "user" | "organizer" | "research";
@@ -10,12 +11,17 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
 
   return (
     <header className="sticky top-3 sm:top-4 z-50 w-full px-4 sm:px-6 pointer-events-none transition-all">
-      <div className="mx-auto flex w-full max-w-4xl sm:max-w-5xl items-center justify-between rounded-full bg-white/50 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] px-5 sm:px-6 py-2.5 pointer-events-auto transition-all">
+      <div className="mx-auto flex w-full max-w-4xl sm:max-w-5xl items-center justify-between rounded-full bg-white/50 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] px-5 sm:px-6 py-2 pointer-events-auto transition-all">
         {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-b from-gray-800 to-gray-900 shadow-sm border border-gray-700/50 flex items-center justify-center text-white transition-transform group-hover:scale-105">
-            <Sparkles className="w-4 h-4 text-[#e58500]" />
-          </div>
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <Image
+            src="/iskra.svg"
+            alt="IsKRA"
+            width={26}
+            height={29}
+            className="w-6.5 h-auto transition-transform group-hover:scale-110"
+            priority
+          />
           <div className="flex items-center gap-2 mt-0.5">
             <span className="font-semibold text-gray-900 tracking-tight leading-none text-base">
               IsKRA
