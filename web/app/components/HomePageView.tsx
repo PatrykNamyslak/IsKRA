@@ -158,11 +158,8 @@ export default function HomePageView() {
           Czego potrzebuje Twój projekt?
         </h1>
 
-        {/* Liquid Glass Unified Panel */}
-        <div
-          className="w-full bg-white/40 border border-white/60 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.1)] rounded-[2.5rem] p-4 sm:p-5 flex flex-col transition-all"
-          style={{ backdropFilter: 'blur(40px) saturate(150%)', WebkitBackdropFilter: 'blur(40px) saturate(150%)' }}
-        >
+        {/* Command Center Container */}
+        <div className="w-full flex flex-col transition-all">
           {/* Segmented Control with HeroUI Tabs */}
           <Tabs
             selectedKey={activeMode}
