@@ -16,7 +16,7 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     return (
-        <header className="sticky top-3 sm:top-4 z-50 w-full px-4 sm:px-6 pointer-events-none">
+        <header className="sticky top-3 sm:top-4 z-50 w-full px-4 sm:px-6 pointer-events-none mb-3 sm:mb-1">
             <div className="mx-auto w-full max-w-4xl sm:max-w-5xl relative pointer-events-auto">
                 <div className="w-full rounded-full bg-white/60 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] px-5 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between">
                     {/* Brand Logo */}
@@ -29,9 +29,6 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                             className="h-6.5 w-auto transition-transform group-hover:scale-105"
                             priority
                         />
-                        <span className="px-1.5 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-gray-200/80 text-gray-500 leading-none">
-                            ROPS
-                        </span>
                     </NextLink>
 
                     {/* Desktop Navigation Menu */}

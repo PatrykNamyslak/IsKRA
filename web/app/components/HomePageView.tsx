@@ -153,30 +153,30 @@ export default function HomePageView() {
   return (
     <div className="bg-transparent text-gray-900 font-sans antialiased h-full flex flex-col justify-between relative selection:bg-brand selection:text-white overflow-hidden">
       {/* Main Content: Optically Centered Command Center */}
-      <main className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4 py-4 relative z-10">
-        <h1 className="text-2xl sm:text-3xl font-medium tracking-tight text-gray-800 mb-4 sm:mb-6 text-center">
+      <main className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4 pt-6 pb-4 sm:py-6 relative z-10">
+        <h1 className="text-xl sm:text-3xl font-medium tracking-tight text-gray-800 mb-5 sm:mb-6 text-center">
           Czego potrzebuje Twój projekt?
         </h1>
 
         {/* Liquid Glass Unified Panel */}
         <div
-          className="w-full bg-white/40 border border-white/60 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.1)] rounded-[2.5rem] p-3 flex flex-col transition-all"
+          className="w-full bg-white/40 border border-white/60 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.1)] rounded-[2.5rem] p-4 sm:p-5 flex flex-col transition-all"
           style={{ backdropFilter: 'blur(40px) saturate(150%)', WebkitBackdropFilter: 'blur(40px) saturate(150%)' }}
         >
           {/* Segmented Control with HeroUI Tabs */}
           <Tabs
             selectedKey={activeMode}
             onSelectionChange={(key) => setActiveMode(key as Mode)}
-            className="w-full mb-3"
+            className="w-full mb-3.5 pt-0.5"
           >
-            <Tabs.ListContainer className="w-full">
+            <Tabs.ListContainer className="w-full p-0.5">
               <Tabs.List
                 aria-label="Wybór trybu projektu"
-                className="w-full flex bg-black/[0.04] p-1 rounded-full border border-white/60 backdrop-blur-md relative"
+                className="w-full flex bg-black/[0.04] p-1.5 rounded-full border border-white/60 backdrop-blur-md relative"
               >
                 <Tabs.Tab
                   id="szukam-wsparcia"
-                  className={`flex-1 py-2 text-sm font-medium rounded-full transition-all focus:outline-none cursor-pointer text-center relative z-10 ${
+                  className={`flex-1 py-2 sm:py-2.5 px-3 text-xs sm:text-sm font-medium rounded-full transition-all focus:outline-none cursor-pointer text-center relative z-10 ${
                     activeMode === 'szukam-wsparcia'
                       ? 'bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.05)]'
                       : 'text-gray-500 hover:text-gray-700'
@@ -188,7 +188,7 @@ export default function HomePageView() {
 
                 <Tabs.Tab
                   id="zglaszam-pomysl"
-                  className={`flex-1 py-2 text-sm font-medium rounded-full transition-all focus:outline-none cursor-pointer text-center relative z-10 ${
+                  className={`flex-1 py-2 sm:py-2.5 px-3 text-xs sm:text-sm font-medium rounded-full transition-all focus:outline-none cursor-pointer text-center relative z-10 ${
                     activeMode === 'zglaszam-pomysl'
                       ? 'bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.05)]'
                       : 'text-gray-500 hover:text-gray-700'
@@ -218,7 +218,7 @@ export default function HomePageView() {
                   }
                 }}
                 disabled={isLoading}
-                className="w-full bg-white/40 border border-white/50 focus:bg-white/70 focus:border-white rounded-[2rem] p-6 pr-20 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 resize-none min-h-[160px] text-[1.05rem] leading-relaxed shadow-inner transition-all duration-300 disabled:opacity-50"
+                className="w-full bg-white/40 border border-white/50 focus:bg-white/70 focus:border-white rounded-[2rem] p-5 sm:p-6 pr-18 sm:pr-20 text-gray-900 placeholder:text-xs sm:placeholder:text-sm placeholder:text-gray-500/80 focus:outline-none focus:ring-0 resize-none min-h-[140px] sm:min-h-[160px] text-sm sm:text-base leading-relaxed shadow-inner transition-all duration-300 disabled:opacity-50"
                 placeholder={
                   activeMode === 'szukam-wsparcia'
                     ? 'Opisz innowację. System skataloguje ją i znajdzie odpowiednią ścieżkę realizacji...'
@@ -226,12 +226,11 @@ export default function HomePageView() {
                 }
               />
 
-              <div className="absolute bottom-3 right-3 flex items-center gap-3">
+              <div className="mt-2.5 flex justify-end sm:mt-0 sm:absolute sm:bottom-3 sm:right-3">
                 <Button
                   type="submit"
-                  isIconOnly
                   isDisabled={isLoading || !prompt.trim()}
-                  className="bg-brand hover:bg-brand-hover text-white p-3.5 rounded-2xl shadow-md transition-transform active:scale-95 disabled:bg-gray-400 disabled:opacity-50 flex items-center justify-center cursor-pointer min-w-12 h-12"
+                  className="w-full sm:w-auto bg-brand hover:bg-brand-hover text-white py-3 px-5 sm:p-3.5 rounded-2xl shadow-md transition-transform active:scale-95 disabled:bg-gray-400 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer sm:min-w-12 h-11 sm:h-12 text-xs sm:text-sm font-semibold"
                   aria-label="Przetwórz pomysł"
                 >
                   {isLoading ? (
@@ -256,7 +255,12 @@ export default function HomePageView() {
                       />
                     </svg>
                   ) : (
-                    <ArrowUp className="w-5 h-5 stroke-[2.5px]" />
+                    <>
+                      <span className="sm:hidden">
+                        {activeMode === 'szukam-wsparcia' ? 'Szukaj wsparcia' : 'Przejdź do formularza'}
+                      </span>
+                      <ArrowUp className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5px]" />
+                    </>
                   )}
                 </Button>
               </div>
