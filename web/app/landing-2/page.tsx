@@ -16,11 +16,10 @@ export default function IsKRA() {
 
     setIsSubmitting(true);
     
-    // Simulate API call to your backend
+    // Wire up your fetch/axios call to your backend endpoint here
     try {
-      console.log('Submitting to ROPS matching engine:', { mode: activeMode, prompt });
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      // Handle success (e.g., route to success page or show toast)
+      console.log('Submitting payload:', { mode: activeMode, prompt });
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated network delay
       setPrompt('');
     } catch (error) {
       console.error('Submission failed', error);
@@ -73,6 +72,7 @@ export default function IsKRA() {
           {/* Segmented Control */}
           <div className="flex bg-black/[0.04] p-1 rounded-full mb-3" role="tablist">
             <button 
+              type="button"
               onClick={() => setActiveMode('szukam-wsparcia')}
               className={`flex-1 py-2 text-sm font-medium rounded-full transition-all focus:outline-none ${
                 activeMode === 'szukam-wsparcia' 
@@ -86,6 +86,7 @@ export default function IsKRA() {
             </button>
             
             <button 
+              type="button"
               onClick={() => setActiveMode('zglaszam-pomysl')}
               className={`flex-1 py-2 text-sm font-medium rounded-full transition-all focus:outline-none ${
                 activeMode === 'zglaszam-pomysl' 
@@ -101,7 +102,7 @@ export default function IsKRA() {
 
           {/* Input Area */}
           <div className="relative w-full">
-            <form onSubmit={handleSubmit} className="relative group">
+            <form onSubmit={handleSubmit} className="relative group flex flex-col">
               <label htmlFor="ai-prompt" className="sr-only">Opisz swój pomysł</label>
               <textarea 
                 id="ai-prompt"
@@ -143,7 +144,7 @@ export default function IsKRA() {
       <footer className="w-full px-6 py-6 md:px-10 md:py-8 flex flex-col md:flex-row justify-between items-center relative z-50 gap-4 mt-auto">
         <div className="flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
-          <span className="text-xs font-medium text-gray-400">System gotowy</span>
+          <span className="text-xs font-medium text-gray-400">System operacyjny gotowy</span>
         </div>
 
         <div className="flex items-center gap-5 text-xs font-medium text-gray-400">
