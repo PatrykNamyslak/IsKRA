@@ -190,6 +190,11 @@ export interface Category {
  */
 export interface Innovation {
   id: number;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
   title: string;
   creatorType: 'application' | 'matchmaking_gap' | 'idea_exchange';
   wantsToImplement?: boolean | null;
@@ -426,6 +431,8 @@ export interface CategoriesSelect<T extends boolean = true> {
  * via the `definition` "innovations_select".
  */
 export interface InnovationsSelect<T extends boolean = true> {
+  generateSlug?: T;
+  slug?: T;
   title?: T;
   creatorType?: T;
   wantsToImplement?: T;

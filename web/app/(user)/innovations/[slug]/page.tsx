@@ -1,18 +1,18 @@
 import InnovationDetails from '@/app/components/InnovationDetails'
 
 interface PageProps {
-  params: Promise<{ id: string }>
+  params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const { id } = await params
+  const { slug } = await params
   return {
-    title: `Szczegóły innowacji ${id} | ROPS`,
+    title: `Szczegóły innowacji | ROPS`,
     description: 'Szczegóły innowacji, oceny i komentarze społeczności.',
   }
 }
 
 export default async function InnovationDetailsPage({ params }: PageProps) {
-  const { id } = await params
-  return <InnovationDetails innovationId={id} />
+  const { slug } = await params
+  return <InnovationDetails slug={slug} />
 }
