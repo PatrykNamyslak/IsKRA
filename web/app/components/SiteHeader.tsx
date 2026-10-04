@@ -98,18 +98,16 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                 <Dropdown.Section>
                   <Dropdown.Item
                     id="panel"
-                    className="rounded-xl px-3 py-2 text-xs font-medium text-gray-800 hover:bg-gray-100/80 focus:bg-gray-100 flex items-center gap-2 cursor-pointer transition-colors outline-none"
+                    className="rounded-xl px-3 py-2 text-xs font-medium text-gray-800 hover:bg-gray-100/80 focus:bg-gray-100 cursor-pointer transition-colors outline-none"
                   >
-                    <span className="text-sm">🛡️</span>
-                    <span>Panel ROPS</span>
+                    Panel ROPS
                   </Dropdown.Item>
 
                   <Dropdown.Item
                     id="organizer"
-                    className="rounded-xl px-3 py-2 text-xs text-gray-700 hover:bg-gray-100/80 focus:bg-gray-100 flex items-center gap-2 cursor-pointer transition-colors outline-none"
+                    className="rounded-xl px-3 py-2 text-xs text-gray-700 hover:bg-gray-100/80 focus:bg-gray-100 cursor-pointer transition-colors outline-none"
                   >
-                    <span className="text-sm">🏢</span>
-                    <span>Logowanie organizacji</span>
+                    Logowanie organizacji
                   </Dropdown.Item>
                 </Dropdown.Section>
               </Dropdown.Menu>
