@@ -8,7 +8,7 @@ export const metadata = {
 export default function PageInnovations() {
   return (
     <div className="min-h-screen bg-transparent pb-16">
-      <InnovationsExplorer />
+      <InnovationsExplorer /> 
     </div>
   )
 }

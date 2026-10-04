@@ -166,7 +166,7 @@ export default function HomePageView() {
             onSelectionChange={(key) => setActiveMode(key as Mode)}
             className="w-full mb-3.5 pt-0.5"
           >
-            <Tabs.ListContainer className="w-full p-0.5">
+            <Tabs.ListContainer className="w-full border-0 bg-transparent p-0 shadow-none">
               <Tabs.List
                 aria-label="Wybór trybu projektu"
                 className="w-full flex bg-black/[0.04] p-1.5 rounded-full border border-white/60 backdrop-blur-md relative"
@@ -175,24 +175,22 @@ export default function HomePageView() {
                   id="szukam-wsparcia"
                   className={`flex-1 py-2 sm:py-2.5 px-3 text-xs sm:text-sm font-medium rounded-full transition-all focus:outline-none cursor-pointer text-center relative z-10 ${
                     activeMode === 'szukam-wsparcia'
-                      ? 'bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.05)]'
+                      ? 'bg-white text-gray-900'
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >
                   Szukam wsparcia
-                  <Tabs.Indicator className="rounded-full" />
                 </Tabs.Tab>
 
                 <Tabs.Tab
                   id="zglaszam-pomysl"
                   className={`flex-1 py-2 sm:py-2.5 px-3 text-xs sm:text-sm font-medium rounded-full transition-all focus:outline-none cursor-pointer text-center relative z-10 ${
                     activeMode === 'zglaszam-pomysl'
-                      ? 'bg-white text-gray-900 shadow-[0_1px_3px_rgba(0,0,0,0.05)]'
+                      ? 'bg-white text-gray-900'
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >
                   Zgłaszam pomysł dla ROPS
-                  <Tabs.Indicator className="rounded-full" />
                 </Tabs.Tab>
               </Tabs.List>
             </Tabs.ListContainer>
