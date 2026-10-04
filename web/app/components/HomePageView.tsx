@@ -230,7 +230,7 @@ export default function HomePageView() {
                 <Button
                   type="submit"
                   isDisabled={isLoading || !prompt.trim()}
-                  className="w-full sm:w-auto bg-brand hover:bg-brand-hover text-white py-3 px-5 sm:p-3.5 rounded-2xl shadow-md transition-transform active:scale-95 disabled:bg-gray-400 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer sm:min-w-12 h-11 sm:h-12 text-xs sm:text-sm font-semibold"
+                  className="w-full sm:w-auto bg-brand hover:bg-brand-hover text-white py-3 px-5 sm:p-3.5 rounded-full shadow-md transition-transform active:scale-95 disabled:bg-gray-400 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer sm:min-w-12 h-11 sm:h-12 text-xs sm:text-sm font-semibold"
                   aria-label="Przetwórz pomysł"
                 >
                   {isLoading ? (
