@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Sparkles, User } from "lucide-react";
 
 type SiteHeaderProps = {
   audience?: "user" | "organizer" | "research";
@@ -8,116 +9,61 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
   const isOrganizer = audience === "organizer";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 shadow-xs backdrop-blur-md">
-      <nav
-        aria-label="Nawigacja główna"
-        className="mx-auto flex min-h-20 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-8"
-      >
-        <Link
-          href="/"
-          aria-label="Przejdź do strony głównej"
-          className="flex h-12 w-32 shrink-0 items-center sm:w-40"
-        >
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 160 48"
-            className="h-12 w-32 sm:w-40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect x="2" y="4" width="40" height="40" rx="14" fill="#312E81" />
-            <path
-              d="M13 27.5 21.5 18l8.5 9.5M21.5 18v16M13 34h17"
-              stroke="#A5F3FC"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <circle cx="34" cy="13" r="4" fill="#FBBF24" />
-            <text
-              x="50"
-              y="23"
-              fill="#1F2937"
-              fontFamily="Arial, sans-serif"
-              fontSize="15"
-              fontWeight="700"
-              letterSpacing="1"
-            >
-              INNO
-            </text>
-            <text
-              x="50"
-              y="37"
-              fill="#6B7280"
-              fontFamily="Arial, sans-serif"
-              fontSize="8"
-              fontWeight="600"
-              letterSpacing="1.4"
-            >
-              MOST
-            </text>
-          </svg>
+    <header className="sticky top-0 z-50 w-full px-6 py-4 md:px-10 flex justify-between items-center bg-[#f5f5f7]/80 backdrop-blur-md border-b border-black/[0.04] transition-all">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
+        {/* Brand Logo from landing-2 */}
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-b from-gray-800 to-gray-900 shadow-sm border border-gray-700/50 flex items-center justify-center text-white transition-transform group-hover:scale-105">
+            <Sparkles className="w-4 h-4 text-[#e58500]" />
+          </div>
+          <div className="flex items-center gap-2 mt-0.5">
+            <span className="font-semibold text-gray-900 tracking-tight leading-none text-base">
+              IsKRA
+            </span>
+            <span className="px-1.5 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-gray-200 text-gray-500 leading-none">
+              ROPS
+            </span>
+          </div>
         </Link>
 
-        <div className="flex items-center justify-end gap-2 sm:gap-3">
+        {/* Navigation Menu from landing-2 */}
+        <div className="flex items-center gap-5 sm:gap-6">
           <Link
-            href="/"
-            className="rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+            href="/innovations"
+            className="text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
           >
-            Matchmaking
+            Baza pomysłów
           </Link>
 
           <Link
             href="/form"
-            className="rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+            className="text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
           >
-            Zgłoś innowację
+            Zgłoś pomysł
           </Link>
 
-          <Link
-            href="/innovations"
-            className="rounded-lg px-3 py-2 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-100 sm:px-4"
-          >
-            Katalog innowacji
-          </Link>
-
-          <Link
-            href="/panel"
-            className="rounded-lg border border-indigo-200 bg-white px-3 py-1.5 text-xs sm:text-sm font-bold text-indigo-700 transition hover:bg-indigo-50"
-          >
-            Panel ROPS
-          </Link>
-
-          {isOrganizer ? (
-            <Link
-              href="/"
-              className="rounded-lg bg-gray-900 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-gray-700 sm:px-4"
-            >
-              Wyloguj
-            </Link>
-          ) : (
-            <details className="group relative">
-              <summary className="cursor-pointer list-none rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 transition-colors hover:bg-gray-100 sm:px-4">
-                Zaloguj się
-              </summary>
-              <div className="absolute right-0 top-full mt-2 flex min-w-48 flex-col rounded-xl border border-gray-200 bg-white p-1 shadow-lg z-50">
-                <Link
-                  href="/login/organizer"
-                  className="rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  🏢 Jako organizacja
-                </Link>
-                <Link
-                  href="/panel"
-                  className="rounded-md px-3 py-2 text-sm font-semibold text-indigo-600 hover:bg-indigo-50"
-                >
-                  🛡️ Administrator ROPS
-                </Link>
-              </div>
-            </details>
-          )}
+          {/* User Profile / Panel dropdown / button */}
+          <details className="group relative">
+            <summary className="cursor-pointer list-none flex items-center justify-center w-8 h-8 rounded-full bg-white/70 border border-white hover:bg-white transition-all shadow-2xs text-gray-600 hover:text-gray-900 focus:outline-none">
+              <User className="w-4 h-4" />
+            </summary>
+            <div className="absolute right-0 top-full mt-2 flex min-w-44 flex-col rounded-2xl border border-white/80 bg-white/95 p-1.5 shadow-xl backdrop-blur-xl z-50 text-xs">
+              <Link
+                href="/panel"
+                className="rounded-xl px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 flex items-center gap-2 transition-colors"
+              >
+                🛡️ Panel ROPS
+              </Link>
+              <Link
+                href="/login/organizer"
+                className="rounded-xl px-3 py-2 text-gray-600 hover:bg-gray-100 flex items-center gap-2 transition-colors"
+              >
+                🏢 Logowanie organizacji
+              </Link>
+            </div>
+          </details>
         </div>
-      </nav>
+      </div>
     </header>
   );
 }
