@@ -84,21 +84,16 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                     {/* Brand Logo */}
                     <NextLink href="/" className="flex items-center gap-2.5 group shrink-0">
                         <Image
-                            src="/iskra-full.svg"
-                            alt="IsKRA"
-                            width={120}
-                            height={10}
-                            className="md:h-6 h-5 lg:h-7 hidden xsm:block transition-transform group-hover:scale-105"
+                            src="/iskra-icon.svg"
+                            alt=""
+                            width={44}
+                            height={49}
+                            className="h-6 w-auto transition-transform group-hover:scale-105"
                             priority
                         />
-                        <Image
-                            src="/iskra.svg"
-                            alt="IsKRA"
-                            width={10}
-                            height={10}
-                            className="md:h-6 w-6 h-5 lg:h-7 block xsm:hidden transition-transform group-hover:scale-105"
-                            priority
-                        />
+                        <span className="text-sm font-bold tracking-tight text-gray-800 sm:text-base">
+                            IsKra <span className="font-medium text-gray-500">Małopolska</span>
+                        </span>
                     </NextLink>
 
                     {/* Desktop Navigation Menu */}
@@ -117,7 +112,14 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                             <Link.Icon />
                         </Link>
 
-                        {/* User Profile Avatar with Dropdown */}
+                        <Link
+                            href="/tester"
+                            className="text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+                            Chcę zostać testerem
+                            <Link.Icon />
+                        </Link>
+
+                        {/* User Profile Avatar with HeroUI Dropdown */}
                         <Dropdown>
                             <Dropdown.Trigger className="rounded-full focus:outline-none cursor-pointer transition-transform flex items-center justify-center p-0.5">
                                 <Avatar
@@ -325,6 +327,14 @@ export default function SiteHeader({ audience }: SiteHeaderProps) {
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 className="w-full px-4 py-2.5 rounded-2xl hover:bg-black/[0.04] text-xs font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center justify-between">
                                 Zgłoś pomysł
+                                <Link.Icon />
+                            </Link>
+
+                            <Link
+                                href="/tester"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="w-full px-4 py-2.5 rounded-2xl hover:bg-black/[0.04] text-xs font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center justify-between">
+                                Chcę zostać testerem
                                 <Link.Icon />
                             </Link>
                         </motion.div>

@@ -13,6 +13,7 @@ import { Feedbacks } from './collections/Feedbacks'
 import { UnmatchedQueries } from './collections/UnmatchedQueries'
 import {ChatMessages} from "@/collections/ChatMessages";
 import {TesterChats} from "@/collections/TesterChat";
+import {WantToTest} from "@/collections/Testers";
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -20,6 +21,26 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     user: Users.slug,
+    theme: 'light',
+    meta: {
+      titleSuffix: ' | IsKra Małopolska',
+      icons: {
+        icon: '/favicon.ico',
+      },
+    },
+    components: {
+      beforeDashboard: ['/app/components/AdminWelcome'],
+      afterNavLinks: ['/app/components/AdminInnovationNavLink'],
+      graphics: {
+        Logo: '/app/components/AdminBrand',
+      },
+      views: {
+        innovationManagement: {
+          path: '/innovation-management',
+          Component: '/app/components/InnovationManagement',
+        },
+      },
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
@@ -27,10 +48,10 @@ export default buildConfig({
   routes: {
     admin: '/panel',
   },
-  collections: [Users, Organizations, Categories, Innovations, Feedbacks, UnmatchedQueries, ChatMessages, TesterChats],
+  collections: [Users, Organizations, Categories, Innovations, Feedbacks, UnmatchedQueries, ChatMessages, TesterChats, WantToTest],
   editor: lexicalEditor(),
   // Payload must not sign session tokens with a publicly known fallback key.
-  secret: process.env.PAYLOAD_SECRET as string,
+  secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },

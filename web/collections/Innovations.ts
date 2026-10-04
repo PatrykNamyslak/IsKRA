@@ -192,15 +192,33 @@ export const Innovations: CollectionConfig = {
       label: 'Raport ROPS',
     },
     {
+      name: 'organizerNote',
+      type: 'textarea',
+      label: 'Aktualizacja organizatora',
+      admin: {
+        description: 'Krótka informacja o postępach i trudnościach. Jest widoczna na publicznej stronie innowacji.',
+      },
+      access: {
+        update: ({ req: { user } }) => user?.role === 'admin',
+      },
+    },
+    {
       name: 'status',
       type: 'select',
       required: true,
       defaultValue: 'submitted',
       label: 'Status innowacji',
+      admin: {
+        description: 'Status widoczny publicznie na stronie szczegółów innowacji.',
+      },
+      access: {
+        update: ({ req: { user } }) => user?.role === 'admin',
+      },
       options: [
         { label: 'Zgłoszona', value: 'submitted' },
         { label: 'W trakcie weryfikacji', value: 'under_review' },
         { label: 'Zatwierdzona', value: 'approved' },
+        { label: 'W trakcie realizacji', value: 'in_progress' },
         { label: 'Odrzucona', value: 'rejected' },
         { label: 'W trakcie testów', value: 'testing' },
         { label: 'Zakończona', value: 'completed' },
