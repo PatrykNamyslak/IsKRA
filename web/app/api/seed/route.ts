@@ -4,6 +4,7 @@ import config from '@payload-config'
 import fs from 'fs'
 import path from 'path'
 import { ROPS_CATEGORIES, RopsCategory } from '@/lib/categories'
+import { slugify } from '@/lib/slugify'
 
 export async function GET(req: NextRequest) {
   return handleSeed(req)
@@ -245,6 +246,7 @@ async function handleSeed(req: NextRequest) {
             collection: 'innovations',
             overrideAccess: true,
             data: {
+              slug: slugify(item.title),
               title: item.title,
               category: categoryId,
               creatorType: 'application',
