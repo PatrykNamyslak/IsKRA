@@ -6,5 +6,9 @@ export const metadata = {
 }
 
 export default function Home() {
-  return <HomePageView />
+  return (
+    <div className="h-[calc(100dvh-65px)] max-h-[100dvh] overflow-hidden">
+      <HomePageView />
+    </div>
+  )
 }
