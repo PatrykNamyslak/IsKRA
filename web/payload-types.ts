@@ -75,6 +75,7 @@ export interface Config {
     'unmatched-queries': UnmatchedQuery;
     chat_messages: ChatMessage;
     tester_chats: TesterChat;
+    want_to_test: WantToTest;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -94,6 +95,7 @@ export interface Config {
     'unmatched-queries': UnmatchedQueriesSelect<false> | UnmatchedQueriesSelect<true>;
     chat_messages: ChatMessagesSelect<false> | ChatMessagesSelect<true>;
     tester_chats: TesterChatsSelect<false> | TesterChatsSelect<true>;
+    want_to_test: WantToTestSelect<false> | WantToTestSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -270,6 +272,8 @@ export interface ChatMessage {
   conversation: number | TesterChat;
   sender: number | User;
   content: string;
+  readByUser?: boolean | null;
+  readByOrganization?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -286,6 +290,20 @@ export interface TesterChat {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "want_to_test".
+ */
+export interface WantToTest {
+  id: number;
+  name: string;
+  surname: string;
+  email: string;
+  about: string;
+  why: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -344,6 +362,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tester_chats';
         value: number | TesterChat;
+      } | null)
+    | ({
+        relationTo: 'want_to_test';
+        value: number | WantToTest;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -508,6 +530,8 @@ export interface ChatMessagesSelect<T extends boolean = true> {
   conversation?: T;
   sender?: T;
   content?: T;
+  readByUser?: T;
+  readByOrganization?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -519,6 +543,19 @@ export interface TesterChatsSelect<T extends boolean = true> {
   user?: T;
   organization?: T;
   messages?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "want_to_test_select".
+ */
+export interface WantToTestSelect<T extends boolean = true> {
+  name?: T;
+  surname?: T;
+  email?: T;
+  about?: T;
+  why?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -57,6 +57,17 @@ async function fetchMessages(api: string, id: number, page: number, signal: Abor
   return readResponse<PaginatedDocs<ChatMessage>>(response)
 }
 
+async function markLoadedMessages(id: number, docs: ChatMessage[], userID: number | undefined, signal: AbortSignal) {
+  const incomingIDs = docs.filter((message) => getID(message.sender) !== userID).map((message) => message.id)
+  if (userID === undefined || incomingIDs.length === 0) return
+  const response = await fetch(`/api/chats/${id}/read`, {
+    method: 'POST', credentials: 'same-origin', cache: 'no-store', signal,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messageIDs: incomingIDs }),
+  })
+  await readResponse(response)
+}
+
 const secondaryButton = 'chat:cursor-pointer chat:rounded-xl chat:border chat:border-solid chat:border-[var(--theme-elevation-150)] chat:bg-[var(--theme-elevation-0)] chat:px-4 chat:py-2.5 chat:text-sm chat:font-medium chat:text-[var(--theme-text)] chat:transition chat:hover:bg-[var(--theme-elevation-100)] chat:focus-visible:outline-2 chat:focus-visible:outline-offset-2 chat:focus-visible:outline-emerald-500 chat:disabled:cursor-wait chat:disabled:opacity-50'
 
 function ParticipantCard({ value, label, organization = false }: {
@@ -102,11 +113,12 @@ function ConversationChat({ conversation }: { conversation: TesterChat }) {
     const controller = new AbortController()
     controllerRef.current = controller
     fetchMessages(api, conversation.id, 1, controller.signal)
-      .then((result) => {
+      .then(async (result) => {
         if (controller.signal.aborted) return
         setMessages([...result.docs].reverse())
         setTotal(result.totalDocs)
         setNextPage(result.nextPage ?? null)
+        if (isParticipant) await markLoadedMessages(conversation.id, result.docs, user?.id, controller.signal)
       })
       .catch((err: unknown) => {
         if (!controller.signal.aborted) setError(err instanceof Error ? err.message : 'Nie udało się pobrać wiadomości.')
@@ -115,7 +127,7 @@ function ConversationChat({ conversation }: { conversation: TesterChat }) {
         if (!controller.signal.aborted) setLoading(false)
       })
     return () => controller.abort()
-  }, [api, conversation.id])
+  }, [api, conversation.id, isParticipant, user?.id])
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight
@@ -138,6 +150,7 @@ function ConversationChat({ conversation }: { conversation: TesterChat }) {
         : incoming)
       setTotal(result.totalDocs)
       setNextPage(result.nextPage ?? null)
+      if (isParticipant) await markLoadedMessages(conversation.id, result.docs, user?.id, signal)
       if (older) requestAnimationFrame(() => {
         if (!signal.aborted && scrollRef.current) {
           scrollRef.current.scrollTop = previousTop + scrollRef.current.scrollHeight - previousHeight

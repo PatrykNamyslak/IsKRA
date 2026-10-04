@@ -3,6 +3,16 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { Tabs, Button } from '@heroui/react'
+import {
+  Sparkles,
+  ArrowRight,
+  CheckCircle2,
+  AlertCircle,
+  FileText,
+  Lightbulb,
+  Plus,
+} from 'lucide-react'
 import { ROPS_CATEGORIES } from '@/lib/categories'
 
 type TabType = 'application' | 'matchmaking_gap' | 'idea_exchange'
@@ -61,7 +71,6 @@ function InnovationCreatorInner() {
     setIsSubmitting(true)
     setErrorMessage(null)
 
-    // Automatyczny tytuł dla Tab 2, jeśli użytkownik nie podał
     const finalTitle =
       title.trim() ||
       (activeTab === 'matchmaking_gap'
@@ -131,44 +140,41 @@ function InnovationCreatorInner() {
     <div className="mx-auto w-full max-w-4xl py-6 px-4 sm:px-6">
       {/* Header */}
       <div className="mb-8 text-center">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-100 px-3.5 py-1 text-xs font-semibold text-indigo-800">
-          Kreator Innowacji Społecznych & Opiekuńczych
-        </span>
-        <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
-          Miejsce Tworzenia Nowych Innowacji
+        <h1 className="mt-3 text-3xl sm:text-5xl font-extrabold tracking-tight text-gray-900 leading-tight">
+          Zgłoś swoją <span className="text-brand">innowację</span>
         </h1>
-        <p className="mt-2 text-base text-gray-600 max-w-2xl mx-auto">
-          Wybierz jedną z 3 ścieżek zgłoszenia. Każda innowacja zostaje zapisana w bazie PostgreSQL i przekazana do analizy Administratorom ROPS.
+        <p className="mt-3 text-sm sm:text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          Wybierz jedną z 3 ścieżek zgłoszenia. Każda innowacja zostaje zapisana w bazie i przekazana do analizy doradcom ROPS.
         </p>
       </div>
 
       {/* 3 Tabs Selection */}
-      <div className="mb-8 grid grid-cols-1 md:grid-cols-3 gap-3 p-1.5 bg-gray-100/80 rounded-2xl border border-gray-200">
+      <div className="mb-8 grid grid-cols-1 md:grid-cols-3 gap-3">
         <button
           type="button"
           onClick={() => {
             setActiveTab('application')
             setSubmittedData(null)
           }}
-          className={`relative flex flex-col items-start p-4 rounded-xl text-left transition-all duration-200 ${
+          className={`relative flex flex-col items-start p-5 rounded-[1.75rem] text-left transition-all duration-300 backdrop-blur-2xl cursor-pointer ${
             activeTab === 'application'
-              ? 'bg-white text-gray-900 shadow-md ring-1 ring-gray-950/5'
-              : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
+              ? 'bg-white/80 border-2 border-brand text-gray-900 shadow-[0_12px_32px_-8px_rgba(229,133,0,0.18)] -translate-y-0.5'
+              : 'bg-white/45 border border-white/75 text-gray-600 hover:text-gray-900 hover:bg-white/65 hover:border-white/90 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.04)]'
           }`}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <span
-              className={`flex h-6 w-6 items-center justify-center rounded-md text-xs font-bold ${
+              className={`flex h-7 w-7 items-center justify-center rounded-xl text-xs font-bold transition-colors ${
                 activeTab === 'application'
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-200 text-gray-700'
+                  ? 'bg-brand text-white shadow-2xs'
+                  : 'bg-black/[0.06] text-gray-700'
               }`}
             >
-              1
+              <FileText className="w-3.5 h-3.5" />
             </span>
-            <span className="font-bold text-sm">Wnioski o wdrożenie</span>
+            <span className="font-bold text-sm">Wniosek o wdrożenie</span>
           </div>
-          <span className="mt-1 text-xs text-gray-500 leading-snug">
+          <span className="mt-2 text-xs text-gray-500 leading-relaxed">
             Mam innowację i chcę ją zrealizować ze wsparciem ROPS
           </span>
         </button>
@@ -179,25 +185,25 @@ function InnovationCreatorInner() {
             setActiveTab('matchmaking_gap')
             setSubmittedData(null)
           }}
-          className={`relative flex flex-col items-start p-4 rounded-xl text-left transition-all duration-200 ${
+          className={`relative flex flex-col items-start p-5 rounded-[1.75rem] text-left transition-all duration-300 backdrop-blur-2xl cursor-pointer ${
             activeTab === 'matchmaking_gap'
-              ? 'bg-white text-gray-900 shadow-md ring-1 ring-gray-950/5'
-              : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
+              ? 'bg-white/80 border-2 border-amber-500 text-gray-900 shadow-[0_12px_32px_-8px_rgba(245,158,11,0.18)] -translate-y-0.5'
+              : 'bg-white/45 border border-white/75 text-gray-600 hover:text-gray-900 hover:bg-white/65 hover:border-white/90 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.04)]'
           }`}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <span
-              className={`flex h-6 w-6 items-center justify-center rounded-md text-xs font-bold ${
+              className={`flex h-7 w-7 items-center justify-center rounded-xl text-xs font-bold transition-colors ${
                 activeTab === 'matchmaking_gap'
-                  ? 'bg-amber-600 text-white'
-                  : 'bg-gray-200 text-gray-700'
+                  ? 'bg-amber-500 text-white shadow-2xs'
+                  : 'bg-black/[0.06] text-gray-700'
               }`}
             >
-              2
+              <AlertCircle className="w-3.5 h-3.5" />
             </span>
             <span className="font-bold text-sm">Brak w matchmakingu</span>
           </div>
-          <span className="mt-1 text-xs text-gray-500 leading-snug">
+          <span className="mt-2 text-xs text-gray-500 leading-relaxed">
             Nie znalazłem rozwiązania – zgłaszam nową potrzebę
           </span>
         </button>
@@ -208,25 +214,25 @@ function InnovationCreatorInner() {
             setActiveTab('idea_exchange')
             setSubmittedData(null)
           }}
-          className={`relative flex flex-col items-start p-4 rounded-xl text-left transition-all duration-200 ${
+          className={`relative flex flex-col items-start p-5 rounded-[1.75rem] text-left transition-all duration-300 backdrop-blur-2xl cursor-pointer ${
             activeTab === 'idea_exchange'
-              ? 'bg-white text-gray-900 shadow-md ring-1 ring-gray-950/5'
-              : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
+              ? 'bg-white/80 border-2 border-emerald-500 text-gray-900 shadow-[0_12px_32px_-8px_rgba(16,185,129,0.18)] -translate-y-0.5'
+              : 'bg-white/45 border border-white/75 text-gray-600 hover:text-gray-900 hover:bg-white/65 hover:border-white/90 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.04)]'
           }`}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <span
-              className={`flex h-6 w-6 items-center justify-center rounded-md text-xs font-bold ${
+              className={`flex h-7 w-7 items-center justify-center rounded-xl text-xs font-bold transition-colors ${
                 activeTab === 'idea_exchange'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-gray-200 text-gray-700'
+                  ? 'bg-emerald-500 text-white shadow-2xs'
+                  : 'bg-black/[0.06] text-gray-700'
               }`}
             >
-              3
+              <Lightbulb className="w-3.5 h-3.5" />
             </span>
             <span className="font-bold text-sm">Giełda pomysłów</span>
           </div>
-          <span className="mt-1 text-xs text-gray-500 leading-snug">
+          <span className="mt-2 text-xs text-gray-500 leading-relaxed">
             Mam pomysł bez chęci realizacji – szukamy wykonawców
           </span>
         </button>
@@ -234,70 +240,94 @@ function InnovationCreatorInner() {
 
       {/* Success State */}
       {submittedData ? (
-        <div className="rounded-3xl border border-emerald-200 bg-emerald-50/70 p-8 text-center shadow-lg animate-fadeIn">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-600 text-white text-3xl">
-            ✓
+        <div className="rounded-[2.5rem] bg-white/65 border border-white/85 p-8 sm:p-12 text-center shadow-[0_16px_50px_-12px_rgba(0,0,0,0.08)] backdrop-blur-2xl transition-all">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-600 shadow-2xs">
+            <CheckCircle2 className="w-8 h-8" />
           </div>
-          <h2 className="mt-4 text-2xl font-extrabold text-emerald-950">
+          <h2 className="mt-5 text-2xl sm:text-3xl font-extrabold text-gray-900">
             Innowacja została pomyślnie zgłoszona!
           </h2>
-          <p className="mt-2 text-sm text-emerald-800 max-w-xl mx-auto">
-            Obiekt został utworzony w bazie danych PostgreSQL. Administratorzy ROPS otrzymali powiadomienie i dokonają weryfikacji wykonalności.
+          <p className="mt-2.5 text-sm sm:text-base text-gray-600 max-w-xl mx-auto leading-relaxed">
+            Zgłoszenie trafiło do bazy danych. Zespół ROPS dokona weryfikacji i skontaktuje się z Tobą w sprawie kolejnych kroków.
           </p>
 
-          <div className="mt-6 inline-flex flex-col sm:flex-row gap-3">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/innovations"
-              className="rounded-xl bg-gray-900 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-gray-800 transition"
+              className="inline-flex items-center gap-1.5 rounded-full bg-gray-900 hover:bg-gray-800 text-white px-6 py-2.5 text-xs sm:text-sm font-semibold shadow-md transition-all active:scale-95"
             >
-              Zobacz listę innowacji
+              <span>Zobacz bazę innowacji</span>
+              <ArrowRight className="w-4 h-4" />
             </Link>
-            <button
-              type="button"
-              onClick={resetForm}
-              className="rounded-xl border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-50 transition"
+            <Button
+              size="sm"
+              onPress={resetForm}
+              className="rounded-full bg-white/80 border border-black/[0.08] hover:bg-white text-gray-800 px-6 py-2.5 text-xs sm:text-sm font-semibold shadow-2xs transition-all active:scale-95 cursor-pointer h-auto"
             >
-              Dodaj kolejne zgłoszenie
-            </button>
+              <Plus className="w-4 h-4" />
+              <span>Dodaj kolejne zgłoszenie</span>
+            </Button>
           </div>
         </div>
       ) : (
         /* Form Container */
         <form
           onSubmit={handleSubmit}
-          className="rounded-3xl border border-gray-200 bg-white p-6 sm:p-10 shadow-xl shadow-gray-200/50"
+          className="rounded-[2.5rem] bg-white/55 border border-white/80 p-6 sm:p-10 shadow-[0_16px_50px_-12px_rgba(0,0,0,0.08)] backdrop-blur-2xl"
         >
           {/* Path Header Banner */}
-          <div className="mb-6 rounded-2xl p-4 sm:p-5 border text-sm">
+          <div className="mb-8">
             {activeTab === 'application' && (
-              <div className="bg-indigo-50/70 border-indigo-200 text-indigo-950 rounded-xl p-4">
-                <strong className="block text-indigo-900 text-base mb-1">
-                  Ścieżka 1: Wniosek o realizację własnej innowacji
-                </strong>
-                Chcesz być liderem wdrożenia swojego rozwiązania. Wypełnij wniosek, a ROPS pomoże Ci w doborze narzędzi, dofinansowania i zespołu testerów.
+              <div className="rounded-2xl bg-brand/10 border border-brand/25 p-4 sm:p-5 text-gray-900">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="rounded-full bg-brand/20 px-2 py-0.5 text-[11px] font-bold text-brand uppercase tracking-wider">
+                    Ścieżka 1
+                  </span>
+                  <strong className="text-sm sm:text-base font-bold text-gray-900">
+                    Wniosek o realizację własnej innowacji
+                  </strong>
+                </div>
+                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                  Chcesz być liderem wdrożenia swojego rozwiązania. Wypełnij wniosek, a ROPS pomoże Ci w doborze narzędzi, dofinansowania i zespołu testerów.
+                </p>
               </div>
             )}
             {activeTab === 'matchmaking_gap' && (
-              <div className="bg-amber-50/80 border-amber-200 text-amber-950 rounded-xl p-4">
-                <strong className="block text-amber-900 text-base mb-1">
-                  Ścieżka 2: Zgłoszenie niezaspokojonej potrzeby
-                </strong>
-                Szukałeś rozwiązania w wyszukiwarce i go nie było? Przedstaw zdiagnozowaną potrzebę oraz wstępną propozycję rozwiązania, a ROPS podejmie temat.
+              <div className="rounded-2xl bg-amber-500/10 border border-amber-500/25 p-4 sm:p-5 text-gray-900">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="rounded-full bg-amber-500/20 px-2 py-0.5 text-[11px] font-bold text-amber-800 uppercase tracking-wider">
+                    Ścieżka 2
+                  </span>
+                  <strong className="text-sm sm:text-base font-bold text-gray-900">
+                    Zgłoszenie niezaspokojonej potrzeby
+                  </strong>
+                </div>
+                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                  Szukałeś rozwiązania w wyszukiwarce i go nie było? Przedstaw zdiagnozowaną potrzebę oraz wstępną propozycję rozwiązania, a ROPS podejmie temat.
+                </p>
               </div>
             )}
             {activeTab === 'idea_exchange' && (
-              <div className="bg-emerald-50/70 border-emerald-200 text-emerald-950 rounded-xl p-4">
-                <strong className="block text-emerald-900 text-base mb-1">
-                  Ścieżka 3: Giełda pomysłów (Dla wykonawców i testerów)
-                </strong>
-                Masz świetny pomysł, ale nie chcesz/nie masz możliwości go wdrożyć? Opublikujemy go na giełdzie, a ROPS znajdzie naukowców i realizatorów!
+              <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/25 p-4 sm:p-5 text-gray-900">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[11px] font-bold text-emerald-800 uppercase tracking-wider">
+                    Ścieżka 3
+                  </span>
+                  <strong className="text-sm sm:text-base font-bold text-gray-900">
+                    Giełda pomysłów (Dla wykonawców i testerów)
+                  </strong>
+                </div>
+                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                  Masz świetny pomysł, ale nie chcesz/nie masz możliwości go wdrożyć? Opublikujemy go na giełdzie, a ROPS pomoże znaleźć realizatorów i ośrodki testowe!
+                </p>
               </div>
             )}
           </div>
 
           {errorMessage && (
-            <div className="mb-6 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
-              <strong>Błąd:</strong> {errorMessage}
+            <div className="mb-6 rounded-2xl border border-rose-300/60 bg-rose-50/80 p-4 text-xs sm:text-sm text-rose-800 flex items-center gap-2.5">
+              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+              <span><strong>Błąd:</strong> {errorMessage}</span>
             </div>
           )}
 
@@ -305,8 +335,8 @@ function InnovationCreatorInner() {
           <div className="space-y-6">
             {/* Tytuł */}
             <div>
-              <label className="block text-sm font-bold text-gray-900 mb-1">
-                Tytuł innowacji <span className="text-red-500">*</span>
+              <label className="block text-xs sm:text-sm font-bold text-gray-900 mb-1.5">
+                Tytuł innowacji <span className="text-brand">*</span>
               </label>
               <input
                 type="text"
@@ -320,22 +350,22 @@ function InnovationCreatorInner() {
                     ? 'np. Mobilna pomoc psychologiczna dla opiekunów'
                     : 'np. Urządzenie ułatwiające otwieranie słoików osobom ze stwardnieniem'
                 }
-                className="w-full rounded-xl border border-gray-300 p-3.5 text-sm text-gray-900 outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-600/10"
+                className="w-full rounded-2xl border border-black/[0.08] bg-white/70 backdrop-blur-sm px-4 py-3 text-base text-gray-900 shadow-2xs placeholder:text-gray-400 focus:border-brand focus:ring-4 focus:ring-brand/15 focus:bg-white focus:outline-none transition-all"
               />
             </div>
 
             {/* Kategoria & Grupa docelowa */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-1">
+                <label className="block text-xs sm:text-sm font-bold text-gray-900 mb-1.5">
                   {activeTab === 'matchmaking_gap' ? 'Sugerowana kategoria' : 'Kategoria innowacji'}
                 </label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full rounded-xl border border-gray-300 p-3.5 text-sm bg-white text-gray-900 outline-none focus:border-indigo-600"
+                  className="w-full rounded-2xl border border-black/[0.08] bg-white/70 backdrop-blur-sm px-4 py-3 text-base text-gray-900 shadow-2xs focus:border-brand focus:ring-4 focus:ring-brand/15 focus:bg-white focus:outline-none transition-all cursor-pointer"
                 >
-                  {(categoriesList.length > 0 ? categoriesList.map(c => c.name) : ROPS_CATEGORIES).map((cat) => (
+                  {(categoriesList.length > 0 ? categoriesList.map((c) => c.name) : ROPS_CATEGORIES).map((cat) => (
                     <option key={cat} value={cat}>
                       {cat}
                     </option>
@@ -344,7 +374,7 @@ function InnovationCreatorInner() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-1">
+                <label className="block text-xs sm:text-sm font-bold text-gray-900 mb-1.5">
                   Grupa docelowa (beneficjenci)
                 </label>
                 <input
@@ -352,15 +382,15 @@ function InnovationCreatorInner() {
                   value={targetGroup}
                   onChange={(e) => setTargetGroup(e.target.value)}
                   placeholder="np. Seniorzy 75+, osoby po udarach, dzieci z ASD"
-                  className="w-full rounded-xl border border-gray-300 p-3.5 text-sm text-gray-900 outline-none focus:border-indigo-600"
+                  className="w-full rounded-2xl border border-black/[0.08] bg-white/70 backdrop-blur-sm px-4 py-3 text-base text-gray-900 shadow-2xs placeholder:text-gray-400 focus:border-brand focus:ring-4 focus:ring-brand/15 focus:bg-white focus:outline-none transition-all"
                 />
               </div>
             </div>
 
             {/* Problem pacjenta / użytkownika */}
             <div>
-              <label className="block text-sm font-bold text-gray-900 mb-1">
-                Problem lub niezaspokojona potrzeba <span className="text-red-500">*</span>
+              <label className="block text-xs sm:text-sm font-bold text-gray-900 mb-1.5">
+                Problem lub niezaspokojona potrzeba <span className="text-brand">*</span>
               </label>
               <textarea
                 rows={3}
@@ -368,13 +398,13 @@ function InnovationCreatorInner() {
                 value={patientProblem}
                 onChange={(e) => setPatientProblem(e.target.value)}
                 placeholder="Dokładnie opisz problem pacjenta, z czym się mierzy i dlaczego dotychczasowe rozwiązania są niewystarczające..."
-                className="w-full rounded-xl border border-gray-300 p-3.5 text-sm text-gray-900 outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-600/10"
+                className="w-full rounded-2xl border border-black/[0.08] bg-white/70 backdrop-blur-sm px-4 py-3 text-base text-gray-900 shadow-2xs placeholder:text-gray-400 focus:border-brand focus:ring-4 focus:ring-brand/15 focus:bg-white focus:outline-none transition-all resize-none"
               />
             </div>
 
             {/* Proponowane rozwiązanie */}
             <div>
-              <label className="block text-sm font-bold text-gray-900 mb-1">
+              <label className="block text-xs sm:text-sm font-bold text-gray-900 mb-1.5">
                 {activeTab === 'idea_exchange'
                   ? 'Wizja rozwiązania pomysłu'
                   : 'Proponowane rozwiązanie innowacji'}
@@ -384,7 +414,7 @@ function InnovationCreatorInner() {
                 value={proposedSolution}
                 onChange={(e) => setProposedSolution(e.target.value)}
                 placeholder="Jak według Ciebie powinno wyglądać i funkcjonować to rozwiązanie..."
-                className="w-full rounded-xl border border-gray-300 p-3.5 text-sm text-gray-900 outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-600/10"
+                className="w-full rounded-2xl border border-black/[0.08] bg-white/70 backdrop-blur-sm px-4 py-3 text-base text-gray-900 shadow-2xs placeholder:text-gray-400 focus:border-brand focus:ring-4 focus:ring-brand/15 focus:bg-white focus:outline-none transition-all resize-none"
               />
             </div>
 
@@ -392,7 +422,7 @@ function InnovationCreatorInner() {
             {activeTab === 'application' && (
               <>
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-1">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-900 mb-1.5">
                     Wymagania medyczne, opiekuńcze lub techniczne
                   </label>
                   <textarea
@@ -400,12 +430,12 @@ function InnovationCreatorInner() {
                     value={careRequirements}
                     onChange={(e) => setCareRequirements(e.target.value)}
                     placeholder="Wymogi bezpieczeństwa, higieny, ergonomii lub asysty medycznej..."
-                    className="w-full rounded-xl border border-gray-300 p-3 text-sm text-gray-900 outline-none focus:border-indigo-600"
+                    className="w-full rounded-2xl border border-black/[0.08] bg-white/70 backdrop-blur-sm px-4 py-3 text-base text-gray-900 shadow-2xs placeholder:text-gray-400 focus:border-brand focus:ring-4 focus:ring-brand/15 focus:bg-white focus:outline-none transition-all resize-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-1">
+                  <label className="block text-xs sm:text-sm font-bold text-gray-900 mb-1.5">
                     Jakiego wsparcia oczekujesz od ROPS?
                   </label>
                   <textarea
@@ -413,7 +443,7 @@ function InnovationCreatorInner() {
                     value={supportNeeded}
                     onChange={(e) => setSupportNeeded(e.target.value)}
                     placeholder="np. Grant na prototyp, pomoc prawno-patentowa, dobór ośrodka do testów pilotażowych..."
-                    className="w-full rounded-xl border border-gray-300 p-3 text-sm text-gray-900 outline-none focus:border-indigo-600"
+                    className="w-full rounded-2xl border border-black/[0.08] bg-white/70 backdrop-blur-sm px-4 py-3 text-base text-gray-900 shadow-2xs placeholder:text-gray-400 focus:border-brand focus:ring-4 focus:ring-brand/15 focus:bg-white focus:outline-none transition-all resize-none"
                   />
                 </div>
               </>
@@ -422,7 +452,7 @@ function InnovationCreatorInner() {
             {/* Pola specyficzne dla Tab 3 (Giełda pomysłów) */}
             {activeTab === 'idea_exchange' && (
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-1">
+                <label className="block text-xs sm:text-sm font-bold text-gray-900 mb-1.5">
                   Kto byłby idealnym wykonawcą?
                 </label>
                 <textarea
@@ -430,23 +460,23 @@ function InnovationCreatorInner() {
                   value={supportNeeded}
                   onChange={(e) => setSupportNeeded(e.target.value)}
                   placeholder="np. Szukamy koła naukowego robotyki, fundacji opiekującej się osobami niewidomymi lub programistów..."
-                  className="w-full rounded-xl border border-gray-300 p-3 text-sm text-gray-900 outline-none focus:border-indigo-600"
+                  className="w-full rounded-2xl border border-black/[0.08] bg-white/70 backdrop-blur-sm px-4 py-3 text-base text-gray-900 shadow-2xs placeholder:text-gray-400 focus:border-brand focus:ring-4 focus:ring-brand/15 focus:bg-white focus:outline-none transition-all resize-none"
                 />
               </div>
             )}
 
             {/* Sekcja danych kontaktowych */}
-            <div className="border-t border-gray-200 pt-6">
-              <h3 className="text-base font-bold text-gray-900 mb-3">
+            <div className="border-t border-black/[0.06] pt-6">
+              <h3 className="text-sm sm:text-base font-bold text-gray-900 mb-1">
                 Dane kontaktowe zgłaszającego
               </h3>
-              <p className="text-xs text-gray-500 mb-4">
+              <p className="text-xs text-gray-500 mb-4 leading-relaxed">
                 Dane posłużą administratorom ROPS do kontaktu w sprawie ewaluacji i wdrożenia.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  <label className="block text-xs font-semibold text-gray-700 mb-1.5">
                     Imię i nazwisko
                   </label>
                   <input
@@ -454,13 +484,13 @@ function InnovationCreatorInner() {
                     value={contactName}
                     onChange={(e) => setContactName(e.target.value)}
                     placeholder="Jan Kowalski"
-                    className="w-full rounded-xl border border-gray-300 p-2.5 text-sm text-gray-900 outline-none focus:border-indigo-600"
+                    className="w-full rounded-2xl border border-black/[0.08] bg-white/70 backdrop-blur-sm px-4 py-2.5 text-base text-gray-900 shadow-2xs placeholder:text-gray-400 focus:border-brand focus:ring-4 focus:ring-brand/15 focus:bg-white focus:outline-none transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Adres e-mail <span className="text-red-500">*</span>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                    Adres e-mail <span className="text-brand">*</span>
                   </label>
                   <input
                     type="email"
@@ -468,12 +498,12 @@ function InnovationCreatorInner() {
                     value={contactEmail}
                     onChange={(e) => setContactEmail(e.target.value)}
                     placeholder="jan.kowalski@example.com"
-                    className="w-full rounded-xl border border-gray-300 p-2.5 text-sm text-gray-900 outline-none focus:border-indigo-600"
+                    className="w-full rounded-2xl border border-black/[0.08] bg-white/70 backdrop-blur-sm px-4 py-2.5 text-base text-gray-900 shadow-2xs placeholder:text-gray-400 focus:border-brand focus:ring-4 focus:ring-brand/15 focus:bg-white focus:outline-none transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  <label className="block text-xs font-semibold text-gray-700 mb-1.5">
                     Numer telefonu
                   </label>
                   <input
@@ -481,38 +511,38 @@ function InnovationCreatorInner() {
                     value={contactPhone}
                     onChange={(e) => setContactPhone(e.target.value)}
                     placeholder="+48 123 456 789"
-                    className="w-full rounded-xl border border-gray-300 p-2.5 text-sm text-gray-900 outline-none focus:border-indigo-600"
+                    className="w-full rounded-2xl border border-black/[0.08] bg-white/70 backdrop-blur-sm px-4 py-2.5 text-base text-gray-900 shadow-2xs placeholder:text-gray-400 focus:border-brand focus:ring-4 focus:ring-brand/15 focus:bg-white focus:outline-none transition-all"
                   />
                 </div>
               </div>
             </div>
 
             {/* Submit Button */}
-            <div className="border-t border-gray-200 pt-6 flex items-center justify-between">
-              <span className="text-xs text-gray-500">
-                Po wysłaniu zgłoszenie natychmiast trafi do bazy PostgreSQL i panelu ROPS.
+            <div className="border-t border-black/[0.06] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <span className="text-xs text-gray-500 text-center sm:text-left">
+                Po wysłaniu zgłoszenie natychmiast trafi do bazy wiedzy i panelu doradców ROPS.
               </span>
-              <button
+              <Button
                 type="submit"
-                disabled={isSubmitting}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-8 py-3.5 text-sm font-bold text-white shadow-md shadow-indigo-600/20 transition hover:bg-indigo-500 disabled:opacity-50"
+                isDisabled={isSubmitting}
+                className="w-full sm:w-auto rounded-full bg-brand hover:bg-brand-hover text-white px-8 py-3 text-sm font-semibold shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <>
-                    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                    </svg>
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                     <span>Zapisuję w bazie...</span>
                   </>
                 ) : (
-                  <span>
-                    {activeTab === 'application' && 'Złóż wniosek o realizację'}
-                    {activeTab === 'matchmaking_gap' && 'Prześlij zgłoszenie potrzeby'}
-                    {activeTab === 'idea_exchange' && 'Opublikuj na giełdzie pomysłów'}
-                  </span>
+                  <>
+                    <span>
+                      {activeTab === 'application' && 'Złóż wniosek o realizację'}
+                      {activeTab === 'matchmaking_gap' && 'Prześlij zgłoszenie potrzeby'}
+                      {activeTab === 'idea_exchange' && 'Opublikuj na giełdzie pomysłów'}
+                    </span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
                 )}
-              </button>
+              </Button>
             </div>
           </div>
         </form>
@@ -523,7 +553,7 @@ function InnovationCreatorInner() {
 
 export default function InnovationCreator() {
   return (
-    <Suspense fallback={<div className="p-8 text-center text-gray-500">Ładowanie kreatora...</div>}>
+    <Suspense fallback={<div className="py-24 text-center text-gray-400"><div className="inline-block h-8 w-8 animate-spin rounded-full border-3 border-brand border-t-transparent" /><p className="mt-3 text-xs sm:text-sm font-medium text-gray-500">Ładowanie kreatora...</p></div>}>
       <InnovationCreatorInner />
     </Suspense>
   )
