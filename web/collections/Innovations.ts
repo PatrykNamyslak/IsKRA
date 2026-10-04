@@ -2,6 +2,7 @@ import { slugField, type CollectionConfig } from 'payload'
 import type { User } from '../payload-types'
 import { ROPS_CATEGORY_OPTIONS } from '../lib/categories'
 import { slugify } from '../lib/slugify'
+import { sendAdminInnovationNotification } from '../lib/email'
 
 export const Innovations: CollectionConfig = {
   slug: 'innovations',
@@ -64,6 +65,41 @@ export const Innovations: CollectionConfig = {
 
         data.slug = candidate
         return data
+      },
+    ],
+    afterChange: [
+      async ({ doc, req, operation, context }) => {
+        // Powiadamiaj administratorów e-mailem przy dodaniu nowej innowacji
+        if (operation === 'create' && req?.payload && !context?.disableEmailNotifications) {
+          try {
+            const adminUsers = await req.payload.find({
+              collection: 'users',
+              where: {
+                role: {
+                  equals: 'admin',
+                },
+              },
+              limit: 100,
+              overrideAccess: true,
+            })
+
+            const adminRecipients = adminUsers.docs
+              .filter((admin): admin is typeof admin & { email: string } => Boolean(admin.email && admin.email.trim()))
+              .map((admin) => ({
+                email: admin.email,
+                name: admin.name || null,
+              }))
+
+            if (adminRecipients.length > 0) {
+              await sendAdminInnovationNotification({
+                adminRecipients,
+                innovation: doc,
+              })
+            }
+          } catch (error) {
+            console.error('[Innovations] Błąd podczas wysyłania powiadomień e-mail:', error)
+          }
+        }
       },
     ],
   },

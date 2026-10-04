@@ -245,6 +245,7 @@ async function handleSeed(req: NextRequest) {
           const inv = await payload.create({
             collection: 'innovations',
             overrideAccess: true,
+            context: { disableEmailNotifications: true },
             data: {
               slug: slugify(item.title),
               title: item.title,

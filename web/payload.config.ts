@@ -29,7 +29,12 @@ export default buildConfig({
   },
   collections: [Users, Organizations, Categories, Innovations, Feedbacks, UnmatchedQueries, ChatMessages, TesterChats],
   editor: lexicalEditor(),
+<<<<<<< Updated upstream
   secret: process.env.PAYLOAD_SECRET || 'hackyeah2026-payload-secret-key-1234567890',
+=======
+  // Payload must not sign session tokens with a publicly known fallback key.
+  secret: process.env.PAYLOAD_SECRET as string,
+>>>>>>> Stashed changes
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
