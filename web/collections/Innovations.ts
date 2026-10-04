@@ -2,6 +2,7 @@ import { slugField, type CollectionConfig } from 'payload'
 import type { User } from '../payload-types'
 import { ROPS_CATEGORY_OPTIONS } from '../lib/categories'
 import { slugify } from '../lib/slugify'
+import { sendAdminInnovationNotification } from '../lib/email'
 
 export const Innovations: CollectionConfig = {
   slug: 'innovations',
@@ -64,6 +65,41 @@ export const Innovations: CollectionConfig = {
 
         data.slug = candidate
         return data
+      },
+    ],
+    afterChange: [
+      async ({ doc, req, operation, context }) => {
+        // Powiadamiaj administratorów e-mailem przy dodaniu nowej innowacji
+        if (operation === 'create' && req?.payload && !context?.disableEmailNotifications) {
+          try {
+            const adminUsers = await req.payload.find({
+              collection: 'users',
+              where: {
+                role: {
+                  equals: 'admin',
+                },
+              },
+              limit: 100,
+              overrideAccess: true,
+            })
+
+            const adminRecipients = adminUsers.docs
+              .filter((admin): admin is typeof admin & { email: string } => Boolean(admin.email && admin.email.trim()))
+              .map((admin) => ({
+                email: admin.email,
+                name: admin.name || null,
+              }))
+
+            if (adminRecipients.length > 0) {
+              await sendAdminInnovationNotification({
+                adminRecipients,
+                innovation: doc,
+              })
+            }
+          } catch (error) {
+            console.error('[Innovations] Błąd podczas wysyłania powiadomień e-mail:', error)
+          }
+        }
       },
     ],
   },
@@ -156,15 +192,33 @@ export const Innovations: CollectionConfig = {
       label: 'Raport ROPS',
     },
     {
+      name: 'organizerNote',
+      type: 'textarea',
+      label: 'Aktualizacja organizatora',
+      admin: {
+        description: 'Krótka informacja o postępach i trudnościach. Jest widoczna na publicznej stronie innowacji.',
+      },
+      access: {
+        update: ({ req: { user } }) => user?.role === 'admin',
+      },
+    },
+    {
       name: 'status',
       type: 'select',
       required: true,
       defaultValue: 'submitted',
       label: 'Status innowacji',
+      admin: {
+        description: 'Status widoczny publicznie na stronie szczegółów innowacji.',
+      },
+      access: {
+        update: ({ req: { user } }) => user?.role === 'admin',
+      },
       options: [
         { label: 'Zgłoszona', value: 'submitted' },
         { label: 'W trakcie weryfikacji', value: 'under_review' },
         { label: 'Zatwierdzona', value: 'approved' },
+        { label: 'W trakcie realizacji', value: 'in_progress' },
         { label: 'Odrzucona', value: 'rejected' },
         { label: 'W trakcie testów', value: 'testing' },
         { label: 'Zakończona', value: 'completed' },

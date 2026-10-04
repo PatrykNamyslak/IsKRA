@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121 134">
+  <defs>
+    <linearGradient id="iskra-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffa100"/>
+      <stop offset="1" stop-color="#d02323"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#iskra-gradient)" d="M60.571 0C70.3304 31.5237 78.251 63.9571 121.142 75.242C91.5758 84.3703 80.9112 108.8 71.102 133.922C73.7159 109.911 76.6722 85.9301 60.571 59.58C44.469 85.93 47.426 109.907 50.04 133.918C40.2308 108.796 29.5662 84.3663 0 75.238C42.891 63.953 50.8116 31.5237 60.571 0Z"/>
+</svg>

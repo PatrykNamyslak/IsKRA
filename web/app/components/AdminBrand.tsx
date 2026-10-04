@@ -3,11 +3,11 @@ import Link from 'next/link'
 
 export default function AdminBrand() {
   return (
-    <Link className="iskra-admin-brand" href="/" aria-label="IsKRA ROPS — strona główna">
-      <Image src="/iskra.svg" alt="" width={38} height={42} priority />
+    <Link className="iskra-admin-brand" href="/" aria-label="IsKra Małopolska — strona główna">
+      <Image src="/iskra-icon.svg" alt="" width={44} height={49} priority />
       <span className="iskra-admin-brand__wordmark">
-        <strong>IsKRA</strong>
-        <span>ROPS · PANEL ADMINISTRACYJNY</span>
+        <strong>IsKra</strong>
+        <span>MAŁOPOLSKA · PANEL ADMINISTRACYJNY</span>
       </span>
     </Link>
   )
