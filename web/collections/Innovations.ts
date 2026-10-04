@@ -1,6 +1,7 @@
-import type { CollectionConfig } from 'payload'
+import { slugField, type CollectionConfig } from 'payload'
 import type { User } from '../payload-types'
 import { ROPS_CATEGORY_OPTIONS } from '../lib/categories'
+import { slugify } from '../lib/slugify'
 
 export const Innovations: CollectionConfig = {
   slug: 'innovations',
@@ -10,7 +11,7 @@ export const Innovations: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'creatorType', 'category', 'status', 'availableForTesting', 'createdAt'],
+    defaultColumns: ['title', 'slug', 'creatorType', 'category', 'status', 'availableForTesting', 'createdAt'],
     group: 'Zarządzanie innowacjami',
   },
   access: {
@@ -19,7 +20,58 @@ export const Innovations: CollectionConfig = {
     update: ({ req: { user } }) => Boolean((user as User | null)),
     delete: ({ req: { user } }) => (user as User | null)?.role === 'admin',
   },
+  hooks: {
+    beforeValidate: [
+      async ({ data, req, originalDoc }) => {
+        if (!data) return data
+        const title = data.title || originalDoc?.title
+        let candidate = data.slug ? slugify(String(data.slug)) : (title ? slugify(String(title)) : '')
+        if (!candidate) {
+          candidate = `innowacja-${Date.now()}`
+        }
+
+        if (req?.payload) {
+          let finalSlug = candidate
+          let count = 1
+          const docId = data.id || originalDoc?.id
+
+          while (true) {
+            try {
+              const existing = await req.payload.find({
+                collection: 'innovations',
+                where: {
+                  and: [
+                    { slug: { equals: finalSlug } },
+                    ...(docId ? [{ id: { not_equals: docId } }] : []),
+                  ],
+                },
+                limit: 1,
+                overrideAccess: true,
+              })
+
+              if (existing.docs.length > 0) {
+                count++
+                finalSlug = `${candidate}-${count}`
+              } else {
+                break
+              }
+            } catch {
+              break
+            }
+          }
+          candidate = finalSlug
+        }
+
+        data.slug = candidate
+        return data
+      },
+    ],
+  },
   fields: [
+    slugField({
+      useAsSlug: 'title',
+      slugify: ({ valueToSlugify }) => slugify(valueToSlugify || ''),
+    }),
     {
       name: 'title',
       type: 'text',
