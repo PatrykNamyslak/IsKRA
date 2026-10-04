@@ -19,6 +19,7 @@
     "@payloadcms/next": "^3.90.2",
     "@payloadcms/richtext-lexical": "^3.90.2",
     "graphql": "^16.14.2",
+    "lucide-react": "^1.50.0",
     "motion": "^13.5.0",
     "next": "16.3.8",
     "openai": "^7.27.0",
