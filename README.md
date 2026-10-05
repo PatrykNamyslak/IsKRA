@@ -1,6 +1,8 @@
 # ISKRA Małopolska
 
-*Projekt przygotowany w ramach hackathonu HackYeah 2026 (Kraków)*
+*Projekt przygotowany w ramach hackathonu HackYeah 2026 (Kraków) w tasku Hubmi*
+
+An AI-powered platform built for the planned Lesser Poland Social Innovation (Województwo Małopolskie) Hub. Its objective is to bridge the gap between grassroots social initiatives and the resources needed to bring them to life, simplifying complex submission processes and breaking down barriers for innovators.
 
 ## Autorzy Projektu
 - Patryk Namyślak
