@@ -3,9 +3,9 @@
 *Projekt przygotowany w ramach hackathonu HackYeah 2026 (Kraków)*
 
 ## Autorzy Projektu
+- Patryk Namyślak
 - Kacper Prochwicz
 - Michał Ćwierz
-- Patryk Namyślak
 - Olaf Marek
 - Maksymilian Szewczyk
 - Mateusz Brejnak
